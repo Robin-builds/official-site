@@ -33,4 +33,4 @@
 
 - FR-014 resuelto (2026-11-10): opción B, 3–4 guías básicas a partir de la guía que entrega el owner.
 - SC-005 cita las metas de Lighthouse de la constitución como umbrales del proyecto; se acepta como criterio verificable.
-- Dependencia: enmienda MINOR de la constitución (Principio II y III a "cada página") antes del plan.
+- Dependencia resuelta: constitución enmendada a 2.0.0 (multipágina), 3.0.0 (bilingüe) y 3.0.1 ("Sé partner") el 2026-11-10.

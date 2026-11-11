@@ -80,7 +80,7 @@ todos los enlaces.
 
 **Why this priority**: sin navegación, el contenido repartido en páginas queda inaccesible; es la base del sitio.
 
-**Independent Test**: desde cada página, llegar a cualquier otra en un máximo de 2 toques/clics usando solo el menú.
+**Independent Test**: desde cada página, llegar a cualquier otra en un máximo de 2 toques/clics usando el menú o el pie de página (las páginas secundarias, como Descargar, Sé partner y Privacidad, están solo en el pie).
 
 **Acceptance Scenarios**:
 
@@ -198,7 +198,7 @@ inglés; volver con "ES" a la misma página en español.
 
 ### Edge Cases
 
-- Direcciones que no existen: el sitio muestra una página "no encontrada" con la marca, menú y acceso a Inicio y Descargar.
+- Direcciones que no existen: el sitio muestra una página "no encontrada" con la marca y accesos a Inicio y Descargar.
 - Enlaces antiguos a la landing con anclas (`#como-funciona`, etc.) deben seguir llevando al contenido equivalente.
 - Una página sin contenido real (por ejemplo, testimonios vacíos o guías sin redactar) no se publica ni aparece en el menú.
 - Visitante con JavaScript deshabilitado: todas las páginas y el menú siguen permitiendo navegar.
@@ -221,7 +221,7 @@ inglés; volver con "ES" a la misma página en español.
 - **FR-002**: Todas las páginas MUST compartir el mismo encabezado (marca, menú principal, botón de descarga, acceso "Ingresar", selector de tema) y el mismo pie de página.
 - **FR-003**: El menú MUST indicar la página actual y MUST ser operable con teclado y táctil; en celular MUST colapsarse en un menú desplegable.
 - **FR-004**: El pie de página MUST enlazar a todas las páginas publicadas, al contacto por WhatsApp, a Privacidad, a "Ingresar" y a chileapps.cl.
-- **FR-005**: Las anclas de la landing anterior (`#como-funciona`, `#faq`, etc.) MUST seguir funcionando en la raíz del sitio y llevar al contenido equivalente, para que los enlaces antiguos sirvan cuando el dominio de la landing apunte al sitio oficial.
+- **FR-005**: Las anclas de la landing anterior (`#inicio` y `#como-funciona`, las únicas enlazables) MUST seguir funcionando en la raíz del sitio y llevar al contenido equivalente, para que los enlaces antiguos sirvan cuando el dominio de la landing apunte al sitio oficial.
 - **FR-006**: El sitio MUST tener una página "no encontrada" con la identidad de marca y accesos a Inicio y Descargar.
 
 **Contenido por página**
@@ -242,17 +242,17 @@ inglés; volver con "ES" a la misma página en español.
 - **FR-016**: Todo el contenido del sitio MUST cumplir la regla de veracidad vigente: solo funcionalidades que existen hoy en la app publicada, sin métricas, testimonios, logos, montos ni funcionalidades excluidas. En particular, MUST NOT afirmarse que la app muestra quién hizo cada movimiento mientras la app no lo muestre.
 - **FR-017**: Todas las capturas MUST ser capturas reales de la app; MUST NOT dibujarse pantallas ficticias.
 - **FR-018**: El copy en español MUST estar en español de Chile, con tuteo y sin jerga técnica; el copy en inglés MUST ser inglés claro, en segunda persona y sin jerga técnica.
+- **FR-019**: La página de Privacidad MUST publicarse solo con el texto legal entregado por el owner; mientras no exista, el enlace de privacidad MUST apuntar al destino vigente.
 
 **Idiomas**
 
 - **FR-025**: Todas las páginas y guías MUST existir en español (en la raíz) y en inglés (bajo `/en`), cada una con dirección propia en su idioma.
-- **FR-026**: Todas las páginas MUST tener un selector de idioma ES/EN visible en el encabezado (y en el menú móvil) que lleve a la misma página en el otro idioma e indique el idioma actual.
+- **FR-026**: Todas las páginas MUST tener un selector de idioma ES/EN visible en el encabezado en escritorio (≥ 1024 px) y dentro del menú desplegable en celular, que lleve a la misma página en el otro idioma e indique el idioma actual.
 - **FR-027**: Cada página MUST declarar su idioma (`es-CL` o `en`) y enlazar a su versión en el otro idioma para buscadores; el mapa del sitio MUST incluir ambos idiomas.
 - **FR-028**: El sitio MUST NOT detectar el idioma del navegador ni redirigir automáticamente.
 - **FR-029**: La versión en inglés MUST tener el mismo contenido que la española, sin afirmar nada que la española no afirme (regla de veracidad), y MUST informar que la app está disponible en español e inglés y se muestra según el idioma del celular. Mientras las capturas estén en español, la versión en inglés MUST aclarar que las capturas muestran la app en español.
 - **FR-030**: Los mensajes precargados de WhatsApp MUST ir en el idioma de la página.
-- **FR-031**: Ningún texto en inglés se publica sin revisión del owner.
-- **FR-019**: La página de Privacidad MUST publicarse solo con el texto legal entregado por el owner; mientras no exista, el enlace de privacidad MUST apuntar al destino vigente.
+- **FR-031**: Ningún texto en inglés se publica sin revisión del owner. Mientras no esté aprobado, las direcciones `/en/...` MUST NOT existir en el sitio publicado (responden "no encontrada"), no solo quedar sin enlaces.
 
 **Calidad transversal**
 

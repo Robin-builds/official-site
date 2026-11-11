@@ -12,7 +12,7 @@ Español en la raíz con `<html lang="es-CL">`; inglés bajo `/en` con `<html la
 | `faq` | `/preguntas-frecuentes` | `/en/faq` | Pruébala gratis | sí | sí |
 | `help` | `/ayuda` | `/en/help` | Pruébala gratis | sí, si hay ≥ 1 guía lista | igual |
 | guía | `/ayuda/[guia]` | `/en/help/[guide]` | Pruébala gratis | no | por guía lista |
-| `download` | `/descargar` | `/en/download` | Pruébala gratis | botón destacado | sí |
+| `download` | `/descargar` | `/en/download` | Pruébala gratis | no (solo pie; la CTA del encabezado va directo a Google Play, SC-001) | sí |
 | `privacy` | `/privacidad` | `/en/privacy` | — | solo pie | solo con texto en ese idioma |
 | — | cualquier otra | cualquier otra | Inicio/Home + Descargar/Download | — | no (404 bilingüe, noindex) |
 
@@ -57,3 +57,8 @@ Privacidad (interna o externa según R11), Ingresar y chileapps.cl (FR-004). Ext
 `<link rel="canonical">` a sí misma; `<link rel="alternate" hreflang="es-CL">`,
 `hreflang="en"` y `hreflang="x-default"` (→ español). Open Graph con `og:locale` del idioma y
 `og:locale:alternate` del otro. Si el inglés no está publicado (R18), sin hreflang a `en`.
+
+## Inglés sin publicar
+
+Con `languages.en.published = false`, toda dirección `/en/...` responde la página "no encontrada"
+(el layout `(en)` llama a `notFound()`), no aparece en el sitemap ni en el selector (FR-031).

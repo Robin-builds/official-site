@@ -242,8 +242,10 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 - **Decision**: el agente traduce desde el español ya corregido (R8), con las mismas exclusiones de
   veracidad. Las guías citan los nombres de la app tal como aparecen, con traducción la primera vez
   (ENTRADA (stock in)). Antes del primer despliegue con inglés, el owner revisa todo el texto `en`
-  (quickstart); hasta entonces el grupo `(en)` puede quedar fuera del menú con
-  `languages.en.published = false` en `site.ts`, que oculta selector, hreflang y sitemap en inglés.
+  (quickstart); hasta entonces `languages.en.published = false` en `site.ts` oculta selector,
+  hreflang y sitemap en inglés **y** hace que el layout `(en)` llame a `notFound()`, de modo que
+  ninguna dirección `/en/...` exista en el sitio publicado (FR-031; hallazgo C1 de
+  `/speckit-analyze`). Ocultar solo los enlaces no basta: las páginas seguirían siendo públicas.
 - **Rationale**: la constitución 3.0.0 exige revisión del owner; un interruptor único evita
   publicar inglés sin revisar sin bloquear el resto del sitio.
 
