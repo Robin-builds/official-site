@@ -14,10 +14,10 @@ export function Shortcuts({ shortcuts, locale }: { shortcuts: InicioContent["sho
 
   return (
     <Section titleId="accesos-title" title={shortcuts.title} tone="surface">
-      <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
         {items.map((item) => (
           <li key={item.key} className="card-hover rounded-card border border-line bg-surface-2">
-            <Link href={pageHref(item.key, locale)} className="flex h-full items-start justify-between gap-4 rounded-card p-5">
+            <Link href={pageHref(item.key, locale)} className="flex h-full items-start justify-between gap-4 rounded-card p-4 sm:p-5">
               <span>
                 <span className="block text-lg font-semibold text-fg">{item.title}</span>
                 <span className="mt-1 block text-fg-2">{item.description}</span>

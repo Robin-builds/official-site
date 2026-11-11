@@ -18,7 +18,7 @@ export function FinalCta({ finalCta, locale }: { finalCta: FinalCtaContent; loca
       <Container>
         <div
           data-theme="dark"
-          className="relative isolate overflow-hidden rounded-[2rem] bg-brand-ink px-6 py-14 text-center sm:px-12 sm:py-20"
+          className="relative isolate overflow-hidden rounded-[2rem] bg-brand-ink px-6 py-12 text-center sm:px-12 sm:py-20"
         >
           {/* Brillos de marca decorativos: cian arriba, naranja abajo */}
           <div

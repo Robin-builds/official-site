@@ -33,7 +33,7 @@ export function Section({ titleId, title, intro, id, tone = "canvas", children }
           </h2>
           {intro && <p className="mt-4 text-lg text-fg-2">{intro}</p>}
         </div>
-        <div className="mt-12 sm:mt-16">{children}</div>
+        <div className="mt-10 sm:mt-16">{children}</div>
       </Container>
     </section>
   );

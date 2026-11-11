@@ -19,7 +19,7 @@ export function Hero({ hero, locale, note }: { hero: InicioContent["hero"]; loca
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--bg-top),var(--bg-mid)_60%,var(--bg-bottom))]"
     >
-      <Container className="grid items-center gap-14 pt-10 pb-20 sm:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-16 lg:pb-24">
+      <Container className="grid items-center gap-14 pt-10 pb-14 sm:pt-16 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-16 lg:pb-24">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-sm font-medium text-fg-2">
             <span aria-hidden="true" className="size-1.5 rounded-full bg-ok" />

@@ -43,7 +43,7 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <nav aria-label={t.footer.navLabel} className="grid gap-10 min-[480px]:grid-cols-2">
+        <nav aria-label={t.footer.navLabel} className="grid grid-cols-2 gap-6 sm:gap-10">
           <div>
             <h2 className="text-sm font-semibold text-fg">{t.footer.pagesTitle}</h2>
             <ul className="mt-3 flex flex-col gap-1 text-sm">

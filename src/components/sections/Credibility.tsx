@@ -10,7 +10,7 @@ export function Credibility({ credibility }: { credibility: InicioContent["credi
 
   return (
     <section aria-labelledby="credibilidad-title" className="bg-surface-2">
-      <Container className="py-10 sm:py-12">
+      <Container className="py-8 sm:py-12">
         <h2 id="credibilidad-title" className="sr-only">
           {credibility.title}
         </h2>

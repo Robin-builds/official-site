@@ -88,7 +88,7 @@ export const pages: Page[] = [
   {
     key: "features",
     inNav: true,
-    published: false,
+    published: true,
     locales: {
       es: {
         href: "/funcionalidades",
@@ -109,7 +109,7 @@ export const pages: Page[] = [
   {
     key: "business",
     inNav: true,
-    published: false,
+    published: true,
     locales: {
       es: {
         href: "/para-tu-negocio",
@@ -130,7 +130,7 @@ export const pages: Page[] = [
   {
     key: "faq",
     inNav: true,
-    published: false,
+    published: true,
     locales: {
       es: {
         href: "/preguntas-frecuentes",
@@ -152,7 +152,7 @@ export const pages: Page[] = [
     key: "help",
     inNav: true,
     // Ayuda existe solo si hay al menos una guía lista (FR-014)
-    published: false && readyGuides().length > 0,
+    published: readyGuides().length > 0,
     locales: {
       es: {
         href: "/ayuda",
@@ -171,7 +171,7 @@ export const pages: Page[] = [
   {
     key: "download",
     inNav: false, // la CTA del encabezado va directo a Google Play (SC-001)
-    published: false,
+    published: true,
     locales: {
       es: {
         href: "/descargar",
@@ -190,7 +190,7 @@ export const pages: Page[] = [
   {
     key: "partner",
     inNav: false, // solo en el pie (FR-010)
-    published: false,
+    published: true,
     locales: {
       es: {
         href: "/se-partner",

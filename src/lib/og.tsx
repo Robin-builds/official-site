@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { readyGuides } from "@/content/guias";
 import { inicio } from "@/content/inicio";
 import { ui } from "@/content/site";
 import type { Locale, PageKey } from "@/content/types";
@@ -83,4 +84,11 @@ export function pageOgAlt(key: PageKey, locale: Locale) {
 /** Imagen para compartir de una página del registro; la usa cada `opengraph-image.tsx`. */
 export function pageOgImage(key: PageKey, locale: Locale) {
   return renderOgImage({ title: ogTitle(key, locale), note: ui[locale].ogNote });
+}
+
+/** Imagen para compartir de una guía, buscada por su slug en ese idioma. */
+export function guideOgImage(slug: string, locale: Locale) {
+  const guide = readyGuides().find((g) => g.locales[locale].slug === slug);
+  const title = guide ? guide.locales[locale].title : getPage("help").locales[locale].title;
+  return renderOgImage({ title, note: ui[locale].ogNote });
 }

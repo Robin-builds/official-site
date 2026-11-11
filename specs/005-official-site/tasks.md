@@ -70,7 +70,7 @@ Reglas comunes a todas las tareas:
 - [X] T021 [US1] Crear `src/components/sections/Shortcuts.tsx` (Server Component): 4 tarjetas-enlace (título + bajada + flecha) desde `inicio[locale].shortcuts`, con `href` resuelto por `pageHref(key, locale)`; usa las clases `.card-hover` / `.card-icon` de la spec 004; grilla 1 col a 360 px, 2 a 768 px, 4 a 1440 px
 - [X] T022 [US1] En `src/components/pages/HomePage.tsx`: orden final hero (`id="inicio"`/`"home"`) → credibilidad → problemas (3) → beneficios (3) → cómo funciona (`id` de `howItWorks`, con enlace secundario "Ver todas las funcionalidades" a `/funcionalidades`) → `Shortcuts` → testimonios (oculta si vacío, FR-013) → CTA final; quitar casos de uso, contadores y FAQ (research R15)
 - [X] T023 [US1] En `src/components/sections/Hero.tsx`: la CTA secundaria "Ver cómo funciona" apunta a `#como-funciona` (sin cambio) y el logo del encabezado a `pageHref("home", locale)`; confirmar que la primera captura sigue siendo la imagen LCP con `priority`
-- [ ] T024 [US1] Medir `scrollHeight` de `/` a 360 px y anotarlo junto a H0 en "Mediciones"; si supera 0,6 × H0, reducir problemas/beneficios a 2 ítems o compactar el espaciado de `Shortcuts` hasta cumplir SC-003
+- [X] T024 [US1] Medir `scrollHeight` de `/` a 360 px y anotarlo junto a H0 en "Mediciones"; si supera 0,6 × H0, reducir problemas/beneficios a 2 ítems o compactar el espaciado de `Shortcuts` hasta cumplir SC-003
 
 **Checkpoint**: quickstart 1–3 pasan.
 
@@ -87,7 +87,7 @@ Reglas comunes a todas las tareas:
 - [X] T027 [US2] En `src/components/layout/Navbar.tsx`: ≥ 1024 px marca · `NavLinks` (páginas con `inNav` y `published`) · Ingresar (ghost) · `ThemeToggle` · CTA principal; < 1024 px marca · CTA principal · `MobileMenu` (contracts/routes.md, "Encabezado"); el slot del selector ES/EN queda preparado pero vacío hasta US8
 - [X] T028 [US2] En `src/components/layout/Footer.tsx`: lista de enlaces internos a todas las páginas publicadas del idioma (incluida "Sé partner" cuando exista y Privacidad interna o externa según `privacidad[locale].text`), más Contacto (WhatsApp del idioma), Ingresar y chileapps.cl (FR-004); externos con `target="_blank"` y aviso `ui[locale].a11y.newTab`
 - [X] T029 [US2] En `src/app/globals.css`: estilos del panel del menú móvil (`details[open]` → panel fijo bajo el header, fondo `bg-surface`, sombra `--elev-card`), ícono que cambia entre abrir/cerrar por `details[open]`, y sin animación de movimiento bajo `prefers-reduced-motion: reduce`; comentario que cite research R3
-- [ ] T030 [US2] Verificar quickstart 4–8: en DevTools con JS deshabilitado, `/` y una página interna muestran `aria-current` en el HTML y el menú abre; con teclado, Escape devuelve el foco
+- [X] T030 [US2] Verificar quickstart 4–8: en DevTools con JS deshabilitado, `/` y una página interna muestran `aria-current` en el HTML y el menú abre; con teclado, Escape devuelve el foco
 
 **Checkpoint**: US1 + US2 = MVP publicable como "primeras mejoras".
 
@@ -99,12 +99,12 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: cada funcionalidad tiene título, descripción y beneficio; las 6 con captura real la muestran; ninguna imagen inventada; CTA a mano (quickstart 9).
 
-- [ ] T031 [P] [US3] Crear `src/content/funcionalidades.ts` con `funcionalidades: Localized<{ meta; intro; groups: FeatureGroup[]; features: Feature[]; cta }>`: 5 grupos (`record`/`#registrar`, `control`/`#controlar`, `team`/`#equipo`, `review`/`#revisar`, `customize`/`#personalizar`) y 15 funcionalidades según research R22, redactadas desde `fuentes/guia-rapida.md` y `landing.ts`, con estas `key` estables (las usan `Guide.feature` y los enlaces): `scanning` escaneo (`escanear.png`), `movements` entradas y salidas (`movimiento.png`, guía `movimientos`), `adjustments` ajustes (AJUSTE; guía `movimientos`), `expiry` lotes y fechas de vencimiento (sin captura), `warehouses` bodegas (`bodega.png`, guía `bodegas`), `products` productos y búsqueda (sin captura, guía `primeros-pasos`), `low-stock-alerts` alertas de stock bajo (`alerta-stock.png`, guía `alertas`), `inactivity-alerts` alerta sin actividad 7 días (sin captura, guía `alertas`), `roles` usuarios y roles Administrador/Operador (sin captura), `offline` funcionamiento sin internet (sin captura), `history` historial (`historial.png`; "no se edita ni se borra", sin "quién"), `web-panel` panel web de solo lectura (sin captura), `excel-export` exportar a Excel (`adminOnly: true`), `product-settings` configurar productos (sin captura), `themes` temas de color (3 paletas × 3 niveles; sin captura); `alt` copiados de `inicio.hero.screens` cuando la captura coincide
-- [ ] T032 [P] [US3] Crear `src/components/sections/PageHeader.tsx` (título H1 + bajada + CTA opcional), reutilizable por todas las páginas internas
-- [ ] T033 [P] [US3] Crear `src/components/sections/FeatureIndex.tsx`: lista de enlaces a los 5 grupos (`#id`), horizontal con scroll interno a 360 px sin scroll horizontal de página
-- [ ] T034 [US3] Crear `src/components/sections/FeatureGroups.tsx`: por grupo, `<section id={group.id}>` con H2 y las funcionalidades en filas alternadas (captura en `PhoneMockup` si `screen` existe; si es `null`, solo ícono `Icon` + texto, US3-2); cada funcionalidad con `id`, título H3, descripción, beneficio, etiqueta "Solo Administrador" si `adminOnly`, y enlace "Ver la guía" si `guide` apunta a una guía con `ready: true`
-- [ ] T035 [US3] Crear `src/components/pages/FeaturesPage.tsx` (`PageHeader` + `FeatureIndex` + `FeatureGroups` + `FinalCta` con `ctaPrincipal`) y `src/app/(es)/funcionalidades/page.tsx` (+ `metadata = pageMetadata("features", "es")`) y `src/app/(es)/funcionalidades/opengraph-image.tsx` (`renderOgImage` con el título de la página)
-- [ ] T036 [US3] Marcar `features.published = true` en `src/content/site.ts` y verificar quickstart 9 (incluye que no hay imagen para las 9 sin captura)
+- [X] T031 [P] [US3] Crear `src/content/funcionalidades.ts` con `funcionalidades: Localized<{ meta; intro; groups: FeatureGroup[]; features: Feature[]; cta }>`: 5 grupos (`record`/`#registrar`, `control`/`#controlar`, `team`/`#equipo`, `review`/`#revisar`, `customize`/`#personalizar`) y 15 funcionalidades según research R22, redactadas desde `fuentes/guia-rapida.md` y `landing.ts`, con estas `key` estables (las usan `Guide.feature` y los enlaces): `scanning` escaneo (`escanear.png`), `movements` entradas y salidas (`movimiento.png`, guía `movimientos`), `adjustments` ajustes (AJUSTE; guía `movimientos`), `expiry` lotes y fechas de vencimiento (sin captura), `warehouses` bodegas (`bodega.png`, guía `bodegas`), `products` productos y búsqueda (sin captura, guía `primeros-pasos`), `low-stock-alerts` alertas de stock bajo (`alerta-stock.png`, guía `alertas`), `inactivity-alerts` alerta sin actividad 7 días (sin captura, guía `alertas`), `roles` usuarios y roles Administrador/Operador (sin captura), `offline` funcionamiento sin internet (sin captura), `history` historial (`historial.png`; "no se edita ni se borra", sin "quién"), `web-panel` panel web de solo lectura (sin captura), `excel-export` exportar a Excel (`adminOnly: true`), `product-settings` configurar productos (sin captura), `themes` temas de color (3 paletas × 3 niveles; sin captura); `alt` copiados de `inicio.hero.screens` cuando la captura coincide
+- [X] T032 [P] [US3] Crear `src/components/sections/PageHeader.tsx` (título H1 + bajada + CTA opcional), reutilizable por todas las páginas internas
+- [X] T033 [P] [US3] Crear `src/components/sections/FeatureIndex.tsx`: lista de enlaces a los 5 grupos (`#id`), horizontal con scroll interno a 360 px sin scroll horizontal de página
+- [X] T034 [US3] Crear `src/components/sections/FeatureGroups.tsx`: por grupo, `<section id={group.id}>` con H2 y las funcionalidades en filas alternadas (captura en `PhoneMockup` si `screen` existe; si es `null`, solo ícono `Icon` + texto, US3-2); cada funcionalidad con `id`, título H3, descripción, beneficio, etiqueta "Solo Administrador" si `adminOnly`, y enlace "Ver la guía" si `guide` apunta a una guía con `ready: true`
+- [X] T035 [US3] Crear `src/components/pages/FeaturesPage.tsx` (`PageHeader` + `FeatureIndex` + `FeatureGroups` + `FinalCta` con `ctaPrincipal`) y `src/app/(es)/funcionalidades/page.tsx` (+ `metadata = pageMetadata("features", "es")`) y `src/app/(es)/funcionalidades/opengraph-image.tsx` (`renderOgImage` con el título de la página)
+- [X] T036 [US3] Marcar `features.published = true` en `src/content/site.ts` y verificar quickstart 9 (incluye que no hay imagen para las 9 sin captura)
 
 **Checkpoint**: Funcionalidades navegable desde el menú.
 
@@ -116,12 +116,12 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: `/para-tu-negocio#ferreteria` muestra problemas, soluciones y CTA; la FAQ tiene todas las preguntas actuales + la de idioma, agrupadas y operables con teclado (quickstart 12–13).
 
-- [ ] T037 [P] [US5] Crear `src/content/negocios.ts` con `negocios: Localized<{ meta; intro; businesses: Business[]; cta }>`: minimarket (`#minimarket`), ferretería (`#ferreteria`), distribuidora (`#distribuidora`), bodega (`#bodega`), cada uno con `summary` (de `landing.useCases`, corregido: distribuidora y bodega "con su fecha"), 2–4 `problems` (de `landing.problems` según el rubro) y 2–4 `solutions` (solo funcionalidades de T031; minimarket mantiene vencimientos por lote)
-- [ ] T038 [P] [US5] Crear `src/content/preguntas.ts` con `preguntas: Localized<{ meta; intro; groups: FaqGroup[]; cta }>`: grupos uso (sin internet, lector de códigos, varias bodegas y usuarios — reescrita con roles Administrador/Operador y sin "quién lo hizo"), precio ("¿Cuánto cuesta?": gratis para empezar + planes pagados, sin montos), datos y seguridad (dónde quedan mis datos), compatibilidad (iPhone: no; boletas/facturas: no; **nueva** "¿La app está en inglés?": sí, en español e inglés según el idioma del celular); `guide` en las que tengan guía
-- [ ] T039 [P] [US5] Crear `src/components/sections/BusinessList.tsx`: un bloque por rubro con `id`, ícono, título H2, resumen, dos listas ("Lo que pasa" / "Cómo te ayuda StoreFlow") y CTA principal; índice de 4 rubros arriba
-- [ ] T040 [P] [US5] Crear `src/components/sections/FaqGroups.tsx`: por grupo un H2 y los `<details>` existentes de `Faq.tsx` (reutilizar su marcado y clases `.faq-toggle` de la spec 004), con enlace "Ver la guía" si `guide` apunta a una guía lista
-- [ ] T041 [US5] Crear `src/components/pages/BusinessPage.tsx` y `FaqPage.tsx` (con `PageHeader` y `FinalCta`), `src/app/(es)/para-tu-negocio/{page,opengraph-image}.tsx` y `src/app/(es)/preguntas-frecuentes/{page,opengraph-image}.tsx` con `pageMetadata`/`renderOgImage`; marcar `business` y `faq` como `published` en `site.ts`
-- [ ] T042 [US5] Borrar `src/components/sections/UseCases.tsx` y `Faq.tsx` si quedaron sin uso (Principio IV); verificar quickstart 12–13
+- [X] T037 [P] [US5] Crear `src/content/negocios.ts` con `negocios: Localized<{ meta; intro; businesses: Business[]; cta }>`: minimarket (`#minimarket`), ferretería (`#ferreteria`), distribuidora (`#distribuidora`), bodega (`#bodega`), cada uno con `summary` (de `landing.useCases`, corregido: distribuidora y bodega "con su fecha"), 2–4 `problems` (de `landing.problems` según el rubro) y 2–4 `solutions` (solo funcionalidades de T031; minimarket mantiene vencimientos por lote)
+- [X] T038 [P] [US5] Crear `src/content/preguntas.ts` con `preguntas: Localized<{ meta; intro; groups: FaqGroup[]; cta }>`: grupos uso (sin internet, lector de códigos, varias bodegas y usuarios — reescrita con roles Administrador/Operador y sin "quién lo hizo"), precio ("¿Cuánto cuesta?": gratis para empezar + planes pagados, sin montos), datos y seguridad (dónde quedan mis datos), compatibilidad (iPhone: no; boletas/facturas: no; **nueva** "¿La app está en inglés?": sí, en español e inglés según el idioma del celular); `guide` en las que tengan guía
+- [X] T039 [P] [US5] Crear `src/components/sections/BusinessList.tsx`: un bloque por rubro con `id`, ícono, título H2, resumen, dos listas ("Lo que pasa" / "Cómo te ayuda StoreFlow") y CTA principal; índice de 4 rubros arriba
+- [X] T040 [P] [US5] Crear `src/components/sections/FaqGroups.tsx`: por grupo un H2 y los `<details>` existentes de `Faq.tsx` (reutilizar su marcado y clases `.faq-toggle` de la spec 004), con enlace "Ver la guía" si `guide` apunta a una guía lista
+- [X] T041 [US5] Crear `src/components/pages/BusinessPage.tsx` y `FaqPage.tsx` (con `PageHeader` y `FinalCta`), `src/app/(es)/para-tu-negocio/{page,opengraph-image}.tsx` y `src/app/(es)/preguntas-frecuentes/{page,opengraph-image}.tsx` con `pageMetadata`/`renderOgImage`; marcar `business` y `faq` como `published` en `site.ts`
+- [X] T042 [US5] Borrar `src/components/sections/UseCases.tsx` y `Faq.tsx` si quedaron sin uso (Principio IV); verificar quickstart 12–13
 
 ---
 
@@ -131,11 +131,11 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: abrir `/ayuda/primeros-pasos` y completar la tarea en la app siguiendo solo los pasos; desde Funcionalidades se llega a la guía (quickstart 14).
 
-- [ ] T043 [US7] Crear `src/content/guias.ts` con `guias: Guide[]` y `readyGuides()`, redactando desde `fuentes/guia-rapida.md` (adaptado a español de Chile, tuteo, sin jerga; botones y tipos tal como en la app): `primeros-pasos` (crear cuenta → se crea empresa y "Bodega Principal"; tarjeta "Productos" → [+] con nombre, unidad y stock mínimo; ENTRADA del primer producto; revisar el inicio; captura `inicio.png` en el último paso; feature `products`), `movimientos` (`registrar-movimientos`: ENTRADA, SALIDA, AJUSTE y el ejemplo de la harina 0 → 100 → 70 → 55 → 50; "los movimientos no se editan ni se borran"; captura `movimiento.png` e `historial.png`; feature `movements`), `bodegas` (`varias-bodegas`: cuándo usar varias, crear bodega, cambiar la bodega activa tocando la tarjeta "Bodegas"; captura `bodega.png`; feature `warehouses`), `alertas` (`alertas-de-stock`: stock mínimo, banner rojo de menor stock, lista stock actual vs mínimo, alerta sin actividad 7 días; captura `alerta-stock.png`; feature `low-stock-alerts`); todas `ready: true`; lado `en` con prefijo `[EN]` hasta US8
-- [ ] T044 [P] [US7] Crear `src/components/sections/GuideSteps.tsx`: `<ol>` con pasos numerados (número visible y accesible), título, cuerpo y captura en `PhoneMockup` cuando `screen` existe
-- [ ] T045 [US7] Crear `src/components/pages/HelpPage.tsx` (lista de `readyGuides()` con título, resumen de una línea y enlace) y `GuidePage.tsx` (`PageHeader` + `GuideSteps` + enlace "Ver la funcionalidad" a `/funcionalidades#<id>` + `FinalCta`)
-- [ ] T046 [US7] Crear `src/app/(es)/ayuda/{page,opengraph-image}.tsx` y `src/app/(es)/ayuda/[guia]/{page,opengraph-image}.tsx` con `generateStaticParams()` desde `readyGuides()`, `export const dynamicParams = false`, `params: Promise<{ guia: string }>` y `generateMetadata` con `guideMetadata` (research R10); `help.published` verdadero si hay guías listas
-- [ ] T047 [US7] Verificar enlaces cruzados: Funcionalidades (T034) y Preguntas frecuentes (T040) muestran "Ver la guía" solo para guías listas; quickstart 14
+- [X] T043 [US7] Crear `src/content/guias.ts` con `guias: Guide[]` y `readyGuides()`, redactando desde `fuentes/guia-rapida.md` (adaptado a español de Chile, tuteo, sin jerga; botones y tipos tal como en la app): `primeros-pasos` (crear cuenta → se crea empresa y "Bodega Principal"; tarjeta "Productos" → [+] con nombre, unidad y stock mínimo; ENTRADA del primer producto; revisar el inicio; captura `inicio.png` en el último paso; feature `products`), `movimientos` (`registrar-movimientos`: ENTRADA, SALIDA, AJUSTE y el ejemplo de la harina 0 → 100 → 70 → 55 → 50; "los movimientos no se editan ni se borran"; captura `movimiento.png` e `historial.png`; feature `movements`), `bodegas` (`varias-bodegas`: cuándo usar varias, crear bodega, cambiar la bodega activa tocando la tarjeta "Bodegas"; captura `bodega.png`; feature `warehouses`), `alertas` (`alertas-de-stock`: stock mínimo, banner rojo de menor stock, lista stock actual vs mínimo, alerta sin actividad 7 días; captura `alerta-stock.png`; feature `low-stock-alerts`); todas `ready: true`; lado `en` con prefijo `[EN]` hasta US8
+- [X] T044 [P] [US7] Crear `src/components/sections/GuideSteps.tsx`: `<ol>` con pasos numerados (número visible y accesible), título, cuerpo y captura en `PhoneMockup` cuando `screen` existe
+- [X] T045 [US7] Crear `src/components/pages/HelpPage.tsx` (lista de `readyGuides()` con título, resumen de una línea y enlace) y `GuidePage.tsx` (`PageHeader` + `GuideSteps` + enlace "Ver la funcionalidad" a `/funcionalidades#<id>` + `FinalCta`)
+- [X] T046 [US7] Crear `src/app/(es)/ayuda/{page,opengraph-image}.tsx` y `src/app/(es)/ayuda/[guia]/{page,opengraph-image}.tsx` con `generateStaticParams()` desde `readyGuides()`, `export const dynamicParams = false`, `params: Promise<{ guia: string }>` y `generateMetadata` con `guideMetadata` (research R10); `help.published` verdadero si hay guías listas
+- [X] T047 [US7] Verificar enlaces cruzados: Funcionalidades (T034) y Preguntas frecuentes (T040) muestran "Ver la guía" solo para guías listas; quickstart 14
 
 ---
 
@@ -145,8 +145,8 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: con `text: null`, `/privacidad` da 404 y el pie enlaza a `URLS.privacyPolicy` (quickstart 16).
 
-- [ ] T048 [P] [US6] Crear `src/content/privacidad.ts` con `privacidad: Localized<{ meta; text: string | null }>`, ambos `null` hasta que el owner entregue el texto (FR-019)
-- [ ] T049 [US6] Crear `src/components/pages/PrivacyPage.tsx` (si `text` es `null` llama a `notFound()`; si no, `PageHeader` + texto en párrafos, sin CTA) y `src/app/(es)/privacidad/{page,opengraph-image}.tsx` con `pageMetadata("privacy", "es")` y `renderOgImage` con el título de la página (FR-020); verificar quickstart 16 y que el pie de T028 usa el enlace externo
+- [X] T048 [P] [US6] Crear `src/content/privacidad.ts` con `privacidad: Localized<{ meta; text: string | null }>`, ambos `null` hasta que el owner entregue el texto (FR-019)
+- [X] T049 [US6] Crear `src/components/pages/PrivacyPage.tsx` (si `text` es `null` llama a `notFound()`; si no, `PageHeader` + texto en párrafos, sin CTA) y `src/app/(es)/privacidad/{page,opengraph-image}.tsx` con `pageMetadata("privacy", "es")` y `renderOgImage` con el título de la página (FR-020); verificar quickstart 16 y que el pie de T028 usa el enlace externo
 
 ---
 
@@ -156,15 +156,15 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: pie → "Sé partner" → "Quiero ser partner" abre WhatsApp con el mensaje de partners; la página no está en el menú ni en Inicio (quickstart 10).
 
-- [ ] T050 [P] [US4] Crear `src/content/partner.ts` con `partner: Localized<{ meta; eyebrow; title; body; reasons: string[]; cta: Cta; ctaNote }>` desde `landing.accountants`: dirigido a "contadores y asesores de pymes", 4 razones con R8 aplicado ("Historial de entradas y salidas que no se puede modificar, con fecha"), CTA "Quiero ser partner" → `URLS.whatsappPartner`; sin comisiones, descuentos ni beneficios (FR-010)
-- [ ] T051 [US4] Crear `src/components/pages/PartnerPage.tsx` reutilizando el panel de `src/components/sections/Accountants.tsx` (renombrarlo a `PartnerPanel.tsx`, contenido por props) y `src/app/(es)/se-partner/{page,opengraph-image}.tsx`; `partner.published = true`, `inNav = false`; verificar quickstart 10
+- [X] T050 [P] [US4] Crear `src/content/partner.ts` con `partner: Localized<{ meta; eyebrow; title; body; reasons: string[]; cta: Cta; ctaNote }>` desde `landing.accountants`: dirigido a "contadores y asesores de pymes", 4 razones con R8 aplicado ("Historial de entradas y salidas que no se puede modificar, con fecha"), CTA "Quiero ser partner" → `URLS.whatsappPartner`; sin comisiones, descuentos ni beneficios (FR-010)
+- [X] T051 [US4] Crear `src/components/pages/PartnerPage.tsx` reutilizando el panel de `src/components/sections/Accountants.tsx` (renombrarlo a `PartnerPanel.tsx`, contenido por props) y `src/app/(es)/se-partner/{page,opengraph-image}.tsx`; `partner.published = true`, `inNav = false`; verificar quickstart 10
 
 ---
 
 ## Phase 10: Descargar (soporte de US1, FR-012)
 
-- [ ] T052 [P] [US1] Crear `src/content/descargar.ts` con `descargar: Localized<{ meta; title; body; requirements: string[]; cta; loginLine; appLanguageNote }>`: Google Play, requisito "celular Android", acceso "Ingresar" a la versión web; `appLanguageNote` vacío en `es`
-- [ ] T053 [US1] Crear `src/components/pages/DownloadPage.tsx` y `src/app/(es)/descargar/{page,opengraph-image}.tsx`; en el encabezado y el panel móvil, "Pruébala gratis" sigue yendo directo a Google Play (SC-001) y `download` va en el pie; `download.published = true`
+- [X] T052 [P] [US1] Crear `src/content/descargar.ts` con `descargar: Localized<{ meta; title; body; requirements: string[]; cta; loginLine; appLanguageNote }>`: Google Play, requisito "celular Android", acceso "Ingresar" a la versión web; `appLanguageNote` vacío en `es`
+- [X] T053 [US1] Crear `src/components/pages/DownloadPage.tsx` y `src/app/(es)/descargar/{page,opengraph-image}.tsx`; en el encabezado y el panel móvil, "Pruébala gratis" sigue yendo directo a Google Play (SC-001) y `download` va en el pie; `download.published = true`
 
 **Checkpoint**: sitio completo en español. Commit y, si el owner lo aprueba, primer despliegue con `languages.en.published = false`.
 
@@ -251,5 +251,5 @@ Cada incremento termina con `npm run build`, los escenarios de quickstart de esa
 ## Mediciones
 
 - H0 (landing actual, `/` a 360 px, build de producción, 2026-11-10): **10.178 px** → meta Inicio ≤ 6.107 px
-- Inicio nuevo a 360 px: _pendiente (T024)_
+- Inicio nuevo a 360 px (2026-11-10): **6.061 px** = 0,596 × H0 (40,4 % más corto). Para cumplir se compactaron en celular "Cómo funciona" (pasos en fila), Problemas (ícono al lado), accesos, pie (2 columnas) y algunos espaciados; no se quitó contenido
 - Lighthouse por página: _pendiente (T068)_
