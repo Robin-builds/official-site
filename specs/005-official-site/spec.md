@@ -26,7 +26,7 @@ breve y se vuelve enlazable (cada tema tiene su propia dirección que se puede c
 | **Inicio** | Entender qué es StoreFlow en menos de un minuto y descargarla | Hero con recorrido, credibilidad, versión resumida de problemas/beneficios, accesos a las demás páginas, CTA final |
 | **Funcionalidades** | Ver en detalle qué hace la app, una funcionalidad a la vez, con su captura real | Beneficios + Cómo funciona + capturas de `/screens/` |
 | **Para tu negocio** | Que cada rubro se reconozca (minimarket, ferretería, distribuidora, bodega) | Casos de uso + problemas |
-| **Contadores** | Página dedicada al canal de contadores, con su propio contacto | Sección Contadores ampliada |
+| **Sé partner** | Página simple y exploratoria para contadores y asesores que quieran recomendar StoreFlow, con contacto por WhatsApp; enlazada desde el pie, no desde el menú principal | Sección Contadores actual |
 | **Preguntas frecuentes** | Resolver dudas antes de descargar | FAQ actual, agrupada por tema |
 | **Descargar** | Destino único y compartible para instalar la app y entrar a la versión web | CTA a Google Play, requisitos (Android), acceso "Ingresar" |
 | **Privacidad** | Política de privacidad propia del sitio, exigida por Google Play | Texto legal provisto por el owner |
@@ -39,6 +39,16 @@ El sitio existe en **español** (idioma principal, en la raíz: `/funcionalidade
 ambos idiomas. El visitante cambia de idioma con un selector ES/EN que lo lleva a la misma página
 en el otro idioma; el sitio no detecta ni redirige según el navegador. El inglés es una traducción
 del español, hecha por el agente y revisada por el owner antes de publicarse.
+
+## Clarifications
+
+### Session 2026-11-10
+
+- Q: ¿En qué idiomas está disponible hoy la app StoreFlow publicada en Google Play? → A: Español e inglés (la app cambia según el idioma del celular). El sitio en inglés lo dice; las capturas en español se mantienen hasta que el owner entregue capturas en inglés.
+- Q: ¿La app publicada permite registrar lotes y fechas de vencimiento de los productos? → A: Sí (confirmado por el owner, aunque no figura en la guía rápida). Se mantiene en el copy y es una funcionalidad propia en Funcionalidades; no tiene captura real todavía.
+- Q: ¿Qué funcionalidades de la guía rápida que hoy no aparecen en la landing deben salir en Funcionalidades? → A: Todas: ajustes (AJUSTE), búsqueda de productos, configurar productos, usuarios con roles (Administrador / Operador), alerta "sin actividad 7 días", exportar a Excel (solo Administrador) y temas de color de la app.
+- Q: ¿Cómo se cobra hoy StoreFlow, para que el sitio lo diga sin mostrar montos? → A: Gratis para empezar y hoy existen planes pagados (confirmado por el owner). Se mantienen "Pruébala gratis", "Gratis para empezar" y la respuesta actual de "¿Cuánto cuesta?", sin montos.
+- Q: ¿Qué debe agregar la página de Contadores, además de lo que ya dice la sección actual? → A: Bajarle la importancia: es una opción exploratoria. Pasa a ser una página simple "Sé partner" para contadores y asesores, con las razones actuales y contacto por WhatsApp, sin prometer beneficios; prioridad P3, enlazada solo desde el pie.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -57,7 +67,7 @@ en un toque desde la primera pantalla, sin hacer scroll.
 **Acceptance Scenarios**:
 
 1. **Given** un visitante nuevo en Inicio, **When** carga la página, **Then** ve el titular, el recorrido de capturas y el botón "Pruébala gratis" sin hacer scroll.
-2. **Given** un visitante en Inicio, **When** baja hasta el final, **Then** encuentra accesos visibles a Funcionalidades, Para tu negocio, Contadores y Preguntas frecuentes, y un CTA final de descarga.
+2. **Given** un visitante en Inicio, **When** baja hasta el final, **Then** encuentra accesos visibles a Funcionalidades, Para tu negocio, Ayuda y Preguntas frecuentes, y un CTA final de descarga.
 3. **Given** un visitante que usó la landing anterior, **When** abre una dirección antigua con ancla (por ejemplo `#como-funciona`), **Then** llega al contenido equivalente del nuevo sitio y no a una página de error.
 
 ---
@@ -91,25 +101,28 @@ Funcionalidades ve cada funcionalidad con una captura real, una explicación bre
 
 **Acceptance Scenarios**:
 
-1. **Given** un visitante en Funcionalidades, **When** recorre la página, **Then** ve cada funcionalidad (bodegas, escaneo, entradas y salidas, alertas de stock, historial, funcionamiento sin internet, reporte web) con su captura y descripción.
+1. **Given** un visitante en Funcionalidades, **When** recorre la página, **Then** ve cada funcionalidad (bodegas, productos y búsqueda, escaneo, entradas y salidas, ajustes, alertas de stock bajo y sin actividad, lotes y fechas de vencimiento, historial, configurar productos, usuarios y roles, funcionamiento sin internet, panel web de solo lectura, exportar a Excel, temas de color) con su captura cuando exista y su descripción.
 2. **Given** una funcionalidad sin captura real disponible, **When** se publica la página, **Then** esa funcionalidad se muestra sin imagen inventada (solo texto o ícono).
 3. **Given** un visitante que terminó de leer una funcionalidad, **When** busca el siguiente paso, **Then** tiene un CTA de descarga a mano.
 
 ---
 
-### User Story 4 - Página dedicada para contadores (Priority: P2)
+### User Story 4 - Página "Sé partner" (Priority: P3)
 
-Un contador recibe un enlace directo a la página de Contadores. Ahí entiende por qué recomendar
-StoreFlow a sus clientes y puede contactarse por WhatsApp.
+Un contador u otro asesor de pymes que quiere recomendar StoreFlow llega a "Sé partner" (por un
+enlace directo o desde el pie). Ahí entiende por qué StoreFlow les sirve a sus clientes y puede
+escribir por WhatsApp para conversar.
 
-**Why this priority**: los contadores son el canal de crecimiento; tener una dirección propia permite compartirla directamente.
+**Why this priority**: es un canal exploratorio; basta con una página simple y compartible, sin
+destacarla en el menú principal.
 
-**Independent Test**: compartir la dirección de Contadores, abrirla y llegar al contacto por WhatsApp con el mensaje precargado.
+**Independent Test**: compartir la dirección de "Sé partner", abrirla y llegar al contacto por WhatsApp con el mensaje precargado.
 
 **Acceptance Scenarios**:
 
-1. **Given** un contador en la página de Contadores, **When** toca "Soy contador", **Then** se abre WhatsApp con el mensaje para contadores ya escrito.
-2. **Given** la página de Contadores, **When** se comparte en WhatsApp o redes, **Then** la vista previa muestra un título, descripción e imagen propios de esa página.
+1. **Given** un asesor en "Sé partner", **When** toca el botón de contacto, **Then** se abre WhatsApp con el mensaje para partners ya escrito.
+2. **Given** la página "Sé partner", **When** se comparte en WhatsApp o redes, **Then** la vista previa muestra un título, descripción e imagen propios de esa página.
+3. **Given** la página "Sé partner", **When** se lee completa, **Then** no promete comisiones, descuentos ni beneficios para el partner que no existan hoy.
 
 ---
 
@@ -176,9 +189,9 @@ inglés; volver con "ES" a la misma página en español.
 
 **Acceptance Scenarios**:
 
-1. **Given** un visitante en `/contadores`, **When** toca "EN", **Then** llega a `/en/accountants` con el mismo contenido en inglés y el selector indica el idioma actual.
+1. **Given** un visitante en `/funcionalidades`, **When** toca "EN", **Then** llega a `/en/features` con el mismo contenido en inglés y el selector indica el idioma actual.
 2. **Given** un visitante en inglés, **When** navega por el menú, **Then** todas las páginas, el pie y la página "no encontrada" están en inglés.
-3. **Given** un visitante en inglés, **When** mira cualquier página, **Then** se le informa con honestidad en qué idioma está disponible la app.
+3. **Given** un visitante en inglés, **When** mira Inicio, Descargar o Preguntas frecuentes, **Then** se le informa que la app está en español e inglés según el idioma de su celular, y que las capturas muestran la versión en español.
 4. **Given** un buscador, **When** indexa una página, **Then** encuentra el enlace a su versión en el otro idioma.
 
 ---
@@ -204,7 +217,7 @@ inglés; volver con "ES" a la misma página en español.
 
 **Estructura y navegación**
 
-- **FR-001**: El sitio MUST tener como mínimo estas páginas, cada una con su propia dirección: Inicio, Funcionalidades, Para tu negocio, Contadores, Preguntas frecuentes, Descargar y Privacidad (esta última sujeta a FR-019).
+- **FR-001**: El sitio MUST tener como mínimo estas páginas, cada una con su propia dirección: Inicio, Funcionalidades, Para tu negocio, Preguntas frecuentes, Descargar, Sé partner y Privacidad (esta última sujeta a FR-019).
 - **FR-002**: Todas las páginas MUST compartir el mismo encabezado (marca, menú principal, botón de descarga, acceso "Ingresar", selector de tema) y el mismo pie de página.
 - **FR-003**: El menú MUST indicar la página actual y MUST ser operable con teclado y táctil; en celular MUST colapsarse en un menú desplegable.
 - **FR-004**: El pie de página MUST enlazar a todas las páginas publicadas, al contacto por WhatsApp, a Privacidad, a "Ingresar" y a chileapps.cl.
@@ -214,10 +227,10 @@ inglés; volver con "ES" a la misma página en español.
 **Contenido por página**
 
 - **FR-007**: Inicio MUST mostrar el hero con el recorrido de capturas reales (spec 003), la franja de credibilidad, un resumen de problemas y beneficios, accesos a las páginas internas y un CTA final de descarga.
-- **FR-008**: Funcionalidades MUST presentar cada funcionalidad existente hoy en la app con título, descripción, beneficio y, cuando exista, su captura real.
+- **FR-008**: Funcionalidades MUST presentar cada funcionalidad existente hoy en la app con título, descripción, beneficio y, cuando exista, su captura real. Incluye lotes y fechas de vencimiento (confirmado por el owner; sin captura hasta que se entregue) y todas las funcionalidades de la guía rápida: ajustes, búsqueda de productos, configurar productos, usuarios con roles Administrador/Operador, alerta "sin actividad 7 días", exportar a Excel (indicando que es solo para Administrador) y temas de color. Las funcionalidades MUST agruparse por tema para que la página se recorra fácil (por ejemplo: registrar, controlar, equipo, revisar y personalizar).
 - **FR-009**: Para tu negocio MUST presentar los rubros minimarket, ferretería, distribuidora y bodega, cada uno con sus problemas típicos y cómo StoreFlow los aborda.
-- **FR-010**: Contadores MUST presentar las razones para recomendar StoreFlow y el contacto por WhatsApp con mensaje precargado para contadores.
-- **FR-011**: Preguntas frecuentes MUST incluir todas las preguntas actuales, agrupadas por tema (por ejemplo: uso, precio, datos y seguridad, compatibilidad).
+- **FR-010**: "Sé partner" MUST ser una página simple dirigida a contadores y asesores de pymes: las razones para recomendar StoreFlow (las de la sección Contadores actual, corregidas por veracidad) y el contacto por WhatsApp con mensaje precargado para partners. MUST NOT prometer comisiones, descuentos ni beneficios para el partner. Se enlaza desde el pie y no aparece en el menú principal ni en los accesos de Inicio.
+- **FR-011**: Preguntas frecuentes MUST incluir todas las preguntas actuales, agrupadas por tema (por ejemplo: uso, precio, datos y seguridad, compatibilidad), más una pregunta nueva sobre el idioma de la app (español e inglés, según el idioma del celular) en ambos idiomas del sitio, para que el inglés no afirme nada que el español no diga.
 - **FR-012**: Descargar MUST ofrecer el enlace a Google Play, los requisitos (celular Android) y el acceso "Ingresar" a la versión web para usuarios existentes.
 - **FR-013**: Testimonios MUST seguir ocultos mientras no existan testimonios reales.
 - **FR-014**: El sitio MUST incluir una sección Ayuda / Guías con 3 a 4 guías paso a paso de uso de la app, derivadas de la guía que entrega el owner. Cada guía MUST tener su propia dirección, una lista de pasos numerados y, por paso, una captura real cuando exista. Una guía cuyo contenido no esté listo MUST NOT publicarse ni aparecer en el menú.
@@ -225,7 +238,7 @@ inglés; volver con "ES" a la misma página en español.
 
 **Conversión y veracidad**
 
-- **FR-015**: Cada página MUST tener un único CTA principal (instalar desde Google Play), salvo Contadores, cuyo CTA principal es el contacto por WhatsApp; "Ingresar" y los demás enlaces MUST ser visualmente secundarios.
+- **FR-015**: Cada página MUST tener un único CTA principal (instalar desde Google Play), salvo "Sé partner", cuyo CTA principal es el contacto por WhatsApp; "Ingresar" y los demás enlaces MUST ser visualmente secundarios.
 - **FR-016**: Todo el contenido del sitio MUST cumplir la regla de veracidad vigente: solo funcionalidades que existen hoy en la app publicada, sin métricas, testimonios, logos, montos ni funcionalidades excluidas. En particular, MUST NOT afirmarse que la app muestra quién hizo cada movimiento mientras la app no lo muestre.
 - **FR-017**: Todas las capturas MUST ser capturas reales de la app; MUST NOT dibujarse pantallas ficticias.
 - **FR-018**: El copy en español MUST estar en español de Chile, con tuteo y sin jerga técnica; el copy en inglés MUST ser inglés claro, en segunda persona y sin jerga técnica.
@@ -236,7 +249,7 @@ inglés; volver con "ES" a la misma página en español.
 - **FR-026**: Todas las páginas MUST tener un selector de idioma ES/EN visible en el encabezado (y en el menú móvil) que lleve a la misma página en el otro idioma e indique el idioma actual.
 - **FR-027**: Cada página MUST declarar su idioma (`es-CL` o `en`) y enlazar a su versión en el otro idioma para buscadores; el mapa del sitio MUST incluir ambos idiomas.
 - **FR-028**: El sitio MUST NOT detectar el idioma del navegador ni redirigir automáticamente.
-- **FR-029**: La versión en inglés MUST tener el mismo contenido que la española, sin afirmar nada que la española no afirme (regla de veracidad), y MUST informar en qué idioma está disponible la app.
+- **FR-029**: La versión en inglés MUST tener el mismo contenido que la española, sin afirmar nada que la española no afirme (regla de veracidad), y MUST informar que la app está disponible en español e inglés y se muestra según el idioma del celular. Mientras las capturas estén en español, la versión en inglés MUST aclarar que las capturas muestran la app en español.
 - **FR-030**: Los mensajes precargados de WhatsApp MUST ir en el idioma de la página.
 - **FR-031**: Ningún texto en inglés se publica sin revisión del owner.
 - **FR-019**: La página de Privacidad MUST publicarse solo con el texto legal entregado por el owner; mientras no exista, el enlace de privacidad MUST apuntar al destino vigente.
@@ -274,11 +287,12 @@ inglés; volver con "ES" a la misma página en español.
 
 - El sitio oficial vive en un proyecto propio, clonado de la landing: repo GitHub `Robin-builds/official-site` y proyecto Vercel `storeflow-official-site`. La landing sigue publicada en su propio proyecto (`storeflow-landing`) hasta que el sitio oficial la reemplace; la landing pasa a ser la página de Inicio. El primer despliegue se hace cuando estén listas las primeras mejoras. El dominio propio (por ejemplo `storeflow.cl`) es una decisión del owner y no bloquea esta spec.
 - Se reutilizan la marca, los colores, el modo oscuro, el recorrido de capturas y los estados de interacción de las specs 002–004.
-- No se incluye página de precios: la regla de veracidad vigente prohíbe mostrar montos. Precios sigue resuelto en Preguntas frecuentes.
+- No se incluye página de precios: la regla de veracidad vigente prohíbe mostrar montos. Precios sigue resuelto en Preguntas frecuentes, que dice que se puede empezar gratis y que hoy existen planes pagados (confirmado por el owner), sin montos ni nombres de planes.
+- La sección Contadores de la landing deja de ser una página destacada: se convierte en "Sé partner", una página exploratoria y simple. Dirección provisoria `/se-partner` y `/en/partner`; el nombre final lo puede ajustar el owner sin cambiar esta spec.
 - No se incluye blog, noticias ni novedades en esta versión.
 - Las capturas disponibles son las 6 actuales de `/public/screens/`; funcionalidades sin captura se muestran sin imagen hasta que el owner suba capturas nuevas.
 - La constitución fue enmendada a la versión 2.0.0 (2026-11-10) para pasar de "la página" a "cada página" sin relajar sus reglas, y a la 3.0.0 (mismo día) para permitir el sitio bilingüe; esta spec se rige por la 3.0.0.
 - El owner tiene una guía de uso de la app y la entregará como fuente de las guías; se adapta al español de Chile sin jerga y se divide en 3–4 guías. Si los pasos requieren capturas que hoy no existen en `/public/screens/`, el owner las aportará; mientras tanto el paso se publica solo con texto.
 - El número de WhatsApp real y el texto de la política de privacidad los entrega el owner; mientras tanto se mantienen los placeholders actuales.
-- La app y sus capturas están en español. Si la app no tiene versión en inglés, el sitio en inglés lo dice y muestra las mismas capturas en español. El owner confirma el idioma de la app antes de publicar el inglés.
+- La app está disponible en español e inglés (según el idioma del celular); las capturas actuales están en español. Si el owner entrega capturas en inglés, se agregan como variante por idioma (misma convención que la variante oscura) y la versión en inglés las usa; mientras tanto usa las capturas en español con la aclaración de FR-029.
 - La política de privacidad en inglés solo se publica si el owner entrega su traducción legal; mientras tanto `/en/privacy` sigue la misma regla que FR-019.

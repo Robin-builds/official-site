@@ -1,5 +1,9 @@
 <!--
 Sync Impact Report
+- Versión: 3.0.0 → 3.0.1 (PATCH: la excepción del Principio II pasa de "Contadores" a "Sé partner",
+  mismo significado; aclaración de la spec 005, sesión 2026-11-10)
+
+Sync Impact Report anterior
 - Versión: 2.0.0 → 3.0.0 (MAJOR: se redefine el Principio VII; el sitio pasa a ser bilingüe)
 - Principios modificados:
   - VII. "Español de Chile, sin jerga" → "Español de Chile e inglés, sin jerga": español como
@@ -63,7 +67,8 @@ Una afirmación falsa en el sitio invalida toda la estrategia de canal.
 
 ### II. Una conversión principal por página
 - Cada página MUST tener un solo objetivo primario: instalar la app desde Google Play ("Pruébala gratis").
-- Excepción: la página de Contadores tiene como objetivo primario el contacto por WhatsApp.
+- Excepción: la página "Sé partner" (antes Contadores) tiene como objetivo primario el contacto
+  por WhatsApp.
 - Las CTA secundarias (por ejemplo "Ver cómo funciona", "Ver la guía") MUST ser visualmente
   subordinadas a la principal de esa página.
 - Los enlaces del menú de navegación y del pie no cuentan como CTA y MUST NOT competir visualmente
@@ -181,4 +186,4 @@ que nombra distinto lo que ve en pantalla lo confunde.
   - MINOR: se agrega un principio o sección, o se amplía materialmente una regla.
   - PATCH: aclaraciones de redacción sin cambio de significado.
 
-**Version**: 3.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-10
+**Version**: 3.0.1 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-10
