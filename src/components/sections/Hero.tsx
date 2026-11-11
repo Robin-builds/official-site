@@ -1,4 +1,6 @@
-import { URLS, landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
+import { ui } from "@/content/site";
+import type { Locale } from "@/content/types";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { PhoneMockup } from "./PhoneMockup";
@@ -8,12 +10,12 @@ import { PhoneMockup } from "./PhoneMockup";
  * CTA principal caben sin scroll (SC-001 de la spec 001).
  * Fondo: gradiente de la app (bg-top → bg-mid → bg-bottom) con brillo cian tras el teléfono.
  */
-export function Hero() {
-  const { hero, a11y } = landing;
+export function Hero({ hero, locale, note }: { hero: InicioContent["hero"]; locale: Locale; note?: string }) {
+  const { a11y } = ui[locale];
 
   return (
     <section
-      id="inicio"
+      id={hero.id}
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--bg-top),var(--bg-mid)_60%,var(--bg-bottom))]"
     >
@@ -34,7 +36,7 @@ export function Hero() {
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-fg-2 sm:text-xl">{hero.subtitle}</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button href={hero.primary.href} size="lg">
+            <Button href={hero.primary.href} locale={locale} size="lg">
               {hero.primary.label}
               <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="size-5">
                 <path
@@ -44,7 +46,7 @@ export function Hero() {
                 />
               </svg>
             </Button>
-            <Button href={hero.secondary.href} variant="secondary" size="lg">
+            <Button href={hero.secondary.href} locale={locale} variant="secondary" size="lg">
               {hero.secondary.label}
             </Button>
           </div>
@@ -55,7 +57,7 @@ export function Hero() {
           <p className="mt-2 text-sm text-fg-3">
             {hero.loginLine.text}{" "}
             <a
-              href={URLS.webAppLogin}
+              href={hero.loginLine.href}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-sm font-semibold text-link underline underline-offset-4 hover:no-underline"
@@ -64,6 +66,9 @@ export function Hero() {
               <span className="sr-only"> {a11y.newTab}</span>
             </a>
           </p>
+
+          {/* Nota sobre el idioma de la app y las capturas (solo en inglés, research R19) */}
+          {note && <p className="mt-4 max-w-xl text-sm text-fg-3">{note}</p>}
         </div>
 
         <div className="relative">
@@ -72,7 +77,7 @@ export function Hero() {
             aria-hidden="true"
             className="absolute top-1/2 left-1/2 -z-10 size-[min(30rem,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-cyan/15 blur-3xl"
           />
-          <PhoneMockup screens={hero.screens} pendingLabel={hero.screenshotPending} />
+          <PhoneMockup screens={hero.screens} pendingLabel={hero.screenshotPending} carousel={hero.carousel} locale={locale} />
         </div>
       </Container>
     </section>

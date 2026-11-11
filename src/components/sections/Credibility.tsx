@@ -1,4 +1,4 @@
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 
@@ -6,8 +6,7 @@ import { Icon } from "@/components/ui/Icon";
  * Franja de credibilidad bajo el hero, sobre superficie elevada (surface-2) con íconos en el
  * primario. Hechos verificables del producto, nunca métricas de tracción (Principio I).
  */
-export function Credibility() {
-  const { credibility } = landing;
+export function Credibility({ credibility }: { credibility: InicioContent["credibility"] }) {
 
   return (
     <section aria-labelledby="credibilidad-title" className="bg-surface-2">

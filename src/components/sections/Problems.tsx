@@ -1,10 +1,9 @@
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 
 /** Dolores actuales del cliente. Acento naranja = alerta (semáforo de la app), solo en íconos. */
-export function Problems() {
-  const { problems } = landing;
+export function Problems({ problems }: { problems: InicioContent["problems"] }) {
 
   return (
     <Section titleId="problemas-title" title={problems.title} intro={problems.intro} tone="canvas">

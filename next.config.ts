@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  experimental: {
+    // 404 bilingüe para URLs que no calzan con ninguna ruta: con un layout raíz por idioma
+    // no hay layout común para componerla (research R12). Único flag experimental permitido
+    // por la constitución 3.0.1.
+    globalNotFound: true,
+  },
 };
 
 export default nextConfig;

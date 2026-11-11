@@ -1,4 +1,4 @@
-import { landing } from "@/content/landing";
+import type { Cta, Locale } from "@/content/types";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
@@ -7,10 +7,11 @@ import { Container } from "@/components/ui/Container";
  * data-theme="dark" en el bloque fuerza los tokens oscuros dentro de él (globals.css los
  * declara también sobre [data-theme="dark"]), así texto y botón primario mantienen el
  * contraste del tema oscuro aunque la página esté en claro.
- * La sección externa usa bg-canvas para alternar con el FAQ (surface), FR-013.
+ * Lo usan Inicio y las páginas internas, cada una con su propio texto.
  */
-export function FinalCta() {
-  const { finalCta } = landing;
+type FinalCtaContent = { title: string; subtitle: string; cta: Cta; note: string };
+
+export function FinalCta({ finalCta, locale }: { finalCta: FinalCtaContent; locale: Locale }) {
 
   return (
     <section aria-labelledby="cta-final-title" className="bg-canvas py-section">
@@ -37,7 +38,7 @@ export function FinalCta() {
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg text-fg-2">{finalCta.subtitle}</p>
           <div className="mt-9 flex justify-center">
-            <Button href={finalCta.cta.href} size="lg">
+            <Button href={finalCta.cta.href} locale={locale} size="lg">
               {finalCta.cta.label}
             </Button>
           </div>

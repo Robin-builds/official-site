@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore, type FocusEvent, type ReactNode } from "react";
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
+import { fillTemplate } from "@/lib/text";
 
 /*
  * Control mínimo del recorrido de capturas del hero (spec 003), patrón "Carousel" de WAI-ARIA APG.
@@ -38,8 +39,16 @@ function subscribeLoaded(onChange: () => void) {
 }
 const readLoaded = () => document.readyState === "complete";
 
-export function ScreensCarousel({ captions, children }: { captions: string[]; children: ReactNode }) {
-  const copy = landing.hero.carousel;
+export function ScreensCarousel({
+  captions,
+  copy,
+  children,
+}: {
+  captions: string[];
+  // Textos con marcadores {n}, {total} y {caption}: llegan como datos (no funciones) desde el servidor
+  copy: InicioContent["hero"]["carousel"];
+  children: ReactNode;
+}) {
   const total = captions.length;
 
   const [index, setIndex] = useState(0);
@@ -70,13 +79,13 @@ export function ScreensCarousel({ captions, children }: { captions: string[]; ch
     setIndex(i);
     setPlaying(false); // el visitante tomó el control
     setUserArmed(true);
-    setAnnouncement(copy.announce(i + 1, total, captions[i]));
+    setAnnouncement(fillTemplate(copy.announce, { n: i + 1, total, caption: captions[i] }));
   }
 
   function togglePlaying() {
     if (playing) {
       setPlaying(false);
-      setAnnouncement(copy.announce(index + 1, total, captions[index]));
+      setAnnouncement(fillTemplate(copy.announce, { n: index + 1, total, caption: captions[index] }));
     } else {
       setPlaying(true);
       // Reanudar desde el teclado debe avanzar aunque el foco siga en el botón
@@ -142,7 +151,7 @@ export function ScreensCarousel({ captions, children }: { captions: string[]; ch
               key={caption}
               type="button"
               onClick={() => goTo(i)}
-              aria-label={copy.goTo(i + 1, total, caption)}
+              aria-label={fillTemplate(copy.goTo, { n: i + 1, total, caption })}
               aria-current={current ? "true" : undefined}
               // Objetivo táctil de 28 px; el activo es más ancho (no depende solo del color)
               className="group inline-grid h-7 min-w-7 place-items-center rounded-full px-1"

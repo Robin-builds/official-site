@@ -1,10 +1,9 @@
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 
 /** Beneficios en lenguaje de resultado, con acento cian (marca/acción). */
-export function Benefits() {
-  const { benefits } = landing;
+export function Benefits({ benefits }: { benefits: InicioContent["benefits"] }) {
 
   return (
     <Section titleId="beneficios-title" title={benefits.title} intro={benefits.intro} tone="surface">

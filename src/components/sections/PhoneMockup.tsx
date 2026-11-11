@@ -1,19 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import Image from "next/image";
-import { landing, type HeroScreen, type HeroScreens } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
+import type { HeroScreens, Locale, Screenshot } from "@/content/types";
+import { fillTemplate } from "@/lib/text";
 import { ScreensCarousel } from "./ScreensCarousel";
 
-type PhoneMockupProps = {
-  screens: HeroScreens;
-  pendingLabel: string;
-};
+type CarouselCopy = InicioContent["hero"]["carousel"];
 
-const SIZES = "(min-width: 1024px) 300px, (min-width: 640px) 280px, 248px";
+const HERO_SIZES = "(min-width: 1024px) 300px, (min-width: 640px) 280px, 248px";
 
 /** "/screens/bodega.png" → "/screens/bodega-oscuro.png" (convención de la spec 003). */
-function darkVariantOf(src: string) {
-  return src.replace(/(\.[a-z0-9]+)$/i, "-oscuro$1");
+function withSuffix(src: string, suffix: string) {
+  return src.replace(/(\.[a-z0-9]+)$/i, `${suffix}$1`);
 }
 
 /** ¿Existe el archivo en /public? Se evalúa al construir: la página es estática. */
@@ -22,71 +21,71 @@ function existsInPublic(src: string) {
 }
 
 /**
- * Marco de teléfono Android genérico hecho solo con CSS (sin marca de fabricante), con un
- * recorrido de capturas reales de la app (spec 003).
- *
- * Todo lo pesado ocurre aquí, en el servidor: detectar qué capturas existen, armar cada
- * diapositiva con next/image y decidir cuál se carga con prioridad. ScreensCarousel (cliente)
- * solo decide cuál se ve, vía data-active; el CSS de globals.css hace el resto.
- *
- * Principio I: si falta un archivo, esa pantalla muestra un placeholder neutro con la ruta
- * esperada; nunca se dibuja una interfaz ficticia.
+ * Marco de teléfono Android genérico hecho solo con CSS (sin marca de fabricante).
+ * Proporción 9:19,5, la de las capturas reales (1080×2340).
  */
-export function PhoneMockup({ screens, pendingLabel }: PhoneMockupProps) {
-  const { carousel } = landing.hero;
-  const total = screens.length;
-
+export function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <ScreensCarousel captions={screens.map((s) => s.caption)}>
-      <div className="relative">
-        {/* Botones laterales: volumen y encendido */}
-        <span aria-hidden="true" className="absolute top-28 -right-[3px] h-14 w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
-        <span aria-hidden="true" className="absolute top-46 -right-[3px] h-9 w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
+    <div className={`relative ${className}`}>
+      {/* Botones laterales: volumen y encendido */}
+      <span aria-hidden="true" className="absolute top-[18%] -right-[3px] h-[9%] w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
+      <span aria-hidden="true" className="absolute top-[30%] -right-[3px] h-[6%] w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
 
-        {/* Bisel */}
-        <div className="rounded-[2.6rem] bg-brand-ink p-2.5 shadow-phone ring-1 ring-line">
-          {/* Pantalla con proporción 9:19,5, la de las capturas reales (1080×2340) */}
-          <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2.1rem] bg-surface-2">
-            {/* Cámara perforada */}
-            <span
-              aria-hidden="true"
-              className="absolute top-3 left-1/2 z-10 size-2.5 -translate-x-1/2 rounded-full bg-brand-ink"
-            />
-
-            {screens.map((screen, i) => (
-              // Diapositivas apiladas; globals.css muestra solo la de data-active
-              <div
-                key={screen.src}
-                data-slide={i}
-                role="group"
-                aria-roledescription={carousel.slideRoleDescription}
-                aria-label={carousel.slideLabel(i + 1, total)}
-                className="absolute inset-0"
-              >
-                <Slide screen={screen} first={i === 0} pendingLabel={pendingLabel} />
-              </div>
-            ))}
-          </div>
+      {/* Bisel */}
+      <div className="rounded-[2.6rem] bg-brand-ink p-2.5 shadow-phone ring-1 ring-line">
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2.1rem] bg-surface-2">
+          {/* Cámara perforada */}
+          <span
+            aria-hidden="true"
+            className="absolute top-3 left-1/2 z-10 size-2.5 -translate-x-1/2 rounded-full bg-brand-ink"
+          />
+          {children}
         </div>
       </div>
-    </ScreensCarousel>
+    </div>
   );
 }
 
-function Slide({ screen, first, pendingLabel }: { screen: HeroScreen; first: boolean; pendingLabel: string }) {
-  const darkSrc = darkVariantOf(screen.src);
-  const hasLight = existsInPublic(screen.src);
+/**
+ * Imagen de una captura real con sus variantes opcionales (research R19 y spec 003):
+ * "x-en.png" en inglés y "x-oscuro.png" / "x-oscuro-en.png" para el tema oscuro.
+ * Si una variante no existe, se usa la captura en español.
+ *
+ * Principio I: si falta el archivo, se muestra un placeholder neutro con la ruta esperada;
+ * nunca se dibuja una interfaz ficticia.
+ */
+export function ScreenImage({
+  screen,
+  locale,
+  pendingLabel,
+  sizes,
+  first = false,
+}: {
+  screen: Screenshot;
+  locale: Locale;
+  pendingLabel: string;
+  sizes: string;
+  /** Imagen principal de la página (LCP): se carga con prioridad */
+  first?: boolean;
+}) {
+  const localized = (src: string) => {
+    const en = withSuffix(src, "-en");
+    return locale === "en" && existsInPublic(en) ? en : src;
+  };
+  const lightSrc = localized(screen.src);
+  const darkSrc = localized(withSuffix(screen.src, "-oscuro"));
+  const hasLight = existsInPublic(lightSrc);
   const hasDark = existsInPublic(darkSrc);
 
   /*
    * Prioridad de carga (doc de next/image, "preload" y "Theme detection"):
-   * - Primera pantalla con una sola versión: `preload` (es el LCP del hero).
-   * - Primera pantalla con par claro/oscuro: `fetchPriority="high"` sin preload; con preload
+   * - Imagen principal con una sola versión: `preload` (es el LCP).
+   * - Imagen principal con par claro/oscuro: `fetchPriority="high"` sin preload; con preload
    *   se descargarían ambas versiones. La oculta (display:none) no se descarga por ser lazy.
-   * - Resto: lazy (por defecto) y además display:none hasta el `load` de la ventana.
+   * - Resto: lazy (por defecto).
    */
   const priority = first ? (hasDark ? { fetchPriority: "high" as const } : { preload: true }) : {};
-  const common = { width: screen.width, height: screen.height, sizes: SIZES, ...priority };
+  const common = { width: screen.width, height: screen.height, sizes, ...priority };
 
   return (
     <>
@@ -94,7 +93,7 @@ function Slide({ screen, first, pendingLabel }: { screen: HeroScreen; first: boo
         <Image
           {...common}
           alt={screen.alt}
-          src={screen.src}
+          src={lightSrc}
           className={`size-full object-cover ${hasDark ? "screen-light" : ""}`}
         />
       ) : (
@@ -107,5 +106,46 @@ function Slide({ screen, first, pendingLabel }: { screen: HeroScreen; first: boo
       )}
       {hasDark && <Image {...common} alt={screen.alt} src={darkSrc} className="screen-dark size-full object-cover" />}
     </>
+  );
+}
+
+/**
+ * Teléfono del hero con un recorrido de capturas reales de la app (spec 003).
+ *
+ * Todo lo pesado ocurre aquí, en el servidor: detectar qué capturas existen, armar cada
+ * diapositiva con next/image y decidir cuál se carga con prioridad. ScreensCarousel (cliente)
+ * solo decide cuál se ve, vía data-active; el CSS de globals.css hace el resto.
+ */
+export function PhoneMockup({
+  screens,
+  pendingLabel,
+  carousel,
+  locale,
+}: {
+  screens: HeroScreens;
+  pendingLabel: string;
+  carousel: CarouselCopy;
+  locale: Locale;
+}) {
+  const total = screens.length;
+
+  return (
+    <ScreensCarousel captions={screens.map((s) => s.caption)} copy={carousel}>
+      <PhoneFrame>
+        {screens.map((screen, i) => (
+          // Diapositivas apiladas; globals.css muestra solo la de data-active
+          <div
+            key={screen.src}
+            data-slide={i}
+            role="group"
+            aria-roledescription={carousel.slideRoleDescription}
+            aria-label={fillTemplate(carousel.slideLabel, { n: i + 1, total })}
+            className="absolute inset-0"
+          >
+            <ScreenImage screen={screen} locale={locale} pendingLabel={pendingLabel} sizes={HERO_SIZES} first={i === 0} />
+          </div>
+        ))}
+      </PhoneFrame>
+    </ScreensCarousel>
   );
 }

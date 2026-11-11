@@ -1,22 +1,27 @@
 import { ImageResponse } from "next/og";
-import { landing } from "@/content/landing";
+import { inicio } from "@/content/inicio";
+import { ui } from "@/content/site";
+import type { Locale, PageKey } from "@/content/types";
+import { getPage } from "./i18n";
 import { BRAND_ICON_PATHS, BRAND_ICON_VIEWBOX } from "@/components/ui/BrandIcon";
 
 /*
- * Imagen para compartir en WhatsApp/redes (1200×630), generada en el build con la marca de la app.
+ * Imagen para compartir en WhatsApp/redes (1200×630), generada en el build con la marca de la
+ * app. Cada página la llama con su propio título (research R6, FR-020).
  * Los colores van literales porque ImageResponse no lee las variables CSS de globals.css;
  * corresponden a los tokens del tema oscuro: --bg-top #131620, --bg-bottom #0F1219,
  * --brand-ink #0D1519, --brand-cyan #2EC6DA, --brand-orange #F0921E, --text-1 #F5F5F5, --text-3 #9CA3AF.
  */
-export const alt = landing.meta.ogImageAlt;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const ogSize = { width: 1200, height: 630 };
+export const ogContentType = "image/png";
 
 const CYAN = "#2EC6DA";
 const ORANGE = "#F0921E";
 
-export default function OpengraphImage() {
-  const { first, second } = landing.brand.wordmark;
+export function renderOgImage({ title, note }: { title: string; note: string }) {
+  const { first, second } = ui.es.brand.wordmark;
+  // Títulos largos (guías) bajan de tamaño para no salirse de la imagen
+  const fontSize = title.length > 50 ? 60 : 72;
 
   return new ImageResponse(
     (
@@ -57,12 +62,25 @@ export default function OpengraphImage() {
             <span style={{ color: ORANGE }}>{second}</span>
           </div>
         </div>
-        <div style={{ fontSize: 72, fontWeight: 800, color: "#F5F5F5", lineHeight: 1.1, maxWidth: 1000 }}>
-          {landing.hero.title}
-        </div>
-        <div style={{ fontSize: 32, color: "#9CA3AF" }}>{landing.hero.note}</div>
+        <div style={{ fontSize, fontWeight: 800, color: "#F5F5F5", lineHeight: 1.1, maxWidth: 1000 }}>{title}</div>
+        <div style={{ fontSize: 32, color: "#9CA3AF" }}>{note}</div>
       </div>
     ),
-    size,
+    ogSize,
   );
+}
+
+/** Título que muestra la imagen de una página: Inicio usa el titular del hero. */
+function ogTitle(key: PageKey, locale: Locale) {
+  return key === "home" ? inicio[locale].hero.title : getPage(key).locales[locale].title;
+}
+
+/** Texto alternativo de la imagen para compartir de una página. */
+export function pageOgAlt(key: PageKey, locale: Locale) {
+  return `StoreFlow: ${ogTitle(key, locale)}`;
+}
+
+/** Imagen para compartir de una página del registro; la usa cada `opengraph-image.tsx`. */
+export function pageOgImage(key: PageKey, locale: Locale) {
+  return renderOgImage({ title: ogTitle(key, locale), note: ui[locale].ogNote });
 }

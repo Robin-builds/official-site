@@ -1,4 +1,4 @@
-import { landing } from "@/content/landing";
+import { ui } from "@/content/site";
 import { BrandIcon } from "./BrandIcon";
 
 type LogoProps = {
@@ -11,11 +11,14 @@ type LogoProps = {
  * El wordmark visible es aria-hidden y se anuncia "StoreFlow" para que el lector no deletree.
  */
 export function Logo({ size = "header" }: LogoProps) {
-  const { first, second, accessibleName } = landing.brand.wordmark;
+  // El wordmark es igual en ambos idiomas
+  const { first, second, accessibleName } = ui.es.brand.wordmark;
 
   // Header: ícono 32/36px y texto 20/24px (móvil / ≥640px), según FR-003
   const tile = size === "header" ? "size-8 sm:size-9" : "size-8";
-  const text = size === "header" ? "text-xl sm:text-2xl" : "text-xl";
+  // Bajo 400 px el encabezado no alcanza para marca + CTA + menú: queda solo el ícono de la app
+  // (el nombre accesible "StoreFlow" sigue presente)
+  const text = size === "header" ? "hidden min-[400px]:inline text-xl sm:text-2xl" : "text-xl";
 
   return (
     <span className="inline-flex items-center gap-2.5">

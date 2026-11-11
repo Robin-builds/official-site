@@ -1,4 +1,4 @@
-import type { IconName } from "@/content/landing";
+import type { IconName } from "@/content/types";
 
 /**
  * Set mínimo de íconos de trazo como SVG inline (evita agregar una librería, Principio IV).
@@ -102,6 +102,49 @@ const paths: Record<IconName, React.ReactNode> = {
     <>
       <path d="m3 7 6 6 4-4 8 8" />
       <path d="M15 17h6v-6" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-4-4" />
+    </>
+  ),
+  sliders: (
+    <>
+      <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />
+      <circle cx="16" cy="6" r="2" />
+      <circle cx="10" cy="12" r="2" />
+      <circle cx="18" cy="18" r="2" />
+    </>
+  ),
+  palette: (
+    <>
+      <path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z" />
+      <circle cx="7.5" cy="11.5" r="1" />
+      <circle cx="10.5" cy="7.5" r="1" />
+      <circle cx="15" cy="8" r="1" />
+    </>
+  ),
+  download: (
+    <>
+      <path d="M12 4v11" />
+      <path d="m7 10 5 5 5-5" />
+      <path d="M5 20h14" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
+  adjust: (
+    <>
+      <path d="M7 4v16" />
+      <path d="m4 7 3-3 3 3" />
+      <path d="M17 20V4" />
+      <path d="m14 17 3 3 3-3" />
     </>
   ),
 };

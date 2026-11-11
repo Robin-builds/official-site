@@ -1,10 +1,17 @@
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
+import { ui } from "@/content/site";
+import type { Locale } from "@/content/types";
+import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
+import { isPublished, pageHref } from "@/lib/i18n";
 
-/** 3 pasos numerados. Destino del CTA secundario "Ver cómo funciona". */
-export function HowItWorks() {
-  const { howItWorks, a11y } = landing;
+/**
+ * 3 pasos numerados. Conserva el ancla de la landing (`#como-funciona`, FR-005) y enlaza a
+ * Funcionalidades con una acción secundaria (Principio II).
+ */
+export function HowItWorks({ howItWorks, locale }: { howItWorks: InicioContent["howItWorks"]; locale: Locale }) {
+  const { a11y } = ui[locale];
 
   return (
     <Section
@@ -36,6 +43,14 @@ export function HowItWorks() {
           </li>
         ))}
       </ol>
+
+      {isPublished(howItWorks.more.page, locale) && (
+        <div className="mt-12 flex justify-center">
+          <Button href={pageHref(howItWorks.more.page, locale)} locale={locale} variant="secondary">
+            {howItWorks.more.label}
+          </Button>
+        </div>
+      )}
     </Section>
   );
 }

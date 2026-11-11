@@ -1,12 +1,11 @@
-import { landing } from "@/content/landing";
+import type { InicioContent } from "@/content/inicio";
 import { Section } from "@/components/ui/Section";
 
 /**
- * Testimonios condicionales (Principio I): si no hay testimonios reales en landing.ts,
+ * Testimonios condicionales (Principio I, FR-013): si no hay testimonios reales en inicio.ts,
  * la sección no se renderiza ni deja espacio vacío.
  */
-export function Testimonials() {
-  const { testimonials } = landing;
+export function Testimonials({ testimonials }: { testimonials: InicioContent["testimonials"] }) {
 
   if (testimonials.items.length === 0) return null;
 

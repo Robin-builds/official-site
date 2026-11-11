@@ -1,11 +1,10 @@
 "use client";
 
 import { useLayoutEffect, useSyncExternalStore } from "react";
-import { landing } from "@/content/landing";
 import { THEME_STORAGE_KEY, type Theme } from "./theme";
 
 /*
- * Único componente de cliente de la landing: botón que alterna claro ↔ oscuro.
+ * Botón que alterna claro ↔ oscuro. Recibe su nombre accesible por props (idioma de la página).
  *
  * - La fuente de verdad es el atributo data-theme de <html> (lo fija el script del <head>).
  * - useSyncExternalStore lo observa: en el servidor devuelve null (sin desajuste al hidratar)
@@ -33,7 +32,7 @@ function readSaved(): Theme | null {
   }
 }
 
-export function ThemeToggle({ className = "" }: { className?: string }) {
+export function ThemeToggle({ label, className = "" }: { label: string; className?: string }) {
   const theme = useSyncExternalStore<Theme | null>(subscribe, readTheme, () => null);
 
   // En desarrollo, Strict Mode remonta <html> y borra el atributo que puso el script.
@@ -60,7 +59,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     <button
       type="button"
       onClick={toggle}
-      aria-label={landing.a11y.themeToggle}
+      aria-label={label}
       // Presionado = modo oscuro activo. Undefined en el servidor hasta conocer el tema real.
       aria-pressed={theme === null ? undefined : theme === "dark"}
       className={`inline-grid size-10 shrink-0 place-items-center rounded-button border border-line text-fg-2 transition-colors hover:bg-surface-2 hover:text-fg ${className}`}
