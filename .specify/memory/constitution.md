@@ -1,5 +1,17 @@
 <!--
 Sync Impact Report
+- Versión: 2.0.0 → 3.0.0 (MAJOR: se redefine el Principio VII; el sitio pasa a ser bilingüe)
+- Principios modificados:
+  - VII. "Español de Chile, sin jerga" → "Español de Chile e inglés, sin jerga": español como
+    idioma principal y fuente de verdad; inglés como traducción equivalente revisada por el owner
+  - I. Veracidad: + la versión en inglés no puede afirmar nada que la española no afirme
+  - III. Contenido separado: + cada texto existe en ambos idiomas en el mismo módulo
+- Restricciones técnicas: + `lang` y hreflang por idioma; + `experimental.globalNotFound`
+  permitido solo para la 404 global
+- Impacto en specs existentes: 005-official-site se amplía con el sitio en inglés (US8, FR-025+).
+- TODOs: ninguno
+
+Sync Impact Report anterior
 - Versión: 1.1.0 → 2.0.0 (MAJOR: se redefinen los Principios II y III, que pasan de "la página"
   a "cada página" de un sitio multipágina; cambia el alcance de toda la constitución)
 - Título: "StoreFlow Landing Constitution" → "StoreFlow Sitio Oficial Constitution"
@@ -43,6 +55,8 @@ Sync Impact Report
 - El panel web es de solo lectura: MUST NOT insinuarse que desde la web se registran movimientos,
   se crean productos o se gestionan usuarios o bodegas.
 - Las guías de uso MUST describir pasos que existen hoy en la app, en el orden en que la app los pide.
+- La versión en inglés MUST NOT afirmar nada que la versión en español no afirme. Si la app no
+  está disponible en inglés, el sitio en inglés MUST decirlo.
 
 **Justificación:** el canal de crecimiento son los contadores, cuya confianza es el activo principal.
 Una afirmación falsa en el sitio invalida toda la estrategia de canal.
@@ -65,6 +79,8 @@ cambia (prueba cerrada → producción) y no debe requerir buscar enlaces en el 
 ### III. Contenido separado de la presentación
 - Todo el copy, listas, FAQs, guías y URLs MUST vivir en `src/content/`. Se permite un archivo por
   página o tema; lo compartido (marca, navegación, pie, URLs) MUST vivir en un solo archivo común.
+- Cada texto MUST existir en español e inglés en el mismo módulo, con un tipo que haga fallar el
+  build si falta una traducción.
 - Los componentes MUST recibir contenido por import o props; MUST NOT contener strings de copy visibles.
 - Los tokens de diseño (colores, tipografía, radios, sombras, espaciado de secciones) MUST definirse
   en un solo lugar y ser compartidos por todas las páginas.
@@ -102,14 +118,21 @@ implicar tocar JSX, y repartir el contenido por página evita un archivo inmanej
 
 **Justificación:** un sitio lento en 4G pierde la conversión antes de que se lea el titular.
 
-### VII. Español de Chile, sin jerga
-- El copy MUST estar en español de Chile, con tuteo; MUST NOT usar voseo ni modismos rioplatenses.
+### VII. Español de Chile e inglés, sin jerga
+- El sitio existe en dos idiomas. El español de Chile es el idioma principal y la fuente de verdad:
+  todo texto se escribe primero en español y el inglés es su traducción equivalente.
+- El copy en español MUST usar tuteo; MUST NOT usar voseo ni modismos rioplatenses.
+- El copy en inglés MUST ser inglés claro y directo, de segunda persona ("you"), sin regionalismos
+  marcados. Ningún texto en inglés se publica sin revisión del owner.
 - El copy visible MUST NOT usar jerga técnica ("offline-first", "sync", "SaaS", "cloud",
   "multi-tenant", "dashboard"); se traduce a beneficio ("funciona sin internet", "tus datos se
   guardan solos", "panel web").
 - Excepción: en las guías, los nombres de botones, tarjetas y tipos que aparecen en pantalla en la
   app (por ejemplo ENTRADA, SALIDA, AJUSTE, "Configurar productos") MUST citarse tal como aparecen.
-- Se evitan clichés vacíos ("revoluciona", "siguiente nivel", "solución integral").
+  En inglés se citan igual, tal como aparecen en la app, seguidos de su traducción la primera vez
+  (por ejemplo: ENTRADA (stock in)).
+- Se evitan clichés vacíos en ambos idiomas ("revoluciona", "siguiente nivel", "solución
+  integral", "game-changer", "next level", "all-in-one solution").
 
 **Justificación:** el lector es un dueño de minimarket o un contador, no un desarrollador; y una guía
 que nombra distinto lo que ve en pantalla lo confunde.
@@ -124,8 +147,12 @@ que nombra distinto lo que ve en pantalla lo confunde.
 - Server Components por defecto; cada página se genera de forma estática.
 - Antes de usar una API de Next.js o Tailwind, su firma y sintaxis MUST verificarse contra la versión
   instalada (Context7 o docs oficiales). MUST NOT asumirse Tailwind v3 vs v4.
-- Metadata obligatoria por página: title, description, Open Graph propios y `lang="es-CL"`; el sitio
-  MUST publicar mapa del sitio.
+- Metadata obligatoria por página e idioma: title, description, Open Graph propios, `lang`
+  correcto (`es-CL` o `en`) y enlaces hreflang a la versión en el otro idioma; el sitio MUST
+  publicar mapa del sitio con ambos idiomas.
+- Se permite el flag `experimental.globalNotFound` de Next.js solo para la página 404 global
+  (requerido por tener un layout raíz por idioma). Cualquier otro flag experimental requiere
+  aprobación del owner.
 - Los screenshots del producto MUST ser capturas reales de la versión publicada, en `/public/screens/`.
   MUST NOT dibujarse UI ficticia de la app.
 - Comentarios inline en todo bloque no obvio, explicando qué hace y por qué.
@@ -154,4 +181,4 @@ que nombra distinto lo que ve en pantalla lo confunde.
   - MINOR: se agrega un principio o sección, o se amplía materialmente una regla.
   - PATCH: aclaraciones de redacción sin cambio de significado.
 
-**Version**: 2.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-10
+**Version**: 3.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-10

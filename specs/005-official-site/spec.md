@@ -32,6 +32,14 @@ breve y se vuelve enlazable (cada tema tiene su propia dirección que se puede c
 | **Privacidad** | Política de privacidad propia del sitio, exigida por Google Play | Texto legal provisto por el owner |
 | **Ayuda / Guías** | Guías paso a paso de uso de la app (3–4 guías básicas en esta versión) | Guía de uso existente que entrega el owner + capturas reales de cada paso |
 
+### Idiomas
+
+El sitio existe en **español** (idioma principal, en la raíz: `/funcionalidades`) y en **inglés**
+(bajo `/en`, con direcciones en inglés: `/en/features`). Todas las páginas y guías existen en
+ambos idiomas. El visitante cambia de idioma con un selector ES/EN que lo lleva a la misma página
+en el otro idioma; el sitio no detecta ni redirige según el navegador. El inglés es una traducción
+del español, hecha por el agente y revisada por el owner antes de publicarse.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Entender StoreFlow y descargarla desde el Inicio (Priority: P1)
@@ -154,6 +162,27 @@ Un usuario que acaba de instalar StoreFlow (o que lo está evaluando) abre una g
 
 ---
 
+### User Story 8 - Ver el sitio en inglés (Priority: P2)
+
+Un visitante que no habla español (por ejemplo, un socio, inversionista o cliente extranjero)
+llega a una página en español, toca "EN" y ve la misma página en inglés. Un enlace compartido a
+`/en/...` abre directamente en inglés.
+
+**Why this priority**: amplía el alcance del sitio más allá de Chile; depende de que exista la
+base en español (P1), pero cada página traducida es útil por sí sola.
+
+**Independent Test**: desde cualquier página en español, tocar "EN" y llegar a su equivalente en
+inglés; volver con "ES" a la misma página en español.
+
+**Acceptance Scenarios**:
+
+1. **Given** un visitante en `/contadores`, **When** toca "EN", **Then** llega a `/en/accountants` con el mismo contenido en inglés y el selector indica el idioma actual.
+2. **Given** un visitante en inglés, **When** navega por el menú, **Then** todas las páginas, el pie y la página "no encontrada" están en inglés.
+3. **Given** un visitante en inglés, **When** mira cualquier página, **Then** se le informa con honestidad en qué idioma está disponible la app.
+4. **Given** un buscador, **When** indexa una página, **Then** encuentra el enlace a su versión en el otro idioma.
+
+---
+
 ### Edge Cases
 
 - Direcciones que no existen: el sitio muestra una página "no encontrada" con la marca, menú y acceso a Inicio y Descargar.
@@ -162,6 +191,12 @@ Un usuario que acaba de instalar StoreFlow (o que lo está evaluando) abre una g
 - Visitante con JavaScript deshabilitado: todas las páginas y el menú siguen permitiendo navegar.
 - Cambio de tema claro/oscuro: la preferencia elegida se mantiene al pasar de una página a otra.
 - Visitante con movimiento reducido: ningún cambio de página ni recorrido usa animación de movimiento.
+- Cambio de idioma: conserva el tema elegido y lleva a la página equivalente, no a Inicio. Si una
+  guía no está lista en un idioma, no está lista en ninguno (se publican juntas).
+- Dirección inexistente bajo `/en/...` o en español: la misma página "no encontrada", con texto
+  en ambos idiomas.
+- Ancla de rubro o funcionalidad compartida en un idioma: el ancla equivalente existe en el otro
+  (`#ferreteria` ↔ `#hardware-store`) y el selector conserva la página, no el ancla.
 
 ## Requirements *(mandatory)*
 
@@ -193,7 +228,17 @@ Un usuario que acaba de instalar StoreFlow (o que lo está evaluando) abre una g
 - **FR-015**: Cada página MUST tener un único CTA principal (instalar desde Google Play), salvo Contadores, cuyo CTA principal es el contacto por WhatsApp; "Ingresar" y los demás enlaces MUST ser visualmente secundarios.
 - **FR-016**: Todo el contenido del sitio MUST cumplir la regla de veracidad vigente: solo funcionalidades que existen hoy en la app publicada, sin métricas, testimonios, logos, montos ni funcionalidades excluidas. En particular, MUST NOT afirmarse que la app muestra quién hizo cada movimiento mientras la app no lo muestre.
 - **FR-017**: Todas las capturas MUST ser capturas reales de la app; MUST NOT dibujarse pantallas ficticias.
-- **FR-018**: Todo el copy MUST estar en español de Chile, con tuteo y sin jerga técnica.
+- **FR-018**: El copy en español MUST estar en español de Chile, con tuteo y sin jerga técnica; el copy en inglés MUST ser inglés claro, en segunda persona y sin jerga técnica.
+
+**Idiomas**
+
+- **FR-025**: Todas las páginas y guías MUST existir en español (en la raíz) y en inglés (bajo `/en`), cada una con dirección propia en su idioma.
+- **FR-026**: Todas las páginas MUST tener un selector de idioma ES/EN visible en el encabezado (y en el menú móvil) que lleve a la misma página en el otro idioma e indique el idioma actual.
+- **FR-027**: Cada página MUST declarar su idioma (`es-CL` o `en`) y enlazar a su versión en el otro idioma para buscadores; el mapa del sitio MUST incluir ambos idiomas.
+- **FR-028**: El sitio MUST NOT detectar el idioma del navegador ni redirigir automáticamente.
+- **FR-029**: La versión en inglés MUST tener el mismo contenido que la española, sin afirmar nada que la española no afirme (regla de veracidad), y MUST informar en qué idioma está disponible la app.
+- **FR-030**: Los mensajes precargados de WhatsApp MUST ir en el idioma de la página.
+- **FR-031**: Ningún texto en inglés se publica sin revisión del owner.
 - **FR-019**: La página de Privacidad MUST publicarse solo con el texto legal entregado por el owner; mientras no exista, el enlace de privacidad MUST apuntar al destino vigente.
 
 **Calidad transversal**
@@ -222,7 +267,8 @@ Un usuario que acaba de instalar StoreFlow (o que lo está evaluando) abre una g
 - **SC-004**: El 100 % de las direcciones y anclas de la landing anterior llevan a contenido equivalente (0 páginas de error).
 - **SC-005**: Cada página alcanza en celular las metas de calidad vigentes del proyecto (Performance ≥ 90, Accesibilidad ≥ 95, SEO ≥ 95).
 - **SC-006**: El 100 % de las afirmaciones del sitio pasan la revisión de veracidad contra la app publicada.
-- **SC-007**: Cada página compartida en WhatsApp muestra una vista previa con título y descripción propios (no la de Inicio).
+- **SC-007**: Cada página compartida en WhatsApp muestra una vista previa con título y descripción propios (no la de Inicio), en el idioma de la página.
+- **SC-008**: El 100 % de las páginas y guías existen en ambos idiomas, y desde cualquiera de ellas el selector lleva a su equivalente en 1 toque.
 
 ## Assumptions
 
@@ -231,6 +277,8 @@ Un usuario que acaba de instalar StoreFlow (o que lo está evaluando) abre una g
 - No se incluye página de precios: la regla de veracidad vigente prohíbe mostrar montos. Precios sigue resuelto en Preguntas frecuentes.
 - No se incluye blog, noticias ni novedades en esta versión.
 - Las capturas disponibles son las 6 actuales de `/public/screens/`; funcionalidades sin captura se muestran sin imagen hasta que el owner suba capturas nuevas.
-- La constitución fue enmendada a la versión 2.0.0 (2026-11-10) para pasar de "la página" a "cada página" sin relajar sus reglas; esta spec se rige por esa versión.
+- La constitución fue enmendada a la versión 2.0.0 (2026-11-10) para pasar de "la página" a "cada página" sin relajar sus reglas, y a la 3.0.0 (mismo día) para permitir el sitio bilingüe; esta spec se rige por la 3.0.0.
 - El owner tiene una guía de uso de la app y la entregará como fuente de las guías; se adapta al español de Chile sin jerga y se divide en 3–4 guías. Si los pasos requieren capturas que hoy no existen en `/public/screens/`, el owner las aportará; mientras tanto el paso se publica solo con texto.
 - El número de WhatsApp real y el texto de la política de privacidad los entrega el owner; mientras tanto se mantienen los placeholders actuales.
+- La app y sus capturas están en español. Si la app no tiene versión en inglés, el sitio en inglés lo dice y muestra las mismas capturas en español. El owner confirma el idioma de la app antes de publicar el inglés.
+- La política de privacidad en inglés solo se publica si el owner entrega su traducción legal; mientras tanto `/en/privacy` sigue la misma regla que FR-019.
