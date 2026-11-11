@@ -8,7 +8,7 @@ Español en la raíz con `<html lang="es-CL">`; inglés bajo `/en` con `<html la
 | `home` | `/` | `/en` | Pruébala gratis / Try it free | marca/logo | sí |
 | `features` | `/funcionalidades` | `/en/features` | Pruébala gratis | sí | sí |
 | `business` | `/para-tu-negocio` | `/en/for-your-business` | Pruébala gratis | sí | sí |
-| `accountants` | `/contadores` | `/en/accountants` | Soy contador / I'm an accountant (WhatsApp) | sí | sí |
+| `partner` | `/se-partner` | `/en/partner` | Quiero ser partner / Become a partner (WhatsApp) | no (solo pie) | sí |
 | `faq` | `/preguntas-frecuentes` | `/en/faq` | Pruébala gratis | sí | sí |
 | `help` | `/ayuda` | `/en/help` | Pruébala gratis | sí, si hay ≥ 1 guía lista | igual |
 | guía | `/ayuda/[guia]` | `/en/help/[guide]` | Pruébala gratis | no | por guía lista |
@@ -33,6 +33,7 @@ Slugs de guías por idioma:
 | `#como-funciona` | `#how-it-works` | Inicio | CTA secundaria de la landing anterior |
 | `#contenido` | `#content` | todas | "Saltar al contenido" |
 | `#<feature.id.es>` | `#<feature.id.en>` | Funcionalidades | guías e Inicio |
+| `#registrar`, `#controlar`, `#equipo`, `#revisar`, `#personalizar` | `#record`, `#stay-on-top`, `#team`, `#review`, `#customize` | Funcionalidades | índice de grupos (R22) |
 | `#minimarket`, `#ferreteria`, `#distribuidora`, `#bodega` | `#minimarket`, `#hardware-store`, `#distributor`, `#warehouse` | Para tu negocio | accesos desde Inicio |
 
 ## Encabezado (todas las páginas)
@@ -47,7 +48,7 @@ Slugs de guías por idioma:
 
 ## Pie (todas las páginas)
 
-Enlaces a todas las páginas publicadas del idioma, Contacto (WhatsApp con mensaje en ese idioma),
+Enlaces a todas las páginas publicadas del idioma (incluida "Sé partner", que solo está aquí), Contacto (WhatsApp con mensaje en ese idioma),
 Privacidad (interna o externa según R11), Ingresar y chileapps.cl (FR-004). Externos con
 `target="_blank"` y aviso para lectores en el idioma de la página.
 

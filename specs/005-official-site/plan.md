@@ -15,9 +15,12 @@ JS), el menú móvil es un `<details>` nativo y un selector ES/EN lleva a la mis
 idioma. Todo el contenido vive en `src/content/` como `{ es, en }` tipado, de modo que una
 traducción faltante rompe el build; un registro único de páginas alimenta menú, pie, selector,
 hreflang y sitemap. Cada página tiene metadata e imagen para compartir propias por idioma. Inicio
-se acorta y conserva `#inicio` y `#como-funciona`. Se corrige el copy heredado que contradice la
-constitución ("quién lo movió", lotes y vencimientos no verificados). El inglés lo traduce el
-agente y queda oculto tras un interruptor hasta que el owner lo revise.
+se acorta y conserva `#inicio` y `#como-funciona`. Funcionalidades presenta las 15
+funcionalidades de la app (las de la landing, lotes y vencimientos confirmados, y todas las de la
+guía rápida) en 5 grupos con índice. La sección Contadores pasa a "Sé partner", una página simple
+enlazada solo desde el pie. Se corrige el copy heredado que contradice la constitución ("quién lo
+movió"). El sitio informa en ambos idiomas que la app está en español e inglés. El inglés lo
+traduce el agente y queda oculto tras un interruptor hasta que el owner lo revise.
 
 ## Technical Context
 
@@ -50,12 +53,12 @@ publica sin revisión del owner
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.* Constitución 3.0.0.
+*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.* Constitución 3.0.1.
 
 | Principio | Evaluación | Estado |
 |-----------|------------|--------|
-| I. Veracidad | Funcionalidades y guías salen de la guía del owner; copy heredado que la contradice se corrige (R8); lotes/vencimientos retirados hasta verificar (R9); el inglés traduce el español corregido sin agregar nada y avisa el idioma de la app (R19); testimonios ocultos; capturas reales. | ✅ (con corrección) |
-| II. Una conversión por página | Una CTA principal por página e idioma; Contadores = WhatsApp; menú, pie y selector ES/EN no compiten; "Ingresar" secundario; `URLS` única en `site.ts`, con WhatsApp por idioma (R20). | ✅ |
+| I. Veracidad | Funcionalidades y guías salen de la guía del owner; lotes/vencimientos, idioma de la app y planes pagados confirmados por el owner (aclaraciones 2026-11-10); copy heredado sobre "quién lo movió" se corrige (R8); "Sé partner" sin beneficios inventados (R23); FAQ de idioma en ambos idiomas para que el inglés no diga más que el español (R19); testimonios ocultos; capturas reales. | ✅ (con corrección) |
+| II. Una conversión por página | Una CTA principal por página e idioma; "Sé partner" = WhatsApp (excepción de la constitución 3.0.1); menú, pie y selector ES/EN no compiten; "Ingresar" secundario; `URLS` única en `site.ts`, con WhatsApp por idioma (R20). | ✅ |
 | III. Contenido separado | Un módulo por página + `site.ts` común; todo `Localized<T>` (`{ es, en }`), traducción faltante = error de tipos; componentes sin copy. | ✅ |
 | IV. Simplicidad | Sin dependencias ni librería de i18n; las páginas de cada idioma son una línea que llama al mismo componente. Abstracciones con 2+ usos: `pageMetadata`, `renderOgImage`, helpers de `i18n.ts`. Páginas sin contenido no se publican (`published`, `ready`, `text: null`, `languages.en.published`). | ✅ |
 | V. Mobile-first y accesible | `<html lang>` correcto por idioma; menú `<details>` y selector ES/EN operables con teclado y sin JS; `aria-current` en HTML estático; quickstart 5–8, 19, 21–23. | ✅ |
@@ -99,14 +102,14 @@ src/
 │   │   ├── layout.tsx                  # <RootDocument lang="es-CL">, Navbar, Footer
 │   │   ├── not-found.tsx               # notFound() explícitos en español
 │   │   ├── page.tsx  opengraph-image.tsx
-│   │   ├── funcionalidades/  para-tu-negocio/  contadores/  preguntas-frecuentes/
+│   │   ├── funcionalidades/  para-tu-negocio/  se-partner/  preguntas-frecuentes/
 │   │   ├── descargar/  privacidad/     # cada una: page.tsx (+ opengraph-image.tsx)
 │   │   └── ayuda/{page,opengraph-image}.tsx, [guia]/{page,opengraph-image}.tsx
 │   └── (en)/en/
 │       ├── layout.tsx                  # <RootDocument lang="en">, Navbar, Footer
 │       ├── not-found.tsx
 │       ├── page.tsx  opengraph-image.tsx
-│       ├── features/  for-your-business/  accountants/  faq/  download/  privacy/
+│       ├── features/  for-your-business/  partner/  faq/  download/  privacy/
 │       └── help/{page,opengraph-image}.tsx, [guide]/{page,opengraph-image}.tsx
 ├── components/
 │   ├── layout/                         # NUEVO
@@ -116,14 +119,15 @@ src/
 │   │   ├── MobileMenu.tsx              # "use client": <details> + Escape/cierre por ruta
 │   │   └── LanguageSwitch.tsx          # enlaces ES/EN a la misma página
 │   ├── pages/                          # NUEVO: una vista por página, recibe locale
-│   │   ├── HomePage.tsx  FeaturesPage.tsx  BusinessPage.tsx  AccountantsPage.tsx
+│   │   ├── HomePage.tsx  FeaturesPage.tsx  BusinessPage.tsx  PartnerPage.tsx
 │   │   ├── FaqPage.tsx  DownloadPage.tsx  PrivacyPage.tsx  HelpPage.tsx  GuidePage.tsx
 │   ├── sections/                       # existentes (reciben contenido por props) + Shortcuts,
-│   │                                   #   FeatureList, BusinessList, FaqGroups, GuideSteps, PageHeader
+│   │                                   #   FeatureIndex, FeatureGroups, BusinessList, FaqGroups,
+│   │                                   #   GuideSteps, PageHeader
 │   └── ui/                             # sin cambios
 ├── content/
 │   ├── types.ts  site.ts  inicio.ts  funcionalidades.ts  negocios.ts
-│   ├── contadores.ts  preguntas.ts  descargar.ts  privacidad.ts  guias.ts
+│   ├── partner.ts  preguntas.ts  descargar.ts  privacidad.ts  guias.ts
 │   └── (landing.ts se elimina)
 └── lib/
     ├── i18n.ts                         # pageHref, guideHref, pageKeyFromPath, otherLocale
@@ -145,12 +149,12 @@ props.
    rama, nunca publicada); `i18n.ts`, `pageMetadata`, `renderOgImage`; `RootDocument`, grupo
    `(es)` con Navbar/Footer/NavLinks/MobileMenu; Inicio acortado con anclas; 404 global; sitemap.
    → cumple US1 + US2 (P1) en español.
-2. **P2**: Funcionalidades y Contadores (español).
-3. **P3**: Para tu negocio, Preguntas frecuentes, Descargar, Privacidad condicional, Ayuda + 4
-   guías (español).
+2. **P2**: Funcionalidades (15 funcionalidades en 5 grupos con índice, R22) (español).
+3. **P3**: Para tu negocio, Preguntas frecuentes (+ FAQ de idioma de la app), Descargar,
+   Privacidad condicional, Ayuda + 4 guías, "Sé partner" (solo pie) (español).
 4. **Inglés (US8, P2 por valor, va después por depender del español final)**: grupo `(en)`,
    selector ES/EN, traducción de todos los módulos y guías, hreflang, WhatsApp en inglés, nota de
-   idioma de la app; `languages.en.published = false` hasta la revisión.
+   capturas en español (R19); `languages.en.published = false` hasta la revisión.
 5. **Cierre**: quickstart completo en ambos idiomas, Lighthouse por página, revisión de veracidad,
    **revisión del owner del inglés** y luego `languages.en.published = true`.
 
@@ -159,10 +163,14 @@ listas). El inglés puede publicarse después, sin bloquear el español.
 
 ## Pendientes del owner
 
-- Confirmar si la app tiene versión en inglés (R19).
-- Confirmar si la app registra lotes y fechas de vencimiento (R9).
 - Número real de WhatsApp, texto de privacidad (y su versión en inglés, si la habrá).
 - Revisar el texto en inglés antes de publicarlo (FR-031).
+- Opcional: capturas de lotes/vencimientos, roles, configurar productos y temas, y capturas en
+  inglés (`x-en.png`); sin ellas esas funcionalidades se muestran solo con texto e ícono.
+
+Resueltos en la aclaración del 2026-11-10: idioma de la app (español e inglés), lotes y
+vencimientos (existen), funcionalidades a incluir (todas), precios (gratis + planes pagados),
+Contadores → "Sé partner".
 
 ## Complexity Tracking
 

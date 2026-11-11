@@ -28,7 +28,8 @@ Registro único `pages` en `site.ts`: lo leen menú, pie, selector de idioma, si
 ## CTA (`Cta`)
 
 `{ label, href }`. Cada página tiene **una** CTA principal (FR-015): `ctaPrincipal`
-("Pruébala gratis" → `URLS.googlePlay`), salvo Contadores (`URLS.whatsappContador`).
+("Pruébala gratis" → `URLS.googlePlay`), salvo "Sé partner" (`URLS.whatsappPartner` /
+`whatsappPartnerEn`).
 
 ## Funcionalidad (`Feature`)
 
@@ -36,6 +37,8 @@ Registro único `pages` en `site.ts`: lo leen menú, pie, selector de idioma, si
 |---|---|---|
 | `id` | slug | ancla en `/funcionalidades#id` |
 | `icon` | `IconName` | íconos existentes |
+| `group` | `FeatureGroupKey` | uno de 5 grupos (research R22) |
+| `adminOnly` | boolean opcional | si es `true`, la página indica "solo Administrador" |
 | `title`, `description`, `benefit` | string | FR-008; veracidad según research R8–R9 |
 | `screen` | `Screenshot \| null` | solo capturas reales de `/public/screens/` (FR-017); `null` → sin imagen |
 | `guide` | slug de guía `\| null` | si existe y está lista, enlace "Ver la guía" (FR-014a) |
@@ -71,7 +74,14 @@ movimiento se citan como aparecen en la app (ENTRADA, "Configurar productos"; Pr
 ## Captura (`Screenshot`)
 
 Sin cambios respecto de specs 001/003: `{ src: "/screens/…", alt, width, height }`; `alt`
-describe solo lo que se ve. Variante oscura opcional `x-oscuro.png`.
+describe solo lo que se ve, en el idioma de la página. Variante oscura opcional `x-oscuro.png`
+y variante en inglés opcional `x-en.png` / `x-oscuro-en.png` (research R19); si no existe, la
+versión en inglés usa la captura en español.
+
+## Grupo de funcionalidades (`FeatureGroup`)
+
+`{ key, id, title, intro }`. 5 grupos fijos (registrar, controlar, equipo, revisar,
+personalizar); el `id` es el ancla del índice al inicio de Funcionalidades.
 
 ## Privacidad
 

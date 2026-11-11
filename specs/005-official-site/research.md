@@ -5,7 +5,7 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 ## R1. Direcciones del sitio
 
 - **Decision**: rutas estáticas en español en la raíz:
-  `/`, `/funcionalidades`, `/para-tu-negocio`, `/contadores`, `/preguntas-frecuentes`,
+  `/`, `/funcionalidades`, `/para-tu-negocio`, `/se-partner`, `/preguntas-frecuentes`,
   `/descargar`, `/privacidad`, `/ayuda`, `/ayuda/[guia]`; y sus equivalentes en inglés bajo `/en`
   con direcciones en inglés (tabla en [contracts/routes.md](./contracts/routes.md); ver R16).
   Los rubros son anclas dentro de
@@ -70,7 +70,7 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 - **Decision**: el render actual de `opengraph-image.tsx` se mueve a una función compartida
   `renderOgImage({ title, note })`. Cada segmento tiene su `opengraph-image.tsx` de 5 líneas que la
   llama con el título de esa página; las guías la generan con `params` (`generateStaticParams`).
-- **Rationale**: US4 pide imagen propia para Contadores; la convención de archivo por segmento
+- **Rationale**: US4 pide imagen propia para "Sé partner"; la convención de archivo por segmento
   (`opengraph-image.md`) genera la imagen en el build, sin servidor (FR-024). Sin dependencias.
 - **Alternatives considered**: una sola imagen para todo (incumple US4); imágenes PNG hechas a mano
   (se desincronizan del copy).
@@ -80,7 +80,7 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 - **Decision**: cada módulo exporta un objeto `{ es, en }` del mismo tipo (`Localized<T>`), así
   una traducción faltante rompe el typecheck (constitución III). `src/content/landing.ts` se divide en:
   `site.ts` (URLS, marca, navegación, pie, a11y, CTA principal, registro de páginas),
-  `inicio.ts`, `funcionalidades.ts`, `negocios.ts`, `contadores.ts`, `preguntas.ts`,
+  `inicio.ts`, `funcionalidades.ts`, `negocios.ts`, `partner.ts`, `preguntas.ts`,
   `descargar.ts`, `privacidad.ts`, `guias.ts`, y `types.ts` para los tipos compartidos.
 - **Rationale**: la constitución 2.0.0 permite un archivo por página y exige lo compartido en un
   solo archivo común. `URLS` sigue siendo una sola constante (Principio II).
@@ -97,10 +97,10 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
   | `hero.subtitle` | "y quién lo movió" | quitar la cláusula |
   | `credibility` "Historial…" | "con usuario y fecha" | "con fecha; no se edita ni se borra" |
   | `benefits` "Sabes quién movió qué" | afirmación prohibida | "Un historial que no se puede borrar": los movimientos no se editan; un error se corrige con un AJUSTE |
-  | `benefits` "Pierdes menos por vencimiento" | lotes y fechas de vencimiento no están en la guía | **retirar** hasta verificarlo en la app (ver R9) |
-  | `useCases` Minimarket | "controla vencimientos por lote" | retirar la frase (ver R9) |
+  | `benefits` "Pierdes menos por vencimiento" | no está en la guía, pero el owner lo confirmó (aclaración 2026-11-10) | se mantiene |
+  | `useCases` Minimarket | "controla vencimientos por lote" | se mantiene (confirmado) |
   | `useCases` Distribuidora / Bodega | "con quién lo hizo" / "con usuario" | "con su fecha" |
-  | `accountants.reasons[0]` | "con usuario y fecha" | "con fecha" |
+  | `accountants.reasons[0]` (pasa a "Sé partner") | "con usuario y fecha" | "con fecha" |
   | `faq` bodegas y usuarios | "registrado con quién lo hizo" | roles Administrador/Operador según la guía |
   | `benefits` "Revisas desde el computador" | correcto, pero falta aclarar | "panel web de solo lectura" |
 
@@ -114,13 +114,32 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
   bodegas (`bodega.png`), escaneo (`escanear.png`), entradas y salidas (`movimiento.png`),
   alertas de stock (`alerta-stock.png`), historial (`historial.png`), inicio (`inicio.png`).
   Sin captura (solo texto e ícono, FR-008 / US3-2): productos y búsqueda, ajustes, configurar
-  productos, usuarios y roles, alerta "sin actividad 7 días", funcionamiento sin internet,
-  panel web de solo lectura, exportar a Excel (solo Administrador), temas de la app.
-  **Excluido hasta verificación en la app**: lotes y fechas de vencimiento (está en el copy de la
-  landing pero no en la guía). Escaneo no está en la guía pero tiene captura real: queda permitido.
-- **Rationale**: Principio I: "una afirmación que no esté en la guía MUST verificarse contra la app".
-- **Alternatives considered**: mantener vencimientos por estar ya publicados en la landing (no es
-  prueba de que existan).
+  productos, usuarios y roles, alerta "sin actividad 7 días", lotes y fechas de vencimiento,
+  funcionamiento sin internet, panel web de solo lectura, exportar a Excel (solo Administrador),
+  temas de color (3 paletas × 3 niveles de oscuridad).
+  Lotes y vencimientos no están en la guía, pero el owner confirmó que existen en la app
+  (aclaración 2026-11-10). Escaneo no está en la guía pero tiene captura real: queda permitido.
+  Todas entran (aclaración: opción B, temas incluidos).
+- **Rationale**: Principio I: "una afirmación que no esté en la guía MUST verificarse contra la
+  app"; la confirmación del owner cuenta como esa verificación.
+- **Alternatives considered**: dejar fuera los temas de color (rechazado por el owner).
+
+## R22. Agrupación de Funcionalidades (FR-008)
+
+- **Decision**: 15 funcionalidades en 5 grupos, cada grupo con su título y ancla:
+
+  | Grupo (es / en) | Funcionalidades |
+  |---|---|
+  | Registrar / Record | escaneo, entradas y salidas, ajustes, lotes y vencimientos |
+  | Controlar / Stay on top | bodegas, productos y búsqueda, alertas de stock bajo, alerta sin actividad |
+  | Trabajar en equipo / Work as a team | usuarios y roles, funcionamiento sin internet |
+  | Revisar / Review | historial, panel web de solo lectura, exportar a Excel (solo Administrador) |
+  | Personalizar / Customize | configurar productos, temas de color |
+
+  Al inicio de la página, un índice con los 5 grupos (anclas) para saltar sin recorrer todo.
+- **Rationale**: 15 bloques seguidos repiten el problema de la landing larga; los grupos y el
+  índice permiten llegar directo a lo que se busca. `Feature` gana el campo `group`.
+- **Alternatives considered**: una página por grupo (más rutas sin necesidad, Principio IV).
 
 ## R10. Guías (FR-014, US7)
 
@@ -176,8 +195,10 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 ## R15. Altura de Inicio (SC-003)
 
 - **Decision**: Inicio queda con: hero, credibilidad, problemas (3 ítems), beneficios (3 ítems),
-  cómo funciona (3 pasos, `#como-funciona`), accesos a páginas (4 tarjetas), testimonios (oculta)
-  y CTA final. Salen de Inicio: casos de uso, contadores y FAQ (pasan a sus páginas).
+  cómo funciona (3 pasos, `#como-funciona`), accesos a páginas (4 tarjetas: Funcionalidades, Para
+  tu negocio, Ayuda, Preguntas frecuentes), testimonios (oculta) y CTA final. Salen de Inicio:
+  casos de uso, contadores y FAQ (pasan a sus páginas; contadores a "Sé partner", enlazada solo
+  desde el pie).
 - **Rationale**: la medición (scroll a 360 px antes y después, quickstart) valida el ≥ 40 %; los
   ítems que salen de Inicio siguen completos en Funcionalidades / Para tu negocio.
 
@@ -205,7 +226,7 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 ## R17. Registro de páginas bilingüe y selector de idioma
 
 - **Decision**: `pages` en `site.ts` se indexa por clave estable (`home`, `features`,
-  `business`, `accountants`, `faq`, `help`, `download`, `privacy`) y guarda por idioma `href`,
+  `business`, `partner`, `faq`, `help`, `download`, `privacy`) y guarda por idioma `href`,
   `navLabel`, `title`, `description`. Las guías tienen `slug` por idioma. El selector ES/EN
   (`LanguageSwitch`, componente de servidor) recibe la clave de página (o guía) desde el layout de
   cada página y enlaza a `pages[key][otroIdioma].href`. Es un `<a>` normal (recarga completa entre
@@ -226,17 +247,22 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
 - **Rationale**: la constitución 3.0.0 exige revisión del owner; un interruptor único evita
   publicar inglés sin revisar sin bloquear el resto del sitio.
 
-## R19. Idioma de la app en el sitio en inglés (FR-029, US8-3)
+## R19. Idioma de la app en el sitio (FR-029, FR-011, US8-3)
 
-- **Decision**: el sitio en inglés muestra una nota en Inicio, Descargar y en la FAQ: la app está
-  en español (texto exacto pendiente de que el owner confirme el idioma de la app). Las capturas
-  son las mismas, en español; su `alt` en inglés describe lo que se ve y menciona que la pantalla
-  está en español solo donde importa.
-- **Rationale**: Principio I: un visitante en inglés no debe asumir que la app está en inglés.
+- **Decision**: la app está en español e inglés según el idioma del celular (aclaración
+  2026-11-10). Ambos idiomas del sitio tienen una FAQ "¿La app está en inglés?" / "Is the app
+  available in English?". En inglés, Inicio y Descargar llevan además una nota corta: la app se
+  muestra en inglés si el celular está en inglés, y las capturas del sitio muestran la versión en
+  español. Las capturas aceptan variante por idioma con la misma convención que la oscura
+  (`x.png` → `x-en.png`, y `x-oscuro-en.png`); si no existe, se usa la española.
+- **Rationale**: Principio I: el inglés no puede afirmar nada que el español no diga, por eso la
+  FAQ va en ambos idiomas; la nota evita que las capturas en español confundan.
+- **Alternatives considered**: ocultar las capturas en inglés (pierde la prueba visual del producto).
 
 ## R20. WhatsApp por idioma (FR-030)
 
-- **Decision**: `URLS` agrega `whatsappContadorEn` y `whatsappGeneralEn`; el número es el mismo.
+- **Decision**: `URLS` reemplaza `whatsappContador` por `whatsappPartner` y agrega
+  `whatsappPartnerEn` y `whatsappGeneralEn`; el número es el mismo.
   `site.ts` expone por idioma qué enlace usa cada CTA.
 - **Rationale**: el mensaje precargado es copy visible y va en el idioma de la página; las URLs
   siguen en la constante única (Principio II).
@@ -248,3 +274,15 @@ APIs verificadas contra `node_modules/next/dist/docs/` (Next.js 16.4.5) el 2026-
   español (enlaces heredados); en inglés Inicio usa `#home` y `#how-it-works`.
 - **Rationale**: anclas legibles en el idioma de la URL (FR-023); el selector cambia de página, no
   de ancla (edge case de la spec).
+
+## R23. "Sé partner" (FR-010, US4)
+
+- **Decision**: página simple en `/se-partner` y `/en/partner`, clave `partner`, `inNav: false`
+  (solo pie). Contenido: título, bajada, las 4 razones de la sección Contadores actual (corregidas
+  por R8) dirigidas a "contadores y asesores de pymes", y la CTA "Quiero ser partner" /
+  "Become a partner" → WhatsApp con mensaje para partners. Sin comisiones ni beneficios
+  (aclaración 2026-11-10). No aparece en los accesos de Inicio.
+- **Rationale**: el owner la considera exploratoria; una página corta y compartible basta, y
+  queda fuera de la navegación principal para no competir con la descarga.
+- **Alternatives considered**: mantener `/contadores` destacada (rechazado por el owner);
+  quitarla (pierde la dirección compartible).

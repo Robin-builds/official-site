@@ -11,7 +11,7 @@ export type Locale = "es" | "en";
 export type Localized<T> = Record<Locale, T>;
 
 export type PageKey =
-  | "home" | "features" | "business" | "accountants" | "faq" | "help" | "download" | "privacy";
+  | "home" | "features" | "business" | "partner" | "faq" | "help" | "download" | "privacy";
 
 // Tipos heredados: IconName, Cta, Item, Faq, Testimonio, Screenshot, HeroScreen, HeroScreens.
 
@@ -28,9 +28,13 @@ export type Page = {
   locales: Localized<PageInfo>;
 };
 
+export type FeatureGroupKey = "record" | "control" | "team" | "review" | "customize";
+export type FeatureGroup = { key: FeatureGroupKey; id: string; title: string; intro: string };
 export type Feature = {
   key: string;                 // estable entre idiomas
+  group: FeatureGroupKey;      // research R22
   id: string;                  // ancla en el idioma del objeto
+  adminOnly?: boolean;         // exportar a Excel: "solo Administrador"
   icon: IconName;
   title: string;
   description: string;
@@ -64,11 +68,11 @@ export type Guide = {
 | Módulo | Exporta | Notas |
 |---|---|---|
 | `site.ts` | `URLS`, `languages`, `pages`, `ui: Localized<…>` (brand, a11y, nav, footer, notFound, languageSwitch, ctaPrincipal) | `URLS` única constante de destinos, con WhatsApp por idioma (R20); `languages.en.published` (R18) |
-| `inicio.ts` | `inicio: Localized<…>` | hero (+ `screens`, `carousel`), credibility, problems (3), benefits (3), howItWorks, shortcuts, appLanguageNote (solo `en`, R19), testimonials, finalCta |
-| `funcionalidades.ts` | `funcionalidades: Localized<{ intro; features: Feature[] }>` | mismas `key` y mismo orden en ambos idiomas |
+| `inicio.ts` | `inicio: Localized<…>` | hero (+ `screens`, `carousel`), credibility, problems (3), benefits (3), howItWorks, shortcuts (Funcionalidades, Para tu negocio, Ayuda, FAQ), appLanguageNote (texto vacío en `es`, nota en `en`, R19), testimonials, finalCta |
+| `funcionalidades.ts` | `funcionalidades: Localized<{ intro; groups: FeatureGroup[]; features: Feature[] }>` | 15 funcionalidades en 5 grupos (R22); mismas `key` y orden en ambos idiomas |
 | `negocios.ts` | `negocios: Localized<{ intro; businesses: Business[] }>` | 4 rubros |
-| `contadores.ts` | `contadores: Localized<…>` | CTA = WhatsApp del idioma |
-| `preguntas.ts` | `preguntas: Localized<{ groups: FaqGroup[] }>` | todas las FAQ actuales |
+| `partner.ts` | `partner: Localized<…>` | "Sé partner" (R23): 4 razones + CTA WhatsApp del idioma; sin beneficios para el partner |
+| `preguntas.ts` | `preguntas: Localized<{ groups: FaqGroup[] }>` | todas las FAQ actuales + "¿La app está en inglés?" (R19) |
 | `descargar.ts` | `descargar: Localized<…>` | requisitos, CTA, Ingresar, nota de idioma de la app (en) |
 | `privacidad.ts` | `privacidad: Localized<{ text: string \| null }>` | independiente por idioma |
 | `guias.ts` | `guias: Guide[]`, `readyGuides()` | `readyGuides()` filtra `ready: true` |
@@ -86,7 +90,10 @@ export type Guide = {
 - Ambos idiomas tienen las mismas `key` de funcionalidades, rubros, grupos de FAQ y pasos de
   guía, en el mismo orden (comparación en quickstart).
 - Toda `Feature.screen` y `GuideStep.screen` apunta a un archivo existente en `/public/screens/`.
-- Ningún texto contiene en español "quién", "usuario y fecha" asociado a movimientos, "lote" ni
-  "vencimiento"; ni en inglés "who" asociado a movimientos, "batch", "lot number" ni "expir" (research R8–R9).
+- Ningún texto afirma que la app muestra quién hizo cada movimiento: en español sin "quién" ni
+  "usuario y fecha" asociados a movimientos; en inglés sin "who" asociado a movimientos (R8).
+  Lotes y vencimientos sí están permitidos (confirmados por el owner).
+- Ningún texto de "Sé partner" menciona comisiones, descuentos ni beneficios para el partner.
+- Ningún texto muestra montos ni nombres de planes; sí "gratis para empezar" y "planes pagados".
 - `testimonials.items` sigue vacío en ambos idiomas (FR-013).
 - `pages` publicadas = enlaces del pie = entradas del sitemap, por idioma.
