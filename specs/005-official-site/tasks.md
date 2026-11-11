@@ -198,7 +198,7 @@ Reglas comunes a todas las tareas:
 - [ ] T068 Lighthouse móvil (build de producción) en todas las páginas y en una guía, en ambos idiomas: Performance ≥ 90, Accesibilidad ≥ 95, SEO ≥ 95 (SC-005); registrar los resultados en "Mediciones"
 - [X] T069 Revisar `<head>` de cada página: canonical, hreflang, `og:locale`, título y descripción propios, imagen OG generada (quickstart 11, 24) y `/sitemap.xml` (quickstart 17)
 - [X] T070 Recorrer quickstart.md completo (31 escenarios) y marcar resultados; actualizar `README.md` con la estructura nueva (`src/content/` por página, grupos `(es)`/`(en)`, flag `languages.en.published`)
-- [ ] T071 Primer despliegue (solo con aprobación del owner): push de `005-official-site`, revisar la vista previa de Vercel, merge a `main`; confirmar la dirección de producción y actualizar `URLS.site` (research R14), luego repetir quickstart 11 y 17 sobre esa dirección
+- [X] T071 Primer despliegue (solo con aprobación del owner): push de `005-official-site`, revisar la vista previa de Vercel, merge a `main`; confirmar la dirección de producción y actualizar `URLS.site` (research R14), luego repetir quickstart 11 y 17 sobre esa dirección
 
 ---
 
@@ -254,4 +254,5 @@ Cada incremento termina con `npm run build`, los escenarios de quickstart de esa
 - Inicio nuevo a 360 px (2026-11-10): **6.061 px** = 0,596 × H0 (40,4 % más corto). Para cumplir se compactaron en celular "Cómo funciona" (pasos en fila), Problemas (ícono al lado), accesos, pie (2 columnas) y algunos espaciados; no se quitó contenido
 - Lighthouse por página: _pendiente (T068)_: no hay Lighthouse instalado en esta máquina; correrlo en Chrome DevTools sobre el build de producción
 - Verificación automatizada (Chrome headless, build de producción, 2026-11-10): sin scroll horizontal a 360/768/1440 px en todas las páginas de ambos idiomas; `aria-current` en el HTML estático; menú abre sin JS, Escape devuelve el foco y se cierra al navegar; selector ES/EN lleva a la página equivalente y vuelve en las 9 direcciones probadas; paridad es/en: 15 funcionalidades, 4 rubros, 8 preguntas, mismos pasos por guía; con el inglés apagado `/en/...` y `/privacidad` responden la 404 global
+- Primer despliegue (T071, 2026-11-11): producción en https://storeflow-official-site.vercel.app (coincide con `URLS.site`). Hizo falta `vercel.json` con framework, comandos y salida explícitos: el proyecto tenía preset "Other" y solo servía `public/`. Verificado: 11 páginas 200, `/en/...`, `/privacidad` y `/xyz` 404, canonical, imagen OG y sitemap (11 URLs) con el dominio real
 - Contraste (T067): solo se usan combinaciones de tokens ya validadas en las specs 002/004; no se midió con herramienta
