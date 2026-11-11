@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { NextConfig } from "next";
+import { privacidad } from "./src/content/privacidad";
 import { languages } from "./src/content/site";
 
 const nextConfig: NextConfig = {
@@ -22,20 +23,20 @@ const nextConfig: NextConfig = {
     globalNotFound: true,
   },
   /*
-   * Inglés sin publicar (FR-031): mientras `languages.en.published` sea false, toda dirección
-   * /en/... se manda ANTES de buscar archivos a una ruta que no existe, así responde la 404
-   * global (con marca y tema) y no deja ver nada del texto en inglés.
-   * El layout (en) además llama a notFound() como segunda barrera.
+   * Direcciones que no deben existir en el sitio publicado se mandan ANTES de buscar archivos
+   * a una ruta inexistente, así responden la 404 global (con marca y tema, también sin JS) y
+   * no dejan ver su contenido ni su metadata:
+   * - Inglés sin publicar (FR-031): toda /en/... mientras `languages.en.published` sea false.
+   *   El layout (en) además llama a notFound() como segunda barrera.
+   * - Privacidad sin texto del owner en ese idioma (FR-019, research R11).
    */
   async rewrites() {
-    if (languages.en.published) return { beforeFiles: [] };
-    const hidden = "/_ingles-no-publicado";
-    return {
-      beforeFiles: [
-        { source: "/en", destination: hidden },
-        { source: "/en/:path*", destination: hidden },
-      ],
-    };
+    const hidden = "/_no-publicado";
+    const sources: string[] = [];
+    if (!languages.en.published) sources.push("/en", "/en/:path*");
+    if (privacidad.es.text === null) sources.push("/privacidad", "/privacidad/:path*");
+    if (languages.en.published && privacidad.en.text === null) sources.push("/en/privacy", "/en/privacy/:path*");
+    return { beforeFiles: sources.map((source) => ({ source, destination: hidden })) };
   },
 };
 

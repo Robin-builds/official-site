@@ -13,8 +13,10 @@ import { NavLinks } from "./NavLinks";
 /**
  * Encabezado fijo y translúcido (.header-glass), común a todas las páginas del idioma
  * (contracts/routes.md, "Encabezado"):
- * - ≥ 1024 px: marca · páginas · Ingresar (ghost) · ES/EN · tema · CTA principal.
- * - < 1024 px: marca · CTA principal · menú desplegable con páginas, CTA, Ingresar, ES/EN y tema.
+ * - ≥ 1280 px: marca · páginas · Ingresar (ghost) · ES/EN · tema · CTA principal.
+ * - < 1280 px: marca · CTA principal · menú desplegable con páginas, CTA, Ingresar, ES/EN y tema.
+ * El corte es 1280 y no 1024 (contrato): en español las etiquetas no caben en una línea a
+ * 1024 px junto a Ingresar, ES/EN, tema y CTA. Bajo 1280 el menú desplegable trae todo.
  * La CTA principal va directo a Google Play (SC-001); los enlaces del menú no compiten con ella.
  */
 export function Navbar({ locale }: { locale: Locale }) {
@@ -40,24 +42,24 @@ export function Navbar({ locale }: { locale: Locale }) {
         </Link>
 
         {/* Menú de escritorio */}
-        <nav aria-label={t.a11y.mainNav} className="hidden lg:block">
+        <nav aria-label={t.a11y.mainNav} className="hidden xl:block">
           <NavLinks items={items} layout="row" />
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Envoltorio para ocultar bajo 1024 px sin pelear con el display propio de cada botón */}
-          <div className="hidden items-center gap-2 lg:flex">
+          {/* Envoltorio para ocultar bajo 1280 px sin pelear con el display propio de cada botón */}
+          <div className="hidden items-center gap-2 xl:flex">
             <Button href={t.nav.login.href} locale={locale} variant="ghost" size="sm">
               {t.nav.login.label}
             </Button>
             {languageSwitch}
             <ThemeToggle label={t.a11y.themeToggle} />
           </div>
-          <Button href={t.nav.cta.href} locale={locale} size="sm" className="px-3 sm:px-4">
+          <Button href={t.nav.cta.href} locale={locale} size="sm" className="px-3 whitespace-nowrap sm:px-4">
             {t.nav.cta.label}
           </Button>
 
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <MobileMenu openLabel={t.a11y.menuOpen} closeLabel={t.a11y.menuClose}>
               <nav aria-label={t.a11y.mainNav}>
                 <NavLinks items={items} layout="column" />

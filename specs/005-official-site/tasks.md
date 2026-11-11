@@ -176,28 +176,28 @@ Reglas comunes a todas las tareas:
 
 **Independent Test**: desde cada página en español, "EN" lleva a su equivalente y "ES" vuelve (quickstart 22–31).
 
-- [ ] T054 [US8] Crear `src/components/layout/LanguageSwitch.tsx` (Server Component que recibe `locale` y `href` del otro idioma, o variante client mínima que use `pageKeyFromPath(usePathname())` dentro de `NavLinks` si hace falta): dos enlaces "ES"/"EN" con `lang`, `hreflang`, nombre accesible "Español"/"English" y `aria-current="true"` en el actual; `<a>` normal (recarga completa entre layouts raíz, research R16–R17); solo se renderiza si `languages.en.published`
-- [ ] T055 [US8] Insertar `LanguageSwitch` en `src/components/layout/Navbar.tsx` (≥ 1024 px, junto al tema) y en `MobileMenu.tsx`
-- [ ] T056 [P] [US8] Traducir al inglés `src/content/site.ts` (`ui.en`, `pages[*].locales.en`, `whatsappGeneralEn` "Hi, I'd like to know more about StoreFlow", `whatsappPartnerEn` "Hi, I'd like to become a StoreFlow partner") quitando todos los `[EN]`; inglés claro, segunda persona, sin jerga ni clichés (constitución VII)
-- [ ] T057 [P] [US8] Traducir `src/content/inicio.ts` (`en`), incluido `alt` de capturas y `appLanguageNote`: "StoreFlow shows in English when your phone is set to English. The screenshots on this site show the Spanish version." (research R19)
-- [ ] T058 [P] [US8] Traducir `src/content/funcionalidades.ts` (`en`) con anclas en inglés (`#record`, `#stay-on-top`, `#team`, `#review`, `#customize` y una por funcionalidad, p. ej. `#scanning`)
-- [ ] T059 [P] [US8] Traducir `src/content/negocios.ts` (`en`; anclas `#minimarket`, `#hardware-store`, `#distributor`, `#warehouse`), `preguntas.ts`, `descargar.ts` (con `appLanguageNote`), `partner.ts` y `privacidad.ts` (`text: null`)
-- [ ] T060 [P] [US8] Traducir `src/content/guias.ts` (`locales.en`: slugs `getting-started`, `recording-stock-movements`, `multiple-warehouses`, `stock-alerts`); citar ENTRADA, SALIDA, AJUSTE y nombres de pantalla tal como en la app con traducción la primera vez ("ENTRADA (stock in)")
-- [ ] T061 [US8] Crear en `src/app/(en)/en/` las rutas de contracts/routes.md, cada una de una línea con su componente de `src/components/pages/` y `locale="en"`: `page.tsx`, `features/`, `for-your-business/`, `faq/`, `help/`, `help/[guide]/` (`generateStaticParams` con slugs `en`, `dynamicParams = false`), `download/`, `partner/`, `privacy/`, cada una con `metadata`/`generateMetadata` (`pageMetadata(key, "en")`) y `opengraph-image.tsx` donde corresponda. Las rutas quedan detrás de la guardia de T015: con `languages.en.published = false` responden "no encontrada" en el build de producción; para revisarlas localmente se cambia el flag sin commitearlo
-- [ ] T062 [US8] Revisar que `pageMetadata`, `sitemap.ts`, `global-not-found.tsx` y el pie incluyen el inglés cuando `languages.en.published` es `true` (probar con el flag en `true` localmente, sin commitearlo)
-- [ ] T063 [US8] Verificar quickstart 22–30 con el flag en `true` localmente; comparar cantidad y orden de funcionalidades, rubros, FAQ y pasos entre idiomas (quickstart 28)
+- [X] T054 [US8] Crear `src/components/layout/LanguageSwitch.tsx` (Server Component que recibe `locale` y `href` del otro idioma, o variante client mínima que use `pageKeyFromPath(usePathname())` dentro de `NavLinks` si hace falta): dos enlaces "ES"/"EN" con `lang`, `hreflang`, nombre accesible "Español"/"English" y `aria-current="true"` en el actual; `<a>` normal (recarga completa entre layouts raíz, research R16–R17); solo se renderiza si `languages.en.published`
+- [X] T055 [US8] Insertar `LanguageSwitch` en `src/components/layout/Navbar.tsx` (≥ 1024 px, junto al tema) y en `MobileMenu.tsx`
+- [X] T056 [P] [US8] Traducir al inglés `src/content/site.ts` (`ui.en`, `pages[*].locales.en`, `whatsappGeneralEn` "Hi, I'd like to know more about StoreFlow", `whatsappPartnerEn` "Hi, I'd like to become a StoreFlow partner") quitando todos los `[EN]`; inglés claro, segunda persona, sin jerga ni clichés (constitución VII)
+- [X] T057 [P] [US8] Traducir `src/content/inicio.ts` (`en`), incluido `alt` de capturas y `appLanguageNote`: "StoreFlow shows in English when your phone is set to English. The screenshots on this site show the Spanish version." (research R19)
+- [X] T058 [P] [US8] Traducir `src/content/funcionalidades.ts` (`en`) con anclas en inglés (`#record`, `#stay-on-top`, `#team`, `#review`, `#customize` y una por funcionalidad, p. ej. `#scanning`)
+- [X] T059 [P] [US8] Traducir `src/content/negocios.ts` (`en`; anclas `#minimarket`, `#hardware-store`, `#distributor`, `#warehouse`), `preguntas.ts`, `descargar.ts` (con `appLanguageNote`), `partner.ts` y `privacidad.ts` (`text: null`)
+- [X] T060 [P] [US8] Traducir `src/content/guias.ts` (`locales.en`: slugs `getting-started`, `recording-stock-movements`, `multiple-warehouses`, `stock-alerts`); citar ENTRADA, SALIDA, AJUSTE y nombres de pantalla tal como en la app con traducción la primera vez ("ENTRADA (stock in)")
+- [X] T061 [US8] Crear en `src/app/(en)/en/` las rutas de contracts/routes.md, cada una de una línea con su componente de `src/components/pages/` y `locale="en"`: `page.tsx`, `features/`, `for-your-business/`, `faq/`, `help/`, `help/[guide]/` (`generateStaticParams` con slugs `en`, `dynamicParams = false`), `download/`, `partner/`, `privacy/`, cada una con `metadata`/`generateMetadata` (`pageMetadata(key, "en")`) y `opengraph-image.tsx` donde corresponda. Las rutas quedan detrás de la guardia de T015: con `languages.en.published = false` responden "no encontrada" en el build de producción; para revisarlas localmente se cambia el flag sin commitearlo
+- [X] T062 [US8] Revisar que `pageMetadata`, `sitemap.ts`, `global-not-found.tsx` y el pie incluyen el inglés cuando `languages.en.published` es `true` (probar con el flag en `true` localmente, sin commitearlo)
+- [X] T063 [US8] Verificar quickstart 22–30 con el flag en `true` localmente; comparar cantidad y orden de funcionalidades, rubros, FAQ y pasos entre idiomas (quickstart 28)
 - [ ] T064 [US8] **Revisión del owner** (FR-031, quickstart 31): entregar al owner la lista de páginas en inglés para leer en local; aplicar sus correcciones; recién con su aprobación poner `languages.en.published = true` en `src/content/site.ts` y commitear. Antes de la aprobación, verificar en `npm run build && npm run start` con el flag en `false` que `/en` y `/en/features` responden "no encontrada" (FR-031)
 
 ---
 
 ## Phase 12: Polish & Cross-Cutting Concerns
 
-- [ ] T065 [P] Revisión de veracidad (FR-016, SC-006): buscar en `src/content/` "quién", "usuario y fecha", "comisi", "$" (es) y "who", "commission", "$" (en); cada resultado debe ser legítimo (quickstart 18 y 29)
-- [ ] T066 [P] Revisión de Principio VII: tuteo y sin voseo en español; sin jerga ("offline", "sync", "dashboard", "SaaS", "cloud") ni clichés en ambos idiomas
-- [ ] T067 Verificar en cada página, en ambos idiomas, 360/768/1440 px sin scroll horizontal y contraste AA en claro y oscuro (quickstart 19); revisar `prefers-reduced-motion` (quickstart 21)
+- [X] T065 [P] Revisión de veracidad (FR-016, SC-006): buscar en `src/content/` "quién", "usuario y fecha", "comisi", "$" (es) y "who", "commission", "$" (en); cada resultado debe ser legítimo (quickstart 18 y 29)
+- [X] T066 [P] Revisión de Principio VII: tuteo y sin voseo en español; sin jerga ("offline", "sync", "dashboard", "SaaS", "cloud") ni clichés en ambos idiomas
+- [X] T067 Verificar en cada página, en ambos idiomas, 360/768/1440 px sin scroll horizontal y contraste AA en claro y oscuro (quickstart 19); revisar `prefers-reduced-motion` (quickstart 21)
 - [ ] T068 Lighthouse móvil (build de producción) en todas las páginas y en una guía, en ambos idiomas: Performance ≥ 90, Accesibilidad ≥ 95, SEO ≥ 95 (SC-005); registrar los resultados en "Mediciones"
-- [ ] T069 Revisar `<head>` de cada página: canonical, hreflang, `og:locale`, título y descripción propios, imagen OG generada (quickstart 11, 24) y `/sitemap.xml` (quickstart 17)
-- [ ] T070 Recorrer quickstart.md completo (31 escenarios) y marcar resultados; actualizar `README.md` con la estructura nueva (`src/content/` por página, grupos `(es)`/`(en)`, flag `languages.en.published`)
+- [X] T069 Revisar `<head>` de cada página: canonical, hreflang, `og:locale`, título y descripción propios, imagen OG generada (quickstart 11, 24) y `/sitemap.xml` (quickstart 17)
+- [X] T070 Recorrer quickstart.md completo (31 escenarios) y marcar resultados; actualizar `README.md` con la estructura nueva (`src/content/` por página, grupos `(es)`/`(en)`, flag `languages.en.published`)
 - [ ] T071 Primer despliegue (solo con aprobación del owner): push de `005-official-site`, revisar la vista previa de Vercel, merge a `main`; confirmar la dirección de producción y actualizar `URLS.site` (research R14), luego repetir quickstart 11 y 17 sobre esa dirección
 
 ---
@@ -252,4 +252,6 @@ Cada incremento termina con `npm run build`, los escenarios de quickstart de esa
 
 - H0 (landing actual, `/` a 360 px, build de producción, 2026-11-10): **10.178 px** → meta Inicio ≤ 6.107 px
 - Inicio nuevo a 360 px (2026-11-10): **6.061 px** = 0,596 × H0 (40,4 % más corto). Para cumplir se compactaron en celular "Cómo funciona" (pasos en fila), Problemas (ícono al lado), accesos, pie (2 columnas) y algunos espaciados; no se quitó contenido
-- Lighthouse por página: _pendiente (T068)_
+- Lighthouse por página: _pendiente (T068)_: no hay Lighthouse instalado en esta máquina; correrlo en Chrome DevTools sobre el build de producción
+- Verificación automatizada (Chrome headless, build de producción, 2026-11-10): sin scroll horizontal a 360/768/1440 px en todas las páginas de ambos idiomas; `aria-current` en el HTML estático; menú abre sin JS, Escape devuelve el foco y se cierra al navegar; selector ES/EN lleva a la página equivalente y vuelve en las 9 direcciones probadas; paridad es/en: 15 funcionalidades, 4 rubros, 8 preguntas, mismos pasos por guía; con el inglés apagado `/en/...` y `/privacidad` responden la 404 global
+- Contraste (T067): solo se usan combinaciones de tokens ya validadas en las specs 002/004; no se midió con herramienta

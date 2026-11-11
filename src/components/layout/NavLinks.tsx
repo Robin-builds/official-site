@@ -30,7 +30,7 @@ export function NavLinks({ items, layout }: { items: NavItem[]; layout: "row" | 
               href={item.href}
               aria-current={current ? "page" : undefined}
               // Página actual: texto principal y subrayado primario (no depende solo del color)
-              className={`flex min-h-11 items-center rounded-button px-3 text-sm font-medium transition-colors hover:bg-surface-2 hover:text-fg ${
+              className={`flex min-h-11 items-center rounded-button px-3 whitespace-nowrap text-sm font-medium transition-colors hover:bg-surface-2 hover:text-fg ${
                 layout === "column" ? "text-base" : ""
               } ${
                 current
