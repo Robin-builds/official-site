@@ -30,15 +30,27 @@ const sizes = {
 } as const;
 
 /**
+ * Clases de botón según variante y tamaño. Exportada para aplicarlas a un `<button>` real
+ * (envío del formulario de Contacto, spec 006 R10) sin duplicar estilos.
+ */
+export function buttonClasses(
+  variant: "primary" | "secondary" | "ghost" = "primary",
+  size: "sm" | "md" | "lg" = "md",
+  className = "",
+) {
+  // ghost no lleva padding horizontal grande: se lee como enlace
+  const sizeClass = variant === "ghost" ? sizes[size].replace(/px-\d+/, "px-2") : sizes[size];
+  return `inline-flex items-center justify-center gap-2 rounded-button font-semibold transition-colors duration-150 ${variants[variant]} ${sizeClass} ${className}`;
+}
+
+/**
  * Enlace con apariencia de botón. Externos: pestaña nueva con aviso para lectores.
  * Internos ("/…"): next/link, navegación sin recargar dentro del mismo idioma.
  * Anclas ("#…"): enlace normal.
  */
 export function Button({ href, children, locale, variant = "primary", size = "md", className = "" }: ButtonProps) {
   const external = href.startsWith("http");
-  // ghost no lleva padding horizontal grande: se lee como enlace
-  const sizeClass = variant === "ghost" ? sizes[size].replace(/px-\d+/, "px-2") : sizes[size];
-  const classes = `inline-flex items-center justify-center gap-2 rounded-button font-semibold transition-colors duration-150 ${variants[variant]} ${sizeClass} ${className}`;
+  const classes = buttonClasses(variant, size, className);
 
   if (href.startsWith("/")) {
     return (

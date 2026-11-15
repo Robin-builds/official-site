@@ -15,11 +15,13 @@ import { readyGuides } from "./guias";
 /* URLs: cambiar aquí actualiza todos los botones y enlaces            */
 /* ------------------------------------------------------------------ */
 
-// PLACEHOLDER: número de WhatsApp real en formato internacional, sin "+" ni espacios.
-const WHATSAPP_NUMBER = "56900000000";
+// Número de WhatsApp de StoreFlow (+56 9 5759 6588), formato internacional sin "+" ni espacios.
+// Si cambia, hay que regenerar los QR de public/contact/ (comandos en src/content/contacto.ts).
+const WHATSAPP_NUMBER = "56957596588";
 
 // wa.me abre WhatsApp (app o web) con el mensaje ya escrito; el texto debe ir codificado.
-const whatsappLink = (message: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+// Exportada para que el formulario de Contacto arme su enlace con el mismo número (spec 006 R2).
+export const whatsappLink =(message: string) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 export const URLS = {
   // PLACEHOLDER: confirmar en el primer despliegue (research R14).
@@ -165,6 +167,26 @@ export const pages: Page[] = [
         navLabel: "Help",
         title: "Help",
         description: "Step-by-step guides to get started with StoreFlow and make the most of it in your warehouse.",
+      },
+    },
+  },
+  {
+    key: "contact",
+    // Al final del menú, enlace normal (aclaración 2026-11-15, Principio II)
+    inNav: true,
+    published: true,
+    locales: {
+      es: {
+        href: "/contacto",
+        navLabel: "Contacto",
+        title: "Contacto",
+        description: "Envíanos tus datos por WhatsApp o escríbenos directo para conversar sobre StoreFlow.",
+      },
+      en: {
+        href: "/en/contact",
+        navLabel: "Contact",
+        title: "Contact",
+        description: "Send us your details on WhatsApp or message us directly to talk about StoreFlow.",
       },
     },
   },

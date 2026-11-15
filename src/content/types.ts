@@ -59,7 +59,16 @@ export type HeroScreens =
 
 /* ---------- Registro de páginas ---------- */
 
-export type PageKey = "home" | "features" | "business" | "partner" | "faq" | "help" | "download" | "privacy";
+export type PageKey =
+  | "home"
+  | "features"
+  | "business"
+  | "partner"
+  | "faq"
+  | "help"
+  | "download"
+  | "privacy"
+  | "contact";
 
 export type PageInfo = {
   href: `/${string}`; // dirección completa en su idioma ("/en/features")
