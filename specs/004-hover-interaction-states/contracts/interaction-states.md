@@ -1,5 +1,9 @@
 # Contrato UI: clases de estados de interacción
 
+> **Valores reemplazados por la spec 007** (duración, elevación, sombra con brillo, giro del ícono,
+> clases nuevas `.card-arrow`, `.phone-hover`, `.phone-bezel`). Ver
+> [specs/007-card-hover-animado/contracts/interaction-states.md](../../007-card-hover-animado/contracts/interaction-states.md).
+
 Interfaz entre `src/app/globals.css` (define) y los componentes de sección (consumen). Un componente
 solo agrega la clase; nunca reimplementa el efecto con utilidades.
 

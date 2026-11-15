@@ -33,7 +33,7 @@ export function BusinessList({ content, locale }: { content: NegociosContent; lo
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-2">
-              <div className="rounded-card border border-line bg-surface-2 p-6">
+              <div className="card-hover rounded-card border border-line bg-surface-2 p-6 [--card-lift:-4px]">
                 <h3 className="text-lg font-semibold text-fg">{content.problemsTitle}</h3>
                 <ul className="mt-4 space-y-3">
                   {b.problems.map((p) => (
@@ -44,7 +44,7 @@ export function BusinessList({ content, locale }: { content: NegociosContent; lo
                   ))}
                 </ul>
               </div>
-              <div className="rounded-card border border-line bg-surface-2 p-6">
+              <div className="card-hover rounded-card border border-line bg-surface-2 p-6 [--card-lift:-4px]">
                 <h3 className="text-lg font-semibold text-fg">{content.solutionsTitle}</h3>
                 <ul className="mt-4 space-y-3">
                   {b.solutions.map((s) => (

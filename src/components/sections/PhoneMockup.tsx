@@ -23,16 +23,20 @@ function existsInPublic(src: string) {
 /**
  * Marco de teléfono Android genérico hecho solo con CSS (sin marca de fabricante).
  * Proporción 9:19,5, la de las capturas reales (1080×2340).
+ *
+ * Hover de capturas (spec 007): .phone-hover hace zoom del teléfono completo (marco y captura
+ * juntos, FR-021) y .phone-bezel lleva el anillo y la sombra que pasan a primario y "flotante".
+ * Ver globals.css, sección Estados de interacción.
  */
 export function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`relative ${className}`}>
+    <div className={`phone-hover relative ${className}`}>
       {/* Botones laterales: volumen y encendido */}
       <span aria-hidden="true" className="absolute top-[18%] -right-[3px] h-[9%] w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
       <span aria-hidden="true" className="absolute top-[30%] -right-[3px] h-[6%] w-[3px] rounded-r bg-brand-ink ring-1 ring-line" />
 
       {/* Bisel */}
-      <div className="rounded-[2.6rem] bg-brand-ink p-2.5 shadow-phone ring-1 ring-line">
+      <div className="phone-bezel rounded-[2.6rem] bg-brand-ink p-2.5">
         <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2.1rem] bg-surface-2">
           {/* Cámara perforada */}
           <span
