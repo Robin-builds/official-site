@@ -22,7 +22,7 @@ export function ContactPage({ locale }: { locale: Locale }) {
             <h2 id="contact-form-title" className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
               {c.form.title}
             </h2>
-            <ContactForm content={c.form} message={c.message} locale={locale} />
+            <ContactForm content={c.form} whatsappHref={c.alternatives.direct.href} locale={locale} />
           </div>
           {/* Columna alternativas (US2) */}
           <div className="min-w-0">

@@ -1,5 +1,17 @@
 <!--
 Sync Impact Report
+- Versión: 3.1.0 → 4.0.0 (MAJOR: se redefine el Principio IV; el sitio deja de ser 100% estático
+  para el formulario de Contacto, sesión 2026-11-15)
+- Principios modificados:
+  - IV. Simplicidad: excepción única para la ruta `/api/contact`, que envía el formulario de
+    Contacto por correo al owner con Resend. Sigue prohibido guardar los datos.
+  - II. Una conversión principal por página: en Contacto la CTA principal pasa a ser el envío del
+    formulario por correo; el botón directo a WhatsApp y el QR siguen subordinados.
+- Restricciones técnicas: + variables de entorno RESEND_API_KEY y CONTACT_TO_EMAIL.
+- Impacto en specs existentes: 006-contacto (FR-004, FR-005, FR-010, SC-005) se actualiza.
+- TODOs: ninguno
+
+Sync Impact Report anterior
 - Versión: 3.0.1 → 3.1.0 (MINOR: se amplía materialmente la excepción del Principio II con la
   página "Contacto", spec 006, sesión 2026-11-15)
 - Principios modificados:
@@ -83,8 +95,8 @@ Una afirmación falsa en el sitio invalida toda la estrategia de canal.
 - Cada página MUST tener un solo objetivo primario: instalar la app desde Google Play ("Pruébala gratis").
 - Excepciones: estas páginas tienen como objetivo primario el contacto por WhatsApp:
   - "Sé partner" (antes Contadores).
-  - "Contacto": su CTA principal es el envío del formulario, que arma el mensaje de WhatsApp con
-    los datos del visitante. El botón directo a WhatsApp y el código QR MUST ser visualmente
+  - "Contacto": su CTA principal es el envío del formulario, que manda los datos del visitante
+    por correo a StoreFlow. El botón directo a WhatsApp y el código QR MUST ser visualmente
     subordinados a ese envío.
 - Las CTA secundarias (por ejemplo "Ver cómo funciona", "Ver la guía") MUST ser visualmente
   subordinadas a la principal de esa página.
@@ -113,8 +125,11 @@ cambia (prueba cerrada → producción) y no debe requerir buscar enlaces en el 
 implicar tocar JSX, y repartir el contenido por página evita un archivo inmanejable.
 
 ### IV. Simplicidad
-- El sitio MUST ser 100% estático: sin backend, sin Supabase, sin cuentas, sin CMS, sin buscador con
+- El sitio MUST ser estático: sin backend, sin Supabase, sin cuentas, sin CMS, sin buscador con
   servidor y sin formularios que envíen datos.
+- Única excepción: la ruta `/api/contact` recibe el formulario de Contacto y lo envía por correo
+  al owner con Resend. MUST validar en el servidor y MUST NOT guardar, registrar ni medir los datos
+  (fuera del correo mismo). Cualquier otra ruta de servidor requiere una nueva enmienda.
 - MUST NOT agregarse dependencias (UI kits, librerías de animación, iconos, analytics, MDX) sin
   aprobación explícita del owner, justificada en una línea.
 - Componentes base (Button, Section, Container) solo se crean si se reutilizan en 2+ lugares.
@@ -122,9 +137,8 @@ implicar tocar JSX, y repartir el contenido por página evita un archivo inmanej
 - Una página sin contenido real MUST NOT publicarse ni aparecer en la navegación.
 
 **Justificación:** es el sitio de un producto en etapa temprana; la complejidad no se paga sola.
-Un formulario que solo arma un enlace (por ejemplo, el mensaje de WhatsApp de "Contacto") dentro
-del navegador no "envía datos": nada sale del sitio salvo que el visitante decida mandar el
-mensaje desde WhatsApp. Guardarlos o enviarlos a un servidor sigue prohibido.
+El formulario de Contacto es la excepción porque el owner prefiere recibir esos datos por correo:
+una sola ruta, sin base de datos, que solo reenvía el mensaje.
 
 ### V. Mobile-first y accesible
 - Cada página MUST partir de 360px y escalar a 768px y 1440px, sin scroll horizontal en ninguno.
@@ -170,6 +184,8 @@ que nombra distinto lo que ve en pantalla lo confunde.
   landing. Repo propio: GitHub `Robin-builds/official-site` (remoto `origin`); proyecto Vercel
   `storeflow-official-site`. Independiente también del dashboard `stockflow-web`; no comparten código ni dependencias.
 - Server Components por defecto; cada página se genera de forma estática.
+- `/api/contact` lee `RESEND_API_KEY` y `CONTACT_TO_EMAIL` de las variables de entorno de Vercel;
+  MUST NOT escribirse en el código ni en el repositorio.
 - Antes de usar una API de Next.js o Tailwind, su firma y sintaxis MUST verificarse contra la versión
   instalada (Context7 o docs oficiales). MUST NOT asumirse Tailwind v3 vs v4.
 - Metadata obligatoria por página e idioma: title, description, Open Graph propios, `lang`
@@ -206,4 +222,4 @@ que nombra distinto lo que ve en pantalla lo confunde.
   - MINOR: se agrega un principio o sección, o se amplía materialmente una regla.
   - PATCH: aclaraciones de redacción sin cambio de significado.
 
-**Version**: 3.1.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-15
+**Version**: 4.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-15

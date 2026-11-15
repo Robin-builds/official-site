@@ -13,17 +13,22 @@
 Hoy el sitio solo ofrece contacto por WhatsApp desde el pie y desde "Sé partner". No hay una página
 donde un interesado (dueño de pyme, contador, asesor) deje sus datos para que el owner lo contacte.
 
+**Cambio del owner (sesión 2026-11-15, posterior a la primera versión)**: el formulario ya no
+arma un mensaje de WhatsApp; **envía los datos por correo** al owner mediante la ruta
+`/api/contact` y Resend (constitución 4.0.0, excepción "Contacto" del Principio IV). El botón
+directo y el QR siguen abriendo WhatsApp. Como por correo no llega el número de quien escribe,
+teléfono o correo pasan a ser obligatorios (al menos uno).
+
 **Decisiones del owner (sesión 2026-11-15)**:
 
-- El formulario **no envía datos a ningún servidor**. Al enviarlo, arma un mensaje de WhatsApp con
-  los datos escritos y abre el chat de StoreFlow; el visitante decide si lo manda. Así el sitio
-  sigue siendo 100% estático (Principio IV sin cambios).
+- ~~El formulario no envía datos a ningún servidor; arma un mensaje de WhatsApp.~~ Reemplazado por
+  el cambio de arriba.
 - La página muestra además un botón directo a WhatsApp y un código QR que abre el mismo chat, para
   quien visita desde un computador y quiere escribir desde el celular.
 - El QR es una imagen fija generada una sola vez; se regenera si cambia el número.
 - Número de WhatsApp de StoreFlow: **+56 9 5759 6588** (reemplaza el placeholder del sitio).
-- La conversión principal de la página es el contacto por WhatsApp. Habilitado por la
-  constitución 3.1.0 (Principio II, excepción "Contacto").
+- La conversión principal de la página es el envío del formulario. Habilitado por la
+  constitución 4.0.0 (Principios II y IV, excepción "Contacto").
 - Se incluye el campo opcional "¿En qué te podemos ayudar?" (confirmado por el owner).
 
 ## Clarifications
@@ -113,14 +118,14 @@ para no romper la paridad de idiomas, pero no bloquea la publicación en españo
 
 - **FR-001**: El sitio MUST tener una página "Contacto" (ES `/contacto`; EN `/en/contact`, oculta mientras el inglés no esté publicado) con su propio título, descripción y vista previa para compartir.
 - **FR-002**: "Contacto" MUST aparecer en el menú principal (escritorio y móvil) y en el pie. En el menú MUST ser un enlace con el mismo estilo que los demás, ubicado al final, sin destacarse como botón (Principio II); el enlace "Contacto" del pie, que hoy abre WhatsApp, MUST llevar a esta página. La navegación MUST marcar Contacto como página actual cuando se está en ella.
-- **FR-003**: La página MUST tener un formulario con: nombre (obligatorio), nombre de la empresa (obligatorio), teléfono (opcional), correo (opcional) y "¿En qué te podemos ayudar?" (opcional, máx. 500 caracteres). Cada campo MUST tener etiqueta visible y tipo adecuado (teléfono y correo abren el teclado correspondiente en el celular).
-- **FR-004**: Al enviar el formulario válido, el sitio MUST abrir WhatsApp hacia +56 9 5759 6588 con un mensaje precargado que contenga cada dato completado, rotulado ("Nombre: …", "Empresa: …", etc.), en el idioma de la página. Los campos vacíos opcionales MUST omitirse del mensaje. WhatsApp MUST abrirse en una pestaña nueva, dejando la página de Contacto con el formulario intacto.
-- **FR-005**: El formulario MUST NOT enviar, guardar ni registrar los datos en ningún servidor, almacenamiento ni herramienta de medición. La página MUST decirlo en una línea junto al botón de envío.
-- **FR-006**: El formulario MUST validar antes de abrir WhatsApp: obligatorios no vacíos, correo con formato válido si se escribió, teléfono con 8 a 15 dígitos si se escribió. Los errores MUST mostrarse junto al campo, en texto (no solo color), y anunciarse a lectores de pantalla.
+- **FR-003**: La página MUST tener un formulario con: nombre (obligatorio), nombre de la empresa (obligatorio), teléfono, correo (al menos uno de los dos es obligatorio) y "¿En qué te podemos ayudar?" (opcional, máx. 500 caracteres). Cada campo MUST tener etiqueta visible y tipo adecuado (teléfono y correo abren el teclado correspondiente en el celular).
+- **FR-004**: Al enviar el formulario válido, el sitio MUST mandar un correo al owner (dirección en la variable de entorno `CONTACT_TO_EMAIL`) con cada dato completado, rotulado ("Nombre: …", "Empresa: …", etc.) y el idioma de la página. Los campos vacíos opcionales MUST omitirse. Si el visitante dejó correo, "Responder" MUST contestarle a él. Tras un envío exitoso la página MUST confirmarlo y limpiar el formulario; si falla, MUST conservar los datos y ofrecer WhatsApp como salida.
+- **FR-005**: Los datos MUST NOT guardarse ni registrarse en ninguna base de datos, almacenamiento ni herramienta de medición; solo viajan en el correo. La página MUST decirlo en una línea junto al botón de envío.
+- **FR-006**: El formulario MUST validar antes de enviar, y el servidor MUST repetir la validación: obligatorios no vacíos, correo con formato válido si se escribió, teléfono con 8 a 15 dígitos si se escribió. Los errores MUST mostrarse junto al campo, en texto (no solo color), y anunciarse a lectores de pantalla.
 - **FR-007**: La página MUST mostrar un botón "Escribir por WhatsApp" que abre el chat con el mensaje general precargado en el idioma de la página.
 - **FR-008**: La página MUST mostrar un código QR que abre el mismo chat que el botón directo, con texto alternativo y una indicación breve ("Escanéalo con la cámara de tu celular"). El QR MUST leerse correctamente en tema claro y oscuro. El QR (con su indicación) MUST mostrarse solo desde 768 px de ancho; en pantallas más chicas MUST ocultarse, y ahí el botón "Escribir por WhatsApp" cumple su función.
 - **FR-009**: El número real (+56 9 5759 6588) MUST reemplazar el placeholder en todo el sitio (pie, "Sé partner", Contacto), y MUST definirse en un solo lugar.
-- **FR-010**: La conversión principal de Contacto MUST ser el contacto por WhatsApp (envío del formulario); el botón directo y el QR son alternativas visualmente subordinadas (constitución 3.1.0, Principio II).
+- **FR-010**: La conversión principal de Contacto MUST ser el envío del formulario; el botón directo a WhatsApp y el QR son alternativas visualmente subordinadas (constitución 4.0.0, Principio II).
 - **FR-011**: Todo el copy de la página (etiquetas, ayudas, errores, mensajes precargados, aviso de privacidad) MUST existir en español e inglés.
 - **FR-012**: La página MUST NOT prometer tiempos de respuesta, llamadas, demos ni beneficios que el owner no haya confirmado.
 - **FR-013**: Sin JavaScript, el botón directo y el QR MUST funcionar; el formulario MUST indicar que necesita JavaScript.
@@ -128,7 +133,7 @@ para no romper la paridad de idiomas, pero no bloquea la publicación en españo
 
 ### Key Entities
 
-- **Solicitud de contacto** (efímera, solo en el navegador del visitante): nombre, empresa, teléfono, correo, mensaje. Existe solo para armar el texto de WhatsApp; no se persiste.
+- **Solicitud de contacto** (efímera): nombre, empresa, teléfono, correo, mensaje. Viaja del navegador a `/api/contact` y de ahí al correo del owner; no se persiste en el sitio.
 - **Destino de WhatsApp**: número de StoreFlow + mensaje general por idioma. Lo comparten el botón directo, el QR, el pie y "Sé partner" (este último con su mensaje propio).
 
 ## Success Criteria *(mandatory)*
@@ -136,16 +141,17 @@ para no romper la paridad de idiomas, pero no bloquea la publicación en españo
 ### Measurable Outcomes
 
 - **SC-001**: Desde cualquier página, un visitante llega a Contacto en 1 toque (menú) o en 2 en el celular (abrir menú + tocar).
-- **SC-002**: Un visitante completa el formulario y llega a WhatsApp con sus datos en menos de 1 minuto.
-- **SC-003**: El 100% de los mensajes armados contiene los datos escritos sin caracteres corruptos (probado con tildes, ñ, &, # y emojis).
+- **SC-002**: Un visitante completa y envía el formulario en menos de 1 minuto, y el correo llega al owner.
+- **SC-003**: El 100% de los correos recibidos contiene los datos escritos sin caracteres corruptos (probado con tildes, ñ, &, # y emojis).
 - **SC-004**: El QR se lee al primer intento con la cámara de un celular Android y uno iPhone, en tema claro y oscuro, a 30 cm de un monitor.
-- **SC-005**: Ningún dato del formulario sale del navegador salvo dentro del enlace de WhatsApp (verificable revisando el tráfico de red al enviar).
+- **SC-005**: Los datos del formulario solo salen del navegador en el POST a `/api/contact`, y la ruta no los guarda (verificable revisando el tráfico de red y el código de la ruta).
 - **SC-006**: La página cumple las metas de la constitución: 360/768/1440 px sin scroll horizontal, contraste AA en ambos temas, foco visible, operable con teclado, Lighthouse móvil Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95.
 
 ## Assumptions
 
-- Obligatorios: nombre y empresa. Teléfono y correo son opcionales porque WhatsApp ya entrega el número del visitante; el correo sirve si prefiere respuesta por esa vía.
-- No se agrega un correo de contacto visible del owner; el canal único es WhatsApp.
+- Obligatorios: nombre, empresa y al menos uno entre teléfono y correo (por correo no llega el número del visitante).
+- No se muestra un correo de contacto del owner en el sitio; la dirección de destino vive solo en la variable de entorno.
+- Sin dominio verificado en Resend, el remitente es `onboarding@resend.dev` y solo puede enviar a la dirección dueña de la cuenta de Resend (la del owner).
 - El QR se genera una vez con una herramienta de un solo uso y se guarda como imagen en el sitio; no se agrega ninguna dependencia al proyecto.
 - El mensaje general precargado del botón directo y del QR es el que ya existe ("Hola, quiero saber más de StoreFlow").
 - La página no tiene CTA a Google Play como conversión principal; puede tener un enlace secundario de descarga si el plan lo justifica.
