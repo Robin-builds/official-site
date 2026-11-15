@@ -17,6 +17,12 @@
   --brand-cyan: #2ec6da;
   --brand-orange: #f0921e;
   --brand-ink: #0d1519;
+
+  /* Animación de hover (spec 007 FR-006, FR-020): tarjetas y capturas comparten exactamente
+     la misma duración y curva. Frenado largo: el 80% del recorrido ocurre en los primeros
+     ~120 ms, así se siente ágil pero suave. No depende del tema. */
+  --motion-hover-duration: 300ms;
+  --motion-hover-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /*
@@ -51,9 +57,16 @@
   --on-ok: #0d1519;
   --wordmark-store: var(--brand-cyan);
   --elev-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.6);
-  /* Sombra de tarjeta resaltada (spec 004): mismos tonos, más profunda */
-  --elev-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 20px 40px -16px rgb(0 0 0 / 0.7);
+  /* Sombra de tarjeta resaltada (spec 004, brillo spec 007): más profunda y con un brillo
+     derivado del primario (sin colores nuevos). En oscuro necesita más opacidad para notarse. */
+  --elev-card-hover:
+    0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -16px rgb(0 0 0 / 0.7),
+    0 14px 36px -14px color-mix(in srgb, var(--primary) 35%, transparent);
   --elev-phone: 0 2px 4px rgb(0 0 0 / 0.4), 0 40px 80px -24px rgb(0 0 0 / 0.7);
+  /* Teléfono "flotando" al pasar el mouse (spec 007 FR-019): sombra más larga y difusa */
+  --elev-phone-float:
+    0 4px 8px rgb(0 0 0 / 0.45), 0 56px 100px -24px rgb(0 0 0 / 0.75),
+    0 24px 60px -20px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
 /* ---------- Tema claro: elegido manualmente ---------- */
@@ -83,8 +96,13 @@
   --on-ok: #ffffff;
   --wordmark-store: var(--brand-ink);
   --elev-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
-  --elev-card-hover: 0 2px 4px rgb(15 23 42 / 0.06), 0 16px 32px -12px rgb(15 23 42 / 0.2);
+  --elev-card-hover:
+    0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2),
+    0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent);
   --elev-phone: 0 2px 4px rgb(15 23 42 / 0.08), 0 40px 80px -24px rgb(15 23 42 / 0.35);
+  --elev-phone-float:
+    0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4),
+    0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
 /*
@@ -118,8 +136,13 @@
     --on-ok: #ffffff;
     --wordmark-store: var(--brand-ink);
     --elev-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
-    --elev-card-hover: 0 2px 4px rgb(15 23 42 / 0.06), 0 16px 32px -12px rgb(15 23 42 / 0.2);
+    --elev-card-hover:
+      0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2),
+      0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent);
     --elev-phone: 0 2px 4px rgb(15 23 42 / 0.08), 0 40px 80px -24px rgb(15 23 42 / 0.35);
+    --elev-phone-float:
+      0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4),
+      0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent);
   }
 }
 
