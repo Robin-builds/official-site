@@ -337,24 +337,38 @@
 }
 
 /*
- * ---------- Estados de interacción (spec 004) ----------
- * .card-hover  tarjeta que se resalta (borde primario, sombra más marcada, sube 3 px)
- * .card-ghost  ítem sin caja visible: la caja existe pero es invisible hasta resaltarse
- * .card-icon   contenedor del ícono principal: se llena de primario cuando su tarjeta se resalta
- * .faq-toggle  botón "+" de la FAQ: señal leve en hover/foco, primario cuando la pregunta está abierta
+ * ---------- Estados de interacción (spec 004, valores de la spec 007) ----------
+ * .card-hover   tarjeta que se resalta: borde primario, sombra con brillo, sube --card-lift
+ *               (5 px; los paneles grandes fijan [--card-lift:-4px])
+ * .card-ghost   ítem sin caja visible: la caja existe pero es invisible hasta resaltarse
+ * .card-icon    contenedor del ícono principal: crece, gira y se llena de primario
+ * .card-arrow   flecha de una tarjeta-enlace: avanza hacia la derecha
+ * .phone-hover  marco de teléfono de las capturas: zoom leve del teléfono completo
+ * .phone-bezel  bisel del teléfono: anillo de borde + sombra; flotante al resaltarse
+ * .faq-toggle   botón "+" de la FAQ: señal leve en hover/foco, primario cuando está abierta
  *
  * Reglas fuera de @layer a propósito: así ganan a las utilidades de Tailwind (border-line,
  * bg-accent/12…) sin !important. Por lo mismo, en reposo NO declaran borde, fondo ni sombra
  * (pisarían las utilidades de cada componente); solo la transición.
- * Hover solo con puntero fino que permite hover: en táctil no quedan estados pegados.
- * Movimiento (translate/scale) solo sin movimiento reducido; con él cambian solo colores y sombra.
- * Se usan las propiedades translate/scale/rotate (no transform) porque Tailwind 4 aplica
- * rotate-45 con la propiedad rotate: así no se pisan entre sí y todo queda en la composición.
+ * Hover solo con puntero fino que permite hover; en táctil, respuesta al presionar (:active),
+ * que el navegador quita al soltar o al empezar el scroll: nada queda pegado.
+ * Movimiento (translate/scale/rotate) solo sin movimiento reducido; con él cambian solo colores,
+ * borde y sombra. Se usan las propiedades translate/scale/rotate (no transform) porque Tailwind 4
+ * aplica rotate-45 con la propiedad rotate: así no se pisan entre sí y todo queda en la composición.
+ * Las transiciones de CSS se invierten desde el valor actual si se interrumpen (FR-007).
  */
 .card-hover,
 .card-icon,
-.faq-toggle {
+.card-arrow,
+.phone-hover,
+.phone-bezel {
   transition-property: translate, scale, rotate, box-shadow, border-color, background-color, color;
+  transition-duration: var(--motion-hover-duration);
+  transition-timing-function: var(--motion-hover-ease);
+}
+/* El "+" de la FAQ conserva su animación de la spec 004 (spec 007 FR-018) */
+.faq-toggle {
+  transition-property: rotate, background-color, color;
   transition-duration: 200ms;
   transition-timing-function: ease-out;
 }
@@ -368,7 +382,15 @@
   margin: calc(-0.75rem - 1px);
 }
 
-/* Resaltado con teclado: un descendiente con foco visible (no se agregan tabindex) */
+/* Bisel del teléfono en reposo: mismo anillo de 1 px y sombra que antes (ring-1 ring-line +
+   shadow-phone), pero en un solo box-shadow para que anillo y sombra transicionen juntos.
+   El anillo como sombra no ocupa espacio: resaltarlo no mueve nada (FR-021). */
+.phone-bezel {
+  box-shadow: 0 0 0 1px var(--border), var(--elev-phone);
+}
+
+/* Resaltado con teclado: un descendiente con foco visible (no se agregan tabindex).
+   El carrusel del hero se resalta cuando uno de sus controles (debajo del teléfono) tiene foco. */
 .card-hover:has(:focus-visible) {
   border-color: var(--primary);
   box-shadow: var(--elev-card-hover);
@@ -380,6 +402,9 @@
 .card-hover:has(:focus-visible) .card-icon {
   background-color: var(--primary);
   color: var(--on-primary);
+}
+[data-carousel]:has(:focus-visible) .phone-bezel {
+  box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -396,6 +421,10 @@
     background-color: var(--primary);
     color: var(--on-primary);
   }
+  /* Captura: solo el teléfono dispara el hover, no el texto de su fila (FR-022) */
+  .phone-hover:hover .phone-bezel {
+    box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float);
+  }
 
   /* FAQ cerrada: tono intermedio (primario mezclado con la superficie, sin colores nuevos).
      :not([open]) hace que el estado abierto prevalezca aunque el mouse siga encima. */
@@ -404,21 +433,68 @@
   }
 }
 
-/* Movimiento: solo si el visitante no pidió reducirlo */
+/* Movimiento: solo si el visitante no pidió reducirlo.
+   El ícono gira -6° (FR-009); el que contiene una flecha no gira porque apuntaría a otro lado:
+   en su lugar la flecha avanza 3 px (FR-010). */
 @media (prefers-reduced-motion: no-preference) {
   .card-hover:has(:focus-visible) {
-    translate: 0 -3px;
+    translate: 0 var(--card-lift, -5px);
   }
   .card-hover:has(:focus-visible) .card-icon {
     scale: 1.1;
   }
+  .card-hover:has(:focus-visible) .card-icon:not(:has(.card-arrow)) {
+    rotate: -6deg;
+  }
+  .card-hover:has(:focus-visible) .card-arrow {
+    translate: 3px 0;
+  }
+  [data-carousel]:has(:focus-visible) .phone-hover {
+    scale: 1.04;
+  }
 }
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .card-hover:hover {
-    translate: 0 -3px;
+    translate: 0 var(--card-lift, -5px);
   }
   .card-hover:hover .card-icon {
     scale: 1.1;
+  }
+  .card-hover:hover .card-icon:not(:has(.card-arrow)) {
+    rotate: -6deg;
+  }
+  .card-hover:hover .card-arrow {
+    translate: 3px 0;
+  }
+  /* Zoom del teléfono completo (marco + captura), 4%: ~6 px por lado en el hero (FR-021) */
+  .phone-hover:hover {
+    scale: 1.04;
+  }
+}
+
+/* Táctil (spec 007 FR-013a): al presionar, la tarjeta o el teléfono se hunde levemente y el
+   borde toma el color de marca. Entrada corta (120 ms) para que se sienta inmediato; al soltar
+   vuelve con la animación normal. No retrasa la navegación de las tarjetas-enlace. */
+@media (hover: none) {
+  .card-hover:active {
+    border-color: var(--primary);
+    transition-duration: 120ms;
+  }
+  .card-ghost.card-hover:active {
+    background-color: var(--card-lit-bg, var(--surface));
+  }
+  .phone-hover:active,
+  .phone-hover:active .phone-bezel {
+    transition-duration: 120ms;
+  }
+  .phone-hover:active .phone-bezel {
+    box-shadow: 0 0 0 2px var(--primary), var(--elev-phone);
+  }
+}
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .card-hover:active,
+  .phone-hover:active {
+    scale: 0.98;
   }
 }
 

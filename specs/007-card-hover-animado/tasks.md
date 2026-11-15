@@ -20,7 +20,7 @@ archivo NO son paralelas entre sí.
 
 ## Phase 1: Setup
 
-- [ ] T001 Crear y cambiar a la rama `007-card-hover-animado` desde `main` (constitución: una rama por spec); no requiere instalar nada
+- [X] T001 Crear y cambiar a la rama `007-card-hover-animado` desde `main` (constitución: una rama por spec); no requiere instalar nada
 
 ---
 
@@ -28,10 +28,10 @@ archivo NO son paralelas entre sí.
 
 **Purpose**: tokens compartidos de movimiento y sombra (research R2, R3).
 
-- [ ] T002 En `src/app/globals.css`, agregar antes del bloque de tema oscuro una regla `:root { --motion-hover-duration: 300ms; --motion-hover-ease: cubic-bezier(0.22, 1, 0.36, 1); }` con un comentario que explique que tarjetas y capturas comparten exactamente esta animación (spec 007 FR-006, FR-020) y que no depende del tema
-- [ ] T003 En `src/app/globals.css`, redefinir `--elev-card-hover` en los TRES bloques de tema, agregando la capa de brillo derivada del primario (FR-017, sin hexadecimales nuevos): oscuro (`:root, [data-theme="dark"]`) → `0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -16px rgb(0 0 0 / 0.7), 0 14px 36px -14px color-mix(in srgb, var(--primary) 35%, transparent)`; claro (`[data-theme="light"]` y `:root:not([data-theme])` dentro de `@media (prefers-color-scheme: light)`) → `0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2), 0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent)`. Actualizar el comentario "(spec 004)" a "(spec 004, brillo spec 007)"
-- [ ] T004 En `src/app/globals.css`, agregar `--elev-phone-float` junto a `--elev-phone` en los TRES bloques de tema: oscuro → `0 4px 8px rgb(0 0 0 / 0.45), 0 56px 100px -24px rgb(0 0 0 / 0.75), 0 24px 60px -20px color-mix(in srgb, var(--primary) 35%, transparent)`; claro (ambos bloques) → `0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4), 0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent)`
-- [ ] T005 En `src/app/globals.css`, en la regla compartida `.card-hover, .card-icon, .faq-toggle { transition-… }`, reemplazar `transition-duration: 200ms` por `var(--motion-hover-duration)` y `ease-out` por `var(--motion-hover-ease)`; actualizar el comentario de cabecera de la sección para decir que la spec 007 reemplaza los valores de la 004 (300 ms, elevación 5 px, brillo, giro de ícono) y listar las clases nuevas `.card-arrow`, `.phone-hover` y `.phone-bezel`
+- [X] T002 En `src/app/globals.css`, agregar antes del bloque de tema oscuro una regla `:root { --motion-hover-duration: 300ms; --motion-hover-ease: cubic-bezier(0.22, 1, 0.36, 1); }` con un comentario que explique que tarjetas y capturas comparten exactamente esta animación (spec 007 FR-006, FR-020) y que no depende del tema
+- [X] T003 En `src/app/globals.css`, redefinir `--elev-card-hover` en los TRES bloques de tema, agregando la capa de brillo derivada del primario (FR-017, sin hexadecimales nuevos): oscuro (`:root, [data-theme="dark"]`) → `0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -16px rgb(0 0 0 / 0.7), 0 14px 36px -14px color-mix(in srgb, var(--primary) 35%, transparent)`; claro (`[data-theme="light"]` y `:root:not([data-theme])` dentro de `@media (prefers-color-scheme: light)`) → `0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2), 0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent)`. Actualizar el comentario "(spec 004)" a "(spec 004, brillo spec 007)"
+- [X] T004 En `src/app/globals.css`, agregar `--elev-phone-float` junto a `--elev-phone` en los TRES bloques de tema: oscuro → `0 4px 8px rgb(0 0 0 / 0.45), 0 56px 100px -24px rgb(0 0 0 / 0.75), 0 24px 60px -20px color-mix(in srgb, var(--primary) 35%, transparent)`; claro (ambos bloques) → `0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4), 0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent)`
+- [X] T005 En `src/app/globals.css`, en la regla compartida `.card-hover, .card-icon, .faq-toggle { transition-… }`, reemplazar `transition-duration: 200ms` por `var(--motion-hover-duration)` y `ease-out` por `var(--motion-hover-ease)`; actualizar el comentario de cabecera de la sección para decir que la spec 007 reemplaza los valores de la 004 (300 ms, elevación 5 px, brillo, giro de ícono) y listar las clases nuevas `.card-arrow`, `.phone-hover` y `.phone-bezel`
 
 **Checkpoint**: tokens listos; las tarjetas existentes ya animan a 300 ms con la curva nueva y la sombra con brillo.
 
@@ -43,10 +43,10 @@ archivo NO son paralelas entre sí.
 
 **Independent Test**: [quickstart.md](quickstart.md) pasos 1 y 2 en `/`, `/ayuda`, `/para-tu-negocio`, `/se-partner` (y `/en/...`), claro y oscuro.
 
-- [ ] T006 [US1] En `src/app/globals.css`, cambiar `translate: 0 -3px` por `translate: 0 var(--card-lift, -5px)` en los DOS bloques de movimiento (`@media (prefers-reduced-motion: no-preference)` con `:has(:focus-visible)` y el combinado con `(hover: hover) and (pointer: fine)` con `:hover`); comentar que los paneles grandes fijan `--card-lift: -4px` (FR-005)
-- [ ] T007 [P] [US1] En `src/components/sections/BusinessList.tsx`, agregar `card-hover [--card-lift:-4px]` al `className` de los DOS `div` "rounded-card border border-line bg-surface-2 p-6" (panel de problemas y panel de soluciones); no agregar `card-icon` a las alertas ni a los checks (FR-011)
-- [ ] T008 [P] [US1] En `src/components/sections/PartnerPanel.tsx`, agregar `card-hover [--card-lift:-4px]` al `div` del panel "grid gap-10 rounded-[2rem] border border-accent/40 bg-surface-2 …"; el borde `accent/40` pasa a primario al resaltarse (research R7); no tocar los checks ni el botón
-- [ ] T009 [US1] Verificar US1 con [quickstart.md](quickstart.md) pasos 1–2: elevación 5 px (paneles 4 px), borde primario, brillo visible sin parecer neón en oscuro, 300 ms en Computed, sin saltos al interrumpir, sin scroll horizontal a 360 px; ajustar el % del brillo en T003/T004 solo si se ve excesivo
+- [X] T006 [US1] En `src/app/globals.css`, cambiar `translate: 0 -3px` por `translate: 0 var(--card-lift, -5px)` en los DOS bloques de movimiento (`@media (prefers-reduced-motion: no-preference)` con `:has(:focus-visible)` y el combinado con `(hover: hover) and (pointer: fine)` con `:hover`); comentar que los paneles grandes fijan `--card-lift: -4px` (FR-005)
+- [X] T007 [P] [US1] En `src/components/sections/BusinessList.tsx`, agregar `card-hover [--card-lift:-4px]` al `className` de los DOS `div` "rounded-card border border-line bg-surface-2 p-6" (panel de problemas y panel de soluciones); no agregar `card-icon` a las alertas ni a los checks (FR-011)
+- [X] T008 [P] [US1] En `src/components/sections/PartnerPanel.tsx`, agregar `card-hover [--card-lift:-4px]` al `div` del panel "grid gap-10 rounded-[2rem] border border-accent/40 bg-surface-2 …"; el borde `accent/40` pasa a primario al resaltarse (research R7); no tocar los checks ni el botón
+- [X] T009 [US1] Verificar US1 con [quickstart.md](quickstart.md) pasos 1–2: elevación 5 px (paneles 4 px), borde primario, brillo visible sin parecer neón en oscuro, 300 ms en Computed, sin saltos al interrumpir, sin scroll horizontal a 360 px; ajustar el % del brillo en T003/T004 solo si se ve excesivo
 
 **Checkpoint**: US1 entregable sola (MVP).
 
@@ -58,10 +58,10 @@ archivo NO son paralelas entre sí.
 
 **Independent Test**: pasar el mouse por el texto de una tarjeta lejos del ícono (Problemas, Beneficios, Atajos, guías de Ayuda).
 
-- [ ] T010 [US2] En `src/app/globals.css`, en los DOS bloques de movimiento donde está `scale: 1.1` de `.card-icon`, agregar `rotate: -6deg` (FR-009, ≤ 6°)
-- [ ] T011 [US2] En `src/app/globals.css`, crear `.card-arrow`: agregarla a la lista de la regla de transición compartida (T005) y, en los DOS bloques de movimiento, `.card-hover:has(:focus-visible) .card-arrow` / `.card-hover:hover .card-arrow` → `translate: 3px 0`; además `.card-hover .card-icon:has(.card-arrow) { rotate: 0deg; }` en esos mismos bloques (una flecha inclinada apunta mal, research R4). Comentar el porqué
-- [ ] T012 [US2] En `src/components/sections/Shortcuts.tsx`, agregar `card-arrow` al `className` del `svg` de la flecha (hoy `size-4`); no agregar flechas a `HelpPage.tsx` (FR-010)
-- [ ] T013 [US2] Verificar US2: ícono escala + gira y se llena de primario al pasar por cualquier parte de la tarjeta; en Atajos la flecha avanza 3 px y su contenedor no gira; checks, alertas y números de paso de Cómo funciona no cambian; contraste del ícono resaltado ≥ 3:1 en ambos temas
+- [X] T010 [US2] En `src/app/globals.css`, en los DOS bloques de movimiento donde está `scale: 1.1` de `.card-icon`, agregar `rotate: -6deg` (FR-009, ≤ 6°)
+- [X] T011 [US2] En `src/app/globals.css`, crear `.card-arrow`: agregarla a la lista de la regla de transición compartida (T005) y, en los DOS bloques de movimiento, `.card-hover:has(:focus-visible) .card-arrow` / `.card-hover:hover .card-arrow` → `translate: 3px 0`; además `.card-hover .card-icon:has(.card-arrow) { rotate: 0deg; }` en esos mismos bloques (una flecha inclinada apunta mal, research R4). Comentar el porqué
+- [X] T012 [US2] En `src/components/sections/Shortcuts.tsx`, agregar `card-arrow` al `className` del `svg` de la flecha (hoy `size-4`); no agregar flechas a `HelpPage.tsx` (FR-010)
+- [X] T013 [US2] Verificar US2: ícono escala + gira y se llena de primario al pasar por cualquier parte de la tarjeta; en Atajos la flecha avanza 3 px y su contenedor no gira; checks, alertas y números de paso de Cómo funciona no cambian; contraste del ícono resaltado ≥ 3:1 en ambos temas
 
 ---
 
@@ -71,8 +71,8 @@ archivo NO son paralelas entre sí.
 
 **Independent Test**: [quickstart.md](quickstart.md) pasos 4, 5 y 6.
 
-- [ ] T014 [US3] En `src/app/globals.css`, agregar el estado Presionado (FR-013a): `@media (hover: none) { .card-hover:active { border-color: var(--primary); transition-duration: 120ms; } .card-ghost.card-hover:active { background-color: var(--card-lit-bg, var(--surface)); } }` y `@media (hover: none) and (prefers-reduced-motion: no-preference) { .card-hover:active { scale: 0.98; } }`; comentar que `:active` se quita al soltar, cancelar o empezar el scroll (research R5)
-- [ ] T015 [US3] En `src/components/sections/Shortcuts.tsx` y `src/components/pages/HelpPage.tsx`, agregar `[-webkit-tap-highlight-color:transparent]` al `className` del `Link` de cada tarjeta para que el gris del sistema no se superponga al hundimiento (depende de T012 en Shortcuts: misma línea de archivo, hacer después)
+- [X] T014 [US3] En `src/app/globals.css`, agregar el estado Presionado (FR-013a): `@media (hover: none) { .card-hover:active { border-color: var(--primary); transition-duration: 120ms; } .card-ghost.card-hover:active { background-color: var(--card-lit-bg, var(--surface)); } }` y `@media (hover: none) and (prefers-reduced-motion: no-preference) { .card-hover:active { scale: 0.98; } }`; comentar que `:active` se quita al soltar, cancelar o empezar el scroll (research R5)
+- [X] T015 [US3] En `src/components/sections/Shortcuts.tsx` y `src/components/pages/HelpPage.tsx`, agregar `[-webkit-tap-highlight-color:transparent]` al `className` del `Link` de cada tarjeta para que el gris del sistema no se superponga al hundimiento (depende de T012 en Shortcuts: misma línea de archivo, hacer después)
 - [ ] T016 [US3] Verificar US3: Tab por Atajos, guías de Ayuda y panel de Sé partner (resaltado con foco, sin tabindex nuevos); `prefers-reduced-motion: reduce` (sin translate/scale/rotate); `forced-colors: active`; Android e iPhone reales (hundimiento, nada pegado tras scroll, un toque navega). Si en iPhone no hay hundimiento, aplicar el fallback de research R5 (atributo `ontouchstart=""` en el `<body>` del layout raíz) y documentarlo con un comentario
 
 ---
@@ -83,18 +83,18 @@ archivo NO son paralelas entre sí.
 
 **Independent Test**: [quickstart.md](quickstart.md) paso 3.
 
-- [ ] T017 [US4] En `src/app/globals.css`, crear las clases del contrato ([contracts/interaction-states.md](contracts/interaction-states.md)): `.phone-hover, .phone-bezel` en la regla de transición compartida (propiedades `scale` y `box-shadow`); `.phone-bezel { box-shadow: 0 0 0 1px var(--border), var(--elev-phone); }` (reposo idéntico a hoy); resaltado `box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float)` en `@media (hover: hover) and (pointer: fine) { .phone-hover:hover .phone-bezel }` y en `[data-carousel]:has(:focus-visible) .phone-bezel`; `scale: 1.04` en `.phone-hover:hover` y `[data-carousel]:has(:focus-visible) .phone-hover` solo dentro de `prefers-reduced-motion: no-preference`; Presionado táctil en `@media (hover: none)`: `.phone-hover:active .phone-bezel` anillo primario y, sin movimiento reducido, `.phone-hover:active { scale: 0.98; }` con 120 ms
-- [ ] T018 [US4] En `src/components/sections/PhoneMockup.tsx` (`PhoneFrame`): agregar `phone-hover` al `div` exterior (`relative ${className}`) y, en el bisel, reemplazar `shadow-phone ring-1 ring-line` por `phone-bezel`; actualizar el comentario de `PhoneFrame` (hover de spec 007, el zoom se aplica al teléfono completo, FR-021). No tocar `ScreensCarousel.tsx`, `FeatureGroups.tsx` ni `GuideSteps.tsx`
-- [ ] T019 [US4] Verificar US4: hero, `/funcionalidades` y una guía; zoom ~4%, anillo primario 2 px, sombra flotante en ambos temas; el texto de la fila no reacciona; el carrusel pausa con el mouse y sigue igual (avance, botones, indicadores); Tab en los controles del carrusel resalta el teléfono; captura pendiente (placeholder) se comporta igual; reposo idéntico a antes del cambio
+- [X] T017 [US4] En `src/app/globals.css`, crear las clases del contrato ([contracts/interaction-states.md](contracts/interaction-states.md)): `.phone-hover, .phone-bezel` en la regla de transición compartida (propiedades `scale` y `box-shadow`); `.phone-bezel { box-shadow: 0 0 0 1px var(--border), var(--elev-phone); }` (reposo idéntico a hoy); resaltado `box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float)` en `@media (hover: hover) and (pointer: fine) { .phone-hover:hover .phone-bezel }` y en `[data-carousel]:has(:focus-visible) .phone-bezel`; `scale: 1.04` en `.phone-hover:hover` y `[data-carousel]:has(:focus-visible) .phone-hover` solo dentro de `prefers-reduced-motion: no-preference`; Presionado táctil en `@media (hover: none)`: `.phone-hover:active .phone-bezel` anillo primario y, sin movimiento reducido, `.phone-hover:active { scale: 0.98; }` con 120 ms
+- [X] T018 [US4] En `src/components/sections/PhoneMockup.tsx` (`PhoneFrame`): agregar `phone-hover` al `div` exterior (`relative ${className}`) y, en el bisel, reemplazar `shadow-phone ring-1 ring-line` por `phone-bezel`; actualizar el comentario de `PhoneFrame` (hover de spec 007, el zoom se aplica al teléfono completo, FR-021). No tocar `ScreensCarousel.tsx`, `FeatureGroups.tsx` ni `GuideSteps.tsx`
+- [X] T019 [US4] Verificar US4: hero, `/funcionalidades` y una guía; zoom ~4%, anillo primario 2 px, sombra flotante en ambos temas; el texto de la fila no reacciona; el carrusel pausa con el mouse y sigue igual (avance, botones, indicadores); Tab en los controles del carrusel resalta el teléfono; captura pendiente (placeholder) se comporta igual; reposo idéntico a antes del cambio
 
 ---
 
 ## Phase 7: Polish & Cross-Cutting
 
-- [ ] T020 [P] Actualizar `specs/004-hover-interaction-states/contracts/interaction-states.md` con una nota al inicio: "Valores reemplazados por la spec 007; ver specs/007-card-hover-animado/contracts/interaction-states.md"
-- [ ] T021 Ejecutar `npm run lint` y `npm run build` sin errores ni warnings nuevos
+- [X] T020 [P] Actualizar `specs/004-hover-interaction-states/contracts/interaction-states.md` con una nota al inicio: "Valores reemplazados por la spec 007; ver specs/007-card-hover-animado/contracts/interaction-states.md"
+- [X] T021 Ejecutar `npm run lint` y `npm run build` sin errores ni warnings nuevos
 - [ ] T022 Revisión final con [quickstart.md](quickstart.md) pasos 7–8: CLS 0, contraste ≥ 3:1 de bordes e íconos en ambos temas, sin scroll horizontal a 360 px, Lighthouse móvil en `/`, `/funcionalidades` y `/para-tu-negocio` con Performance ≥ 90 y Accessibility ≥ 95; ambos idiomas
-- [ ] T023 Commit en Conventional Commits (`style: hover animado en tarjetas y capturas (spec 007)`) en la rama `007-card-hover-animado`
+- [X] T023 Commit en Conventional Commits (`style: hover animado en tarjetas y capturas (spec 007)`) en la rama `007-card-hover-animado`
 
 ---
 
