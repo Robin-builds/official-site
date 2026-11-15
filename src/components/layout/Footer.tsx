@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { URLS, ui, whatsapp } from "@/content/site";
+import { URLS, ui } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { isPublished, navItems } from "@/lib/i18n";
+import { getPage, isPublished, navItems, pageHref } from "@/lib/i18n";
 
 // Año calculado al construir la página (es estática). Fuera del render para mantener
 // el componente puro; se actualiza en cada deploy.
@@ -14,17 +14,21 @@ const BUILD_YEAR = new Date().getFullYear();
 const linkClass = "inline-flex min-h-8 items-center rounded-sm text-muted-2 transition-colors hover:text-fg";
 
 /**
- * Pie común (FR-004): todas las páginas publicadas del idioma (incluida "Sé partner", que solo
- * está aquí, y Privacidad cuando tiene texto), más Contacto por WhatsApp en el idioma de la
- * página, Ingresar, Privacidad externa mientras no haya texto propio y chileapps.cl.
+ * Pie común (FR-004): en "Sitio", todas las páginas publicadas del idioma (incluida "Sé partner",
+ * que solo está aquí, y Privacidad cuando tiene texto) salvo Contacto. En "Contacto y cuenta":
+ * la página Contacto (enlace interno, spec 006 R9), Ingresar, Privacidad externa mientras no
+ * haya texto propio y, abajo, chileapps.cl.
  */
 export function Footer({ locale }: { locale: Locale }) {
   const t = ui[locale];
-  const internal = navItems(locale, () => true);
+  // Contacto va en la otra columna: no se repite aquí
+  const internal = navItems(locale, (p) => p.key !== "contact");
+  const contact = isPublished("contact", locale)
+    ? { href: pageHref("contact", locale), label: getPage("contact").locales[locale].navLabel }
+    : null;
 
   // Externos; todos salen de URLS (Principio II)
   const external = [
-    { label: t.footer.contactLabel, href: whatsapp[locale].general },
     { label: t.footer.loginLabel, href: URLS.webAppLogin },
     // Privacidad propia publicada → ya está en la lista interna (research R11)
     ...(isPublished("privacy", locale) ? [] : [{ label: t.footer.privacyLabel, href: URLS.privacyPolicy }]),
@@ -59,6 +63,14 @@ export function Footer({ locale }: { locale: Locale }) {
           <div>
             <h2 className="text-sm font-semibold text-fg">{t.footer.moreTitle}</h2>
             <ul className="mt-3 flex flex-col gap-1 text-sm">
+              {/* Contacto primero: página propia, misma pestaña */}
+              {contact && (
+                <li>
+                  <Link href={contact.href} className={linkClass}>
+                    {contact.label}
+                  </Link>
+                </li>
+              )}
               {external.map((link) => (
                 <li key={link.label}>
                   <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>

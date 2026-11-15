@@ -45,6 +45,8 @@
   --accent: #f0921e;
   --accent-text: #f0921e;
   --danger: #ef4444;
+  /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
+  --qr-bg: #ffffff;
   --ok: #5dcaa5;
   --on-ok: #0d1519;
   --wordmark-store: var(--brand-cyan);
@@ -75,6 +77,8 @@
   --accent: #f0921e;
   --accent-text: #b45309;
   --danger: #dc2626;
+  /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
+  --qr-bg: #ffffff;
   --ok: #047857;
   --on-ok: #ffffff;
   --wordmark-store: var(--brand-ink);
@@ -108,6 +112,8 @@
     --accent: #f0921e;
     --accent-text: #b45309;
     --danger: #dc2626;
+    /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
+    --qr-bg: #ffffff;
     --ok: #047857;
     --on-ok: #ffffff;
     --wordmark-store: var(--brand-ink);
@@ -139,6 +145,7 @@
   --color-accent: var(--accent);
   --color-accent-text: var(--accent-text);
   --color-danger: var(--danger);
+  --color-qr-bg: var(--qr-bg);
   --color-ok: var(--ok);
   --color-on-ok: var(--on-ok);
   --color-brand-cyan: var(--brand-cyan);

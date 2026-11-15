@@ -1,5 +1,19 @@
 <!--
 Sync Impact Report
+- Versión: 3.0.1 → 3.1.0 (MINOR: se amplía materialmente la excepción del Principio II con la
+  página "Contacto", spec 006, sesión 2026-11-15)
+- Principios modificados:
+  - II. Una conversión principal por página: la excepción pasa de una página ("Sé partner") a
+    dos ("Sé partner" y "Contacto"); en Contacto el objetivo primario es el envío del formulario
+    que arma el mensaje de WhatsApp, y el botón directo y el QR quedan subordinados.
+  - IV. Simplicidad: sin cambio de reglas; se aclara en su justificación que un formulario que
+    solo arma un enlace en el navegador no envía datos.
+- Secciones añadidas/eliminadas: ninguna
+- Impacto en specs existentes: 005 FR-015 se lee con la nueva excepción; 006-contacto FR-010
+  queda habilitado.
+- TODOs: ninguno
+
+Sync Impact Report anterior
 - Versión: 3.0.0 → 3.0.1 (PATCH: la excepción del Principio II pasa de "Contadores" a "Sé partner",
   mismo significado; aclaración de la spec 005, sesión 2026-11-10)
 
@@ -67,8 +81,11 @@ Una afirmación falsa en el sitio invalida toda la estrategia de canal.
 
 ### II. Una conversión principal por página
 - Cada página MUST tener un solo objetivo primario: instalar la app desde Google Play ("Pruébala gratis").
-- Excepción: la página "Sé partner" (antes Contadores) tiene como objetivo primario el contacto
-  por WhatsApp.
+- Excepciones: estas páginas tienen como objetivo primario el contacto por WhatsApp:
+  - "Sé partner" (antes Contadores).
+  - "Contacto": su CTA principal es el envío del formulario, que arma el mensaje de WhatsApp con
+    los datos del visitante. El botón directo a WhatsApp y el código QR MUST ser visualmente
+    subordinados a ese envío.
 - Las CTA secundarias (por ejemplo "Ver cómo funciona", "Ver la guía") MUST ser visualmente
   subordinadas a la principal de esa página.
 - Los enlaces del menú de navegación y del pie no cuentan como CTA y MUST NOT competir visualmente
@@ -105,6 +122,9 @@ implicar tocar JSX, y repartir el contenido por página evita un archivo inmanej
 - Una página sin contenido real MUST NOT publicarse ni aparecer en la navegación.
 
 **Justificación:** es el sitio de un producto en etapa temprana; la complejidad no se paga sola.
+Un formulario que solo arma un enlace (por ejemplo, el mensaje de WhatsApp de "Contacto") dentro
+del navegador no "envía datos": nada sale del sitio salvo que el visitante decida mandar el
+mensaje desde WhatsApp. Guardarlos o enviarlos a un servidor sigue prohibido.
 
 ### V. Mobile-first y accesible
 - Cada página MUST partir de 360px y escalar a 768px y 1440px, sin scroll horizontal en ninguno.
@@ -186,4 +206,4 @@ que nombra distinto lo que ve en pantalla lo confunde.
   - MINOR: se agrega un principio o sección, o se amplía materialmente una regla.
   - PATCH: aclaraciones de redacción sin cambio de significado.
 
-**Version**: 3.0.1 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-10
+**Version**: 3.1.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-15
