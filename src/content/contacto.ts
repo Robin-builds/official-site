@@ -1,8 +1,9 @@
 /**
  * "CONTACTO" (`/contacto`, `/en/contact`; spec 006).
  *
- * Formulario que arma un mensaje de WhatsApp con los datos del visitante, más un botón directo
- * y un QR como alternativas subordinadas (excepción "Contacto" del Principio II, constitución 3.1.0).
+ * Formulario que envía los datos del visitante por correo a StoreFlow (ruta /api/contact, vía
+ * Resend), más un botón directo a WhatsApp y un QR como alternativas subordinadas (excepciones
+ * "Contacto" de los Principios II y IV, constitución 4.0.0).
  *
  * Reglas de la constitución que aplican a este archivo:
  * - Principio I (veracidad) y FR-012: sin tiempos de respuesta, llamadas, demos ni beneficios.
@@ -19,7 +20,9 @@ import { whatsapp } from "./site";
 import type { Cta, Localized } from "./types";
 
 export type ContactField = "name" | "company" | "phone" | "email" | "message";
-export type ContactError = "required" | "email" | "phone";
+// "length" solo lo produce el servidor ante un envío que no pasó por el formulario: sin texto propio
+// "reach": falta teléfono y correo a la vez (al menos uno es obligatorio)
+export type ContactError = "required" | "email" | "phone" | "reach" | "length";
 
 export type ContactContent = {
   header: { title: string; subtitle: string };
@@ -32,11 +35,15 @@ export type ContactContent = {
     errorSummary: { one: string; other: string };
     submit: string;
     privacyNote: string; // FR-005, junto al botón de envío
-    sent: { text: string; link: string }; // aviso tras el envío + enlace de respaldo (R6)
+    sending: string; // texto del botón mientras se envía
+    sent: string; // aviso tras un envío exitoso
+    // Aviso si el envío falla: texto + enlace a WhatsApp como salida
+    failed: { text: string; link: string };
     noScript: string; // FR-013
   };
-  // Texto que viaja en el mensaje de WhatsApp (en el idioma de la página)
-  message: { greeting: string; labels: Record<ContactField, string> };
+  // Correo que recibe StoreFlow. La ruta usa siempre el español (lo lee el owner) y agrega el
+  // idioma de la página; el inglés existe porque el Principio III exige ambos idiomas.
+  message: { subject: string; greeting: string; labels: Record<ContactField, string> };
   alternatives: {
     title: string;
     body: string;
@@ -49,34 +56,38 @@ export const contacto: Localized<ContactContent> = {
   es: {
     header: {
       title: "Conversemos",
-      subtitle: "Déjanos tus datos y se arma un mensaje de WhatsApp para StoreFlow. Tú decides si lo envías.",
+      subtitle: "Déjanos tus datos y te contactamos. Si prefieres, escríbenos directo por WhatsApp.",
     },
     form: {
       title: "Envíanos tus datos",
       fields: {
         name: { label: "Nombre" },
         company: { label: "Nombre de tu empresa" },
-        phone: { label: "Teléfono", hint: "Opcional" },
-        email: { label: "Correo", hint: "Opcional" },
+        phone: { label: "Teléfono", hint: "Teléfono o correo: deja al menos uno" },
+        email: { label: "Correo", hint: "Teléfono o correo: deja al menos uno" },
         message: { label: "¿En qué te podemos ayudar?", hint: "Opcional, hasta 500 caracteres" },
       },
       errors: {
         name: { required: "Escribe tu nombre." },
         company: { required: "Escribe el nombre de tu empresa." },
-        phone: { phone: "Revisa el teléfono: debe tener entre 8 y 15 números, por ejemplo +56 9 1234 5678." },
+        phone: {
+          phone: "Revisa el teléfono: debe tener entre 8 y 15 números, por ejemplo +56 9 1234 5678.",
+          reach: "Déjanos un teléfono o un correo para poder responderte.",
+        },
         email: { email: "Revisa el correo: debe verse como nombre@empresa.cl." },
         message: {},
       },
       errorSummary: { one: "Revisa 1 campo.", other: "Revisa {n} campos." },
-      submit: "Enviar por WhatsApp",
-      privacyNote:
-        "Tus datos no se guardan en este sitio: solo se agregan al mensaje de WhatsApp, y tú decides si lo envías.",
-      sent: { text: "Abrimos WhatsApp en una pestaña nueva. ¿No se abrió?", link: "Abrir WhatsApp" },
-      noScript:
-        "Para armar el mensaje con tus datos, este formulario necesita JavaScript. Puedes escribirnos directo por WhatsApp.",
+      submit: "Enviar",
+      privacyNote: "Tus datos nos llegan por correo y solo los usamos para responderte. Este sitio no los guarda.",
+      sending: "Enviando…",
+      sent: "Listo, recibimos tus datos. Te contactaremos.",
+      failed: { text: "No pudimos enviar tus datos. Inténtalo de nuevo o", link: "escríbenos por WhatsApp" },
+      noScript: "Para enviar tus datos, este formulario necesita JavaScript. Puedes escribirnos directo por WhatsApp.",
     },
     message: {
-      greeting: "Hola, quiero saber más de StoreFlow. Mis datos:",
+      subject: "Nuevo contacto desde el sitio",
+      greeting: "Alguien dejó sus datos en la página de Contacto:",
       labels: { name: "Nombre", company: "Empresa", phone: "Teléfono", email: "Correo", message: "Mensaje" },
     },
     alternatives: {
@@ -93,34 +104,38 @@ export const contacto: Localized<ContactContent> = {
   en: {
     header: {
       title: "Let's talk",
-      subtitle: "Leave us your details and a WhatsApp message to StoreFlow is put together. You decide whether to send it.",
+      subtitle: "Leave us your details and we'll contact you. If you prefer, message us directly on WhatsApp.",
     },
     form: {
       title: "Send us your details",
       fields: {
         name: { label: "Name" },
         company: { label: "Your company name" },
-        phone: { label: "Phone", hint: "Optional" },
-        email: { label: "Email", hint: "Optional" },
+        phone: { label: "Phone", hint: "Phone or email: leave at least one" },
+        email: { label: "Email", hint: "Phone or email: leave at least one" },
         message: { label: "How can we help you?", hint: "Optional, up to 500 characters" },
       },
       errors: {
         name: { required: "Enter your name." },
         company: { required: "Enter your company name." },
-        phone: { phone: "Check the phone number: it must have 8 to 15 digits, for example +56 9 1234 5678." },
+        phone: {
+          phone: "Check the phone number: it must have 8 to 15 digits, for example +56 9 1234 5678.",
+          reach: "Leave us a phone number or an email so we can reply to you.",
+        },
         email: { email: "Check the email: it should look like name@company.com." },
         message: {},
       },
       errorSummary: { one: "Check 1 field.", other: "Check {n} fields." },
-      submit: "Send it on WhatsApp",
-      privacyNote:
-        "Your details aren't stored on this site: they're only added to the WhatsApp message, and you decide whether to send it.",
-      sent: { text: "We opened WhatsApp in a new tab. Didn't it open?", link: "Open WhatsApp" },
-      noScript:
-        "To put the message together with your details, this form needs JavaScript. You can message us directly on WhatsApp.",
+      submit: "Send",
+      privacyNote: "Your details reach us by email and we only use them to reply to you. This site doesn't store them.",
+      sending: "Sending…",
+      sent: "Done, we got your details. We'll contact you.",
+      failed: { text: "We couldn't send your details. Try again or", link: "message us on WhatsApp" },
+      noScript: "To send your details, this form needs JavaScript. You can message us directly on WhatsApp.",
     },
     message: {
-      greeting: "Hi, I'd like to know more about StoreFlow. My details:",
+      subject: "New contact from the site",
+      greeting: "Someone left their details on the Contact page:",
       labels: { name: "Name", company: "Company", phone: "Phone", email: "Email", message: "Message" },
     },
     alternatives: {

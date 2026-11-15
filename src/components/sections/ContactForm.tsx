@@ -6,13 +6,12 @@ import { ui } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { buttonClasses } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { CONTACT_FIELDS, contactLink, validateContact, validateField } from "@/lib/contact";
+import { CONTACT_FIELDS, MAX_LENGTH, validateContact } from "@/lib/contact";
 import type { ContactData, ContactErrors } from "@/lib/contact";
 
 /*
- * Formulario de Contacto (spec 006, US1). Valida en el navegador, arma un mensaje rotulado y
- * abre wa.me en una pestaña nueva. Nada sale del navegador salvo dentro de ese enlace (SC-005):
- * sin fetch, sin almacenamiento, sin cookies, sin medición.
+ * Formulario de Contacto (spec 006, US1). Valida en el navegador y envía los datos a
+ * /api/contact, que los manda por correo a StoreFlow. Sin almacenamiento, cookies ni medición.
  *
  * Sin JavaScript (research R7): el <fieldset> se renderiza deshabilitado hasta hidratar y los
  * campos no tienen atributo `name`, así un envío nativo por GET no puede llevar datos.
@@ -31,10 +30,10 @@ const EMPTY: ContactData = { name: "", company: "", phone: "", email: "", messag
 
 // Atributos propios de cada campo (data-model.md): tipo, autocompletado y largo máximo (R4)
 const FIELD_ATTRS: Record<ContactField, React.InputHTMLAttributes<HTMLInputElement>> = {
-  name: { autoComplete: "name", maxLength: 100 },
-  company: { autoComplete: "organization", maxLength: 100 },
-  phone: { type: "tel", inputMode: "tel", autoComplete: "tel", maxLength: 30 },
-  email: { type: "email", autoComplete: "email", maxLength: 254 },
+  name: { autoComplete: "name", maxLength: MAX_LENGTH.name },
+  company: { autoComplete: "organization", maxLength: MAX_LENGTH.company },
+  phone: { type: "tel", inputMode: "tel", autoComplete: "tel", maxLength: MAX_LENGTH.phone },
+  email: { type: "email", autoComplete: "email", maxLength: MAX_LENGTH.email },
   message: {}, // textarea: ver abajo
 };
 
@@ -46,59 +45,85 @@ const fieldId = (field: ContactField) => `contact-${field}`;
 const inputClass =
   "mt-2 block min-h-11 w-full rounded-button border bg-surface px-3 py-2 text-base text-fg transition-colors";
 
-type Status = { kind: "errors"; count: number } | { kind: "sent"; url: string } | null;
+type Status =
+  | { kind: "errors"; count: number }
+  | { kind: "sending" }
+  | { kind: "sent" }
+  | { kind: "failed" }
+  | null;
 
 export function ContactForm({
   content,
-  message,
+  whatsappHref,
   locale,
 }: {
   content: ContactContent["form"];
-  message: ContactContent["message"];
+  whatsappHref: string; // salida si el envío falla
   locale: Locale;
 }) {
   const hydrated = useHydrated();
   const [data, setData] = useState<ContactData>(EMPTY);
+  // Campo trampa para bots (ver /api/contact): una persona nunca lo ve ni lo llena
+  const [website, setWebsite] = useState("");
   const [errors, setErrors] = useState<ContactErrors>({});
   // Tras el primer intento de envío, cada campo se revalida al escribir (R5)
   const [attempted, setAttempted] = useState(false);
   const [status, setStatus] = useState<Status>(null);
+  const sending = status?.kind === "sending";
 
   function update(field: ContactField, value: string) {
-    setData((d) => ({ ...d, [field]: value }));
+    const nextData = { ...data, [field]: value };
+    setData(nextData);
     if (attempted) {
-      const next = { ...errors, [field]: validateField(field, value) };
-      if (!next[field]) delete next[field];
+      // Todo el formulario: el error "falta teléfono o correo" se resuelve escribiendo en otro campo
+      const next = validateContact(nextData);
       setErrors(next);
       // Resumen de errores: se quita cuando ya no queda ninguno (no se reanuncia en cada tecla)
       if (status?.kind === "errors" && Object.keys(next).length === 0) setStatus(null);
     }
-    // El enlace del aviso "enviado" quedaría con los datos viejos: se quita al editar
-    if (status?.kind === "sent") setStatus(null);
+    // Los avisos de enviado o de falla se refieren a un envío anterior: se quitan al editar
+    if (status?.kind === "sent" || status?.kind === "failed") setStatus(null);
   }
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function showErrors(found: ContactErrors) {
+    const invalid = CONTACT_FIELDS.filter((f) => found[f]);
+    setErrors(found);
+    setStatus({ kind: "errors", count: invalid.length });
+    // Foco al primer campo con error, en el orden del formulario (FR-006)
+    document.getElementById(fieldId(invalid[0]))?.focus();
+  }
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (sending) return; // evita envíos dobles
     setAttempted(true);
     const found = validateContact(data);
     setErrors(found);
+    if (Object.keys(found).length > 0) return showErrors(found);
 
-    const invalid = CONTACT_FIELDS.filter((f) => found[f]);
-    if (invalid.length > 0) {
-      setStatus({ kind: "errors", count: invalid.length });
-      // Foco al primer campo con error, en el orden del formulario (FR-006)
-      document.getElementById(fieldId(invalid[0]))?.focus();
-      return;
+    setStatus({ kind: "sending" });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ locale, data, website }),
+      });
+      const json: { ok: boolean; errors?: ContactErrors } = await res.json().catch(() => ({ ok: false }));
+      if (json.ok) {
+        // Enviado: se limpia el formulario para que no parezca pendiente ni se reenvíe
+        setData(EMPTY);
+        setAttempted(false);
+        setStatus({ kind: "sent" });
+      } else if (json.errors && Object.keys(json.errors).length > 0) {
+        // El servidor revalida; solo difiere si alguien saltó el formulario
+        showErrors(json.errors);
+      } else {
+        setStatus({ kind: "failed" });
+      }
+    } catch {
+      // Sin conexión o el servidor no respondió: se conservan los datos para reintentar
+      setStatus({ kind: "failed" });
     }
-
-    const url = contactLink(data, message);
-    // Pestaña nueva dentro del gesto del usuario. No se pasa "noopener" porque hace que
-    // window.open devuelva null; se corta la referencia a mano (R6).
-    const w = window.open(url, "_blank");
-    if (w) w.opener = null;
-    // Siempre se muestra el enlace de respaldo, por si un bloqueador frenó la pestaña.
-    // El formulario no se limpia (R6).
-    setStatus({ kind: "sent", url });
   }
 
   return (
@@ -107,7 +132,7 @@ export function ContactForm({
         <p className="mb-6 rounded-card border border-line bg-surface-2 p-4 text-fg">{content.noScript}</p>
       </noscript>
 
-      <form noValidate onSubmit={onSubmit}>
+      <form noValidate onSubmit={onSubmit} aria-busy={sending}>
         <fieldset disabled={!hydrated} className="min-w-0 disabled:opacity-60">
           <div className="grid gap-5 sm:grid-cols-2">
           {CONTACT_FIELDS.map((field) => {
@@ -143,7 +168,7 @@ export function ContactForm({
                   <textarea
                     {...common}
                     rows={4}
-                    maxLength={500}
+                    maxLength={MAX_LENGTH.message}
                     autoComplete="off"
                     onChange={(e) => update(field, e.target.value)}
                   />
@@ -162,7 +187,18 @@ export function ContactForm({
           })}
           </div>
 
-          {/* Región viva: resumen de errores o aviso de enviado con enlace de respaldo.
+          {/* Trampa para bots: fuera de pantalla, sin foco con Tab y oculta a lectores de pantalla */}
+          <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
+
+          {/* Región viva: resumen de errores, aviso de enviado o de falla (con salida a WhatsApp).
               Siempre presente (vacía no ocupa espacio) para que los lectores la anuncien. */}
           <div role="status">
             {status?.kind === "errors" && (
@@ -173,25 +209,34 @@ export function ContactForm({
                 )}
               </p>
             )}
-            {status?.kind === "sent" && (
-              <p className="mt-5 text-fg">
-                {content.sent.text}{" "}
-                <a
-                  href={status.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-link underline underline-offset-4"
-                >
-                  {content.sent.link}
-                  <span className="sr-only"> {ui[locale].a11y.newTab}</span>
-                </a>
+            {status?.kind === "sent" && <p className="mt-5 font-medium text-fg">{content.sent}</p>}
+            {status?.kind === "failed" && (
+              <p className="mt-5 flex gap-2 font-medium text-danger">
+                <Icon name="alert" className="mt-1 size-4 shrink-0" />
+                <span>
+                  {content.failed.text}{" "}
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-link underline underline-offset-4"
+                  >
+                    {content.failed.link}
+                    <span className="sr-only"> {ui[locale].a11y.newTab}</span>
+                  </a>
+                  .
+                </span>
               </p>
             )}
           </div>
 
           <div className="mt-6 flex flex-col items-start gap-3">
-            <button type="submit" className={buttonClasses("primary", "lg")}>
-              {content.submit}
+            <button
+              type="submit"
+              disabled={sending}
+              className={`${buttonClasses("primary", "lg")} disabled:cursor-wait disabled:opacity-70`}
+            >
+              {sending ? content.sending : content.submit}
             </button>
             <p className="text-sm text-fg-2">{content.privacyNote}</p>
           </div>
