@@ -19,7 +19,7 @@ export function FaqGroups({ content, locale }: { content: PreguntasContent; loca
         {content.groups.map((group) => (
           <div key={group.id} id={group.id} className="scroll-mt-20">
             <h2 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">{group.title}</h2>
-            <div className="mt-6 divide-y divide-line rounded-card border border-line bg-surface-2 px-5 sm:px-8">
+            <div className="mt-6 divide-y divide-line rounded-card border border-card-line bg-surface-2 px-5 sm:px-8">
               {group.items.map((item) => {
                 const guide = readyGuide(item.guide);
                 return (

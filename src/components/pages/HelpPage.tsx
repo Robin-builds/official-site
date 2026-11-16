@@ -23,7 +23,7 @@ export function HelpPage({ locale }: { locale: Locale }) {
             {readyGuides().map((guide, i) => {
               const text = guide.locales[locale];
               return (
-                <li key={guide.key} className="card-hover rounded-card border border-line bg-surface-2">
+                <li key={guide.key} className="card-hover rounded-card border border-card-line bg-surface-2">
                   <Link href={guideHref(guide.key, locale)} className="flex h-full gap-4 rounded-card p-6 [-webkit-tap-highlight-color:transparent]">
                     <span
                       aria-hidden="true"

@@ -129,7 +129,7 @@ export function ContactForm({
   return (
     <div className="mt-6">
       <noscript>
-        <p className="mb-6 rounded-card border border-line bg-surface-2 p-4 text-fg">{content.noScript}</p>
+        <p className="mb-6 rounded-card border border-card-line bg-surface-2 p-4 text-fg">{content.noScript}</p>
       </noscript>
 
       <form noValidate onSubmit={onSubmit} aria-busy={sending}>

@@ -39,6 +39,9 @@
   --surface: #1c2029;
   --surface-2: #21252f;
   --border: rgb(255 255 255 / 0.07);
+  /* Bordes de tarjeta (spec 008): en oscuro son los mismos de siempre; el tema claro los
+     cambia a naranjo */
+  --card-border: var(--border);
   --text-1: #f5f5f5;
   --text-2: #d1d5db;
   --text-3: #9ca3af;
@@ -50,6 +53,7 @@
   --link: #2ec6da;
   --accent: #f0921e;
   --accent-text: #f0921e;
+  --card-accent: var(--primary);
   --danger: #ef4444;
   /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
   --qr-bg: #ffffff;
@@ -58,51 +62,62 @@
   --wordmark-store: var(--brand-cyan);
   --elev-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -16px rgb(0 0 0 / 0.6);
   /* Sombra de tarjeta resaltada (spec 004, brillo spec 007): más profunda y con un brillo
-     derivado del primario (sin colores nuevos). En oscuro necesita más opacidad para notarse. */
+     derivado del acento de tarjeta (sin colores nuevos; en oscuro = primario, spec 008).
+     En oscuro necesita más opacidad para notarse. */
   --elev-card-hover:
     0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -16px rgb(0 0 0 / 0.7),
-    0 14px 36px -14px color-mix(in srgb, var(--primary) 35%, transparent);
+    0 14px 36px -14px color-mix(in srgb, var(--card-accent) 35%, transparent);
   --elev-phone: 0 2px 4px rgb(0 0 0 / 0.4), 0 40px 80px -24px rgb(0 0 0 / 0.7);
   /* Teléfono "flotando" al pasar el mouse (spec 007 FR-019): sombra más larga y difusa */
   --elev-phone-float:
     0 4px 8px rgb(0 0 0 / 0.45), 0 56px 100px -24px rgb(0 0 0 / 0.75),
-    0 24px 60px -20px color-mix(in srgb, var(--primary) 35%, transparent);
+    0 24px 60px -20px color-mix(in srgb, var(--card-accent) 35%, transparent);
 }
 
 /* ---------- Tema claro: elegido manualmente ---------- */
 [data-theme="light"] {
   color-scheme: light;
-  --bg-top: #ffffff;
-  --bg-mid: #f8fafc;
-  --bg-bottom: #f1f5f9;
+  /* Página gris y superficies blancas: en claro canvas y surface eran el mismo blanco y las
+     secciones no alternaban (spec 008 R1) */
+  --bg-top: #e9edf2;
+  --bg-mid: #e3e8ee;
+  --bg-bottom: #dce2e9;
   --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
+  /* Durazno derivado del naranjo de marca: 1.32:1 contra blanco, 1.12:1 contra canvas
+     (spec 008 R7) */
+  --surface-2: #f8dcb8;
+  --border: #c3cdd9;
+  /* ≈ 85% naranjo de marca + blanco; ≥ 1.5:1 contra canvas, surface y surface-2 */
+  --card-border: #f2a240;
   --text-1: #0f172a;
   --text-2: #475569;
-  --text-3: #64748b;
-  /* text-3 sobre #F1F5F9 da 4.34:1 (< AA); sobre surface-2/bg-bottom se usa text-2 (7.2:1) */
+  --text-3: #526072;
+  /* text-3 cumple AA en todos los fondos claros (≥ 4.8:1); se mantiene text-2 como auxiliar
+     sobre surface-2 */
   --text-muted-on-2: #475569;
-  --primary: #0e7490;
-  --primary-hover: #155e75;
+  --primary: #155e75;
+  --primary-hover: #164e63;
   --on-primary: #ffffff;
-  --link: #0e7490;
+  --link: #155e75;
   --accent: #f0921e;
-  --accent-text: #b45309;
-  --danger: #dc2626;
+  --accent-text: #92400e;
+  /* Naranjo oscuro de la familia del naranjo de marca; ≥ 3:1 contra todos los fondos claros,
+     el naranjo puro no llega */
+  --card-accent: #b45309;
+  --danger: #b91c1c;
   /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
   --qr-bg: #ffffff;
-  --ok: #047857;
+  --ok: #065f46;
   --on-ok: #ffffff;
   --wordmark-store: var(--brand-ink);
-  --elev-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
+  --elev-card: 0 1px 2px rgb(15 23 42 / 0.06), 0 8px 24px -12px rgb(15 23 42 / 0.18);
   --elev-card-hover:
     0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2),
-    0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent);
+    0 14px 36px -14px color-mix(in srgb, var(--card-accent) 25%, transparent);
   --elev-phone: 0 2px 4px rgb(15 23 42 / 0.08), 0 40px 80px -24px rgb(15 23 42 / 0.35);
   --elev-phone-float:
     0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4),
-    0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent);
+    0 24px 60px -20px color-mix(in srgb, var(--card-accent) 25%, transparent);
 }
 
 /*
@@ -113,36 +128,42 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     color-scheme: light;
-    --bg-top: #ffffff;
-    --bg-mid: #f8fafc;
-    --bg-bottom: #f1f5f9;
+    /* Página gris y superficies blancas (spec 008 R1) */
+    --bg-top: #e9edf2;
+    --bg-mid: #e3e8ee;
+    --bg-bottom: #dce2e9;
     --surface: #ffffff;
-    --surface-2: #f1f5f9;
-    --border: #e2e8f0;
+    /* Durazno derivado del naranjo de marca (spec 008 R7) */
+    --surface-2: #f8dcb8;
+    --border: #c3cdd9;
+    /* ≈ 85% naranjo de marca + blanco; ≥ 1.5:1 contra canvas, surface y surface-2 */
+    --card-border: #f2a240;
     --text-1: #0f172a;
     --text-2: #475569;
-    --text-3: #64748b;
+    --text-3: #526072;
     --text-muted-on-2: #475569;
-    --primary: #0e7490;
-    --primary-hover: #155e75;
+    --primary: #155e75;
+    --primary-hover: #164e63;
     --on-primary: #ffffff;
-    --link: #0e7490;
+    --link: #155e75;
     --accent: #f0921e;
-    --accent-text: #b45309;
-    --danger: #dc2626;
+    --accent-text: #92400e;
+    /* Naranjo oscuro; ≥ 3:1 contra todos los fondos claros */
+    --card-accent: #b45309;
+    --danger: #b91c1c;
     /* Fondo del QR: siempre claro, las cámaras no leen QR invertidos (spec 006 FR-008) */
     --qr-bg: #ffffff;
-    --ok: #047857;
+    --ok: #065f46;
     --on-ok: #ffffff;
     --wordmark-store: var(--brand-ink);
-    --elev-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
+    --elev-card: 0 1px 2px rgb(15 23 42 / 0.06), 0 8px 24px -12px rgb(15 23 42 / 0.18);
     --elev-card-hover:
       0 2px 4px rgb(15 23 42 / 0.06), 0 20px 40px -12px rgb(15 23 42 / 0.2),
-      0 14px 36px -14px color-mix(in srgb, var(--primary) 25%, transparent);
+      0 14px 36px -14px color-mix(in srgb, var(--card-accent) 25%, transparent);
     --elev-phone: 0 2px 4px rgb(15 23 42 / 0.08), 0 40px 80px -24px rgb(15 23 42 / 0.35);
     --elev-phone-float:
       0 4px 8px rgb(15 23 42 / 0.1), 0 56px 100px -24px rgb(15 23 42 / 0.4),
-      0 24px 60px -20px color-mix(in srgb, var(--primary) 25%, transparent);
+      0 24px 60px -20px color-mix(in srgb, var(--card-accent) 25%, transparent);
   }
 }
 
@@ -157,6 +178,8 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-line: var(--border);
+  --color-card-line: var(--card-border);
+  --color-card-accent: var(--card-accent);
   --color-fg: var(--text-1);
   --color-fg-2: var(--text-2);
   --color-fg-3: var(--text-3);
@@ -338,7 +361,8 @@
 
 /*
  * ---------- Estados de interacción (spec 004, valores de la spec 007) ----------
- * .card-hover   tarjeta que se resalta: borde primario, sombra con brillo, sube --card-lift
+ * .card-hover   tarjeta que se resalta: borde de acento de tarjeta (--card-accent: primario en
+ *               oscuro, naranjo oscuro en claro, spec 008), sombra con brillo, sube --card-lift
  *               (5 px; los paneles grandes fijan [--card-lift:-4px])
  * .card-ghost   ítem sin caja visible: la caja existe pero es invisible hasta resaltarse
  * .card-icon    contenedor del ícono principal: crece, gira y se llena de primario
@@ -392,7 +416,7 @@
 /* Resaltado con teclado: un descendiente con foco visible (no se agregan tabindex).
    El carrusel del hero se resalta cuando uno de sus controles (debajo del teléfono) tiene foco. */
 .card-hover:has(:focus-visible) {
-  border-color: var(--primary);
+  border-color: var(--card-accent);
   box-shadow: var(--elev-card-hover);
 }
 .card-ghost.card-hover:has(:focus-visible) {
@@ -404,12 +428,12 @@
   color: var(--on-primary);
 }
 [data-carousel]:has(:focus-visible) .phone-bezel {
-  box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float);
+  box-shadow: 0 0 0 2px var(--card-accent), var(--elev-phone-float);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .card-hover:hover {
-    border-color: var(--primary);
+    border-color: var(--card-accent);
     box-shadow: var(--elev-card-hover);
   }
   .card-ghost.card-hover:hover {
@@ -423,7 +447,7 @@
   }
   /* Captura: solo el teléfono dispara el hover, no el texto de su fila (FR-022) */
   .phone-hover:hover .phone-bezel {
-    box-shadow: 0 0 0 2px var(--primary), var(--elev-phone-float);
+    box-shadow: 0 0 0 2px var(--card-accent), var(--elev-phone-float);
   }
 
   /* FAQ cerrada: tono intermedio (primario mezclado con la superficie, sin colores nuevos).
@@ -477,7 +501,7 @@
    vuelve con la animación normal. No retrasa la navegación de las tarjetas-enlace. */
 @media (hover: none) {
   .card-hover:active {
-    border-color: var(--primary);
+    border-color: var(--card-accent);
     transition-duration: 120ms;
   }
   .card-ghost.card-hover:active {
@@ -488,7 +512,7 @@
     transition-duration: 120ms;
   }
   .phone-hover:active .phone-bezel {
-    box-shadow: 0 0 0 2px var(--primary), var(--elev-phone);
+    box-shadow: 0 0 0 2px var(--card-accent), var(--elev-phone);
   }
 }
 @media (hover: none) and (prefers-reduced-motion: no-preference) {

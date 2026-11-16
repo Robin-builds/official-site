@@ -14,7 +14,7 @@ export function Testimonials({ testimonials }: { testimonials: InicioContent["te
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.items.map((t) => (
           <li key={t.name}>
-            <figure className="card-hover h-full rounded-card border border-line bg-surface p-6 shadow-card">
+            <figure className="card-hover h-full rounded-card border border-card-line bg-surface p-6 shadow-card">
               <blockquote className="text-fg">“{t.quote}”</blockquote>
               <figcaption className="mt-4 text-sm">
                 <span className="font-semibold text-fg">{t.name}</span>

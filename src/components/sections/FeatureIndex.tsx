@@ -10,7 +10,7 @@ export function FeatureIndex({ label, items }: { label: string; items: { id: str
           <li key={item.id} className="shrink-0">
             <a
               href={`#${item.id}`}
-              className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-fg transition-colors hover:border-primary hover:text-primary"
+              className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface px-4 text-sm font-semibold text-fg transition-colors hover:border-card-accent hover:text-primary"
             >
               {item.title}
             </a>

@@ -10,7 +10,7 @@ export function Problems({ problems }: { problems: InicioContent["problems"] }) 
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {problems.items.map((item) => (
           // En celular, ícono al lado del texto para acortar Inicio (SC-003)
-          <li key={item.title} className="card-hover flex gap-4 rounded-card border border-line bg-surface p-5 shadow-card sm:block sm:p-6">
+          <li key={item.title} className="card-hover flex gap-4 rounded-card border border-card-line bg-surface p-5 shadow-card sm:block sm:p-6">
             <span className="card-icon grid size-11 shrink-0 place-items-center rounded-xl bg-accent/12 text-accent">
               <Icon name={item.icon} />
             </span>
