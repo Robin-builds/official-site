@@ -4,7 +4,7 @@
 
 **Created**: 2026-11-16
 
-**Status**: Draft — requiere enmienda de la constitución (5.0.0) antes de `/speckit-plan`
+**Status**: Draft — habilitada por la constitución 5.0.0 (enmendada 2026-11-16)
 
 **Input**: User description: "Spec — Apartado 'Planes' (pricing) del site: comunicar la oferta de planes a prospectos PYME y medir willingness-to-pay por tier antes de congelar precios y construir cobro. El apartado es vitrina e instrumento de smoke test: el clic a cada tier es la señal de disposición a pagar." (descripción completa del owner en la sesión 2026-11-16).
 
@@ -33,6 +33,9 @@ Dispositivo primario: celular.
 - Q: ¿Cómo se concilia mostrar montos y funciones que hoy no existen (multiempresa, prueba de 14 días) con el Principio I (Veracidad)? → A: Se enmienda el Principio I para permitir **montos referenciales** solo en la página Planes, con el aviso visible "Precios referenciales, pueden cambiar". Lo que hoy no existe en la app (varias empresas por cuenta, prueba de 14 días) se marca **"Próximamente"**.
 - Q: ¿Dónde se guardan las intenciones y los clics? → A: Las **intenciones se envían por correo al owner**, igual que el formulario de Contacto (no se guardan en una base de datos). Los **clics se registran con una herramienta de medición liviana**, sin datos personales.
 - Q: ¿El apartado es una página propia o una sección de Inicio? → A: **Página propia "Planes"**, con enlace en el menú; `#planes` lleva al apartado de planes dentro de esa página. Inicio no cambia.
+- Q: Además del número de bodegas, ¿qué funciones existentes quedan reservadas para los planes pagos? → A: Free: 1 bodega, 1 usuario, productos, movimientos, alertas y funciona sin internet. Standard: hasta 3 bodegas + usuarios con roles + panel web + reportes y exportar Excel. Premium: bodegas ilimitadas + todo Standard + varias empresas (Próximamente) + atención prioritaria.
+- Q: ¿El formulario de intención debe pedir solo el correo, o también un teléfono/WhatsApp? → A: Correo obligatorio + WhatsApp opcional.
+- Q: Al tocar "Quiero el plan X", ¿el formulario aparece en una ventana sobre la página, dentro de la tarjeta o en una sección debajo? → A: Ventana sobre la página; se cierra con Esc o con la X y el foco vuelve al botón.
 - (Del pedido) Aclaración #1 — CTA = smoke test: confirmado, no cobra.
 - (Del pedido) Aclaración #4 — redondeo anual: resuelto con la regla 10 × mensual ("2 meses gratis").
 
@@ -77,7 +80,7 @@ cambio.
 ### User Story 2 - Decir "quiero este plan" sin pagar (Priority: P1)
 
 El mismo dueño toca "Quiero el plan Standard". Se abre un formulario corto que ya sabe qué plan y
-qué periodicidad eligió; escribe su correo y lo envía. Ve un mensaje honesto: "Recibimos tu interés
+qué periodicidad eligió; escribe su correo (y, si quiere, su WhatsApp) y lo envía. Ve un mensaje honesto: "Recibimos tu interés
 en Standard. Te contactamos para contarte cómo empezar." No se le pide tarjeta ni se le cobra nada.
 
 El owner recibe un correo que identifica el plan y la periodicidad, con el correo del visitante.
@@ -94,9 +97,10 @@ verificar que no hubo ningún contacto con un medio de pago.
 **Acceptance Scenarios**:
 
 1. **Given** un plan pago, **When** el visitante toca su botón, **Then** se cuenta un clic con ese plan y la periodicidad visible, y se abre el formulario de intención con el nombre del plan.
-2. **Given** el formulario abierto, **When** el visitante lo cierra sin enviar, **Then** el clic ya quedó contado y no se envía ningún correo.
+2. **Given** la ventana del formulario abierta, **When** el visitante la cierra sin enviar (Esc, "Cerrar" o tocando fuera), **Then** el clic ya quedó contado, no se envía ningún correo y el foco vuelve al botón del plan.
 3. **Given** el formulario con un correo válido, **When** lo envía, **Then** el owner recibe exactamente 1 correo con plan, periodicidad, precio mostrado, correo del visitante, fecha y hora, idioma y origen (campaña o página de procedencia, si existe), y el visitante ve la confirmación.
 4. **Given** el formulario con el correo vacío o con formato inválido, **When** intenta enviarlo, **Then** el sitio indica el error, no envía nada y conserva lo escrito.
+4b. **Given** un correo válido y un WhatsApp escrito con formato inválido, **When** intenta enviarlo, **Then** el sitio indica el error en el WhatsApp y no envía nada; si deja el WhatsApp vacío, el envío funciona.
 5. **Given** cualquier botón de plan, **When** se usa, **Then** no se inicia cobro, no se piden datos de tarjeta y no se contacta ningún medio de pago.
 6. **Given** el plan Free, **When** el visitante toca "Empezar gratis", **Then** va a la descarga de la app en Google Play (no al formulario), y el clic se cuenta como activación, separado de la intención de pago.
 7. **Given** la confirmación, **When** se lee, **Then** dice que StoreFlow lo contactará y no promete cobro automático, activación inmediata ni un precio garantizado.
@@ -174,6 +178,11 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 
 - **FR-001**: La página MUST mostrar exactamente 3 planes, en este orden: Free, Standard, Premium.
 - **FR-002**: Cada plan MUST mostrar: nombre, precio, periodicidad, una frase de posicionamiento, su límite principal, la lista de lo que incluye y un botón (CTA).
+- **FR-002b**: Lo incluido en cada plan MUST ser:
+  - **Free**: 1 bodega, 1 usuario, productos, movimientos (entradas, salidas y ajustes), alertas de stock mínimo, funciona sin internet.
+  - **Standard**: hasta 3 bodegas, todo lo de Free, usuarios con roles (Administrador y Operador), panel web, reportes y exportar a Excel.
+  - **Premium**: bodegas ilimitadas, todo lo de Standard, varias empresas en una cuenta (Próximamente), atención prioritaria.
+  Las listas de Standard y Premium MUST abrir con "Todo lo de Free" / "Todo lo de Standard" en vez de repetir ítems.
 - **FR-003**: Exactamente un plan, Standard, MUST destacarse como recomendado ("Recomendado"), y su botón MUST ser la acción visualmente principal de la página.
 - **FR-004**: El límite principal de cada plan MUST expresarse en bodegas (no en usuarios ni productos).
 - **FR-005**: Precios, límites, listas de lo incluido, marcas "Próximamente", textos y la marca de recomendado MUST provenir de una única fuente de contenido; cambiar un precio o un límite MUST NOT requerir cambios de estructura ni de presentación.
@@ -186,13 +195,13 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 
 **Prueba de disposición a pagar**
 
-- **FR-011**: El botón de cada plan pago ("Quiero el plan Standard" / "Quiero el plan Premium") MUST abrir un formulario de intención con el plan y la periodicidad ya indicados. MUST NOT iniciar cobro, pedir datos de pago ni contactar un medio de pago.
+- **FR-011**: El botón de cada plan pago ("Quiero el plan Standard" / "Quiero el plan Premium") MUST abrir un formulario de intención con el plan y la periodicidad ya indicados, en una ventana sobre la página (los planes quedan detrás). La ventana MUST cerrarse con Esc, con un botón "Cerrar" y tocando fuera de ella; al abrirse, el foco MUST ir al campo de correo y quedar dentro de la ventana; al cerrarse, MUST volver al botón que la abrió. Tras un envío exitoso, la confirmación se muestra en la misma ventana. MUST NOT iniciar cobro, pedir datos de pago ni contactar un medio de pago.
 - **FR-012**: El botón del plan Free MUST decir "Empezar gratis" y llevar a la descarga de la app en Google Play, usando el mismo destino que el resto del sitio. MUST NOT abrir el formulario de intención.
-- **FR-013**: El formulario de intención MUST pedir solo el correo (obligatorio). MUST validar su formato antes de enviar y en el servidor; un envío inválido MUST NOT generar correo.
-- **FR-014**: Al enviarse un formulario válido, el sistema MUST enviar exactamente un correo al owner con: plan, periodicidad, precio mostrado, correo del visitante, fecha y hora, idioma y origen (parámetros de campaña y página de procedencia, si existen). El asunto MUST identificar plan y periodicidad (por ejemplo "Planes · Standard · Anual"). El sitio MUST NOT guardar estos datos.
+- **FR-013**: El formulario de intención MUST pedir dos campos: correo (obligatorio) y WhatsApp (opcional, celular chileno). MUST validar el formato de ambos antes de enviar y en el servidor; un correo vacío o inválido, o un WhatsApp escrito con formato inválido, MUST NOT generar correo. Un WhatsApp vacío es válido.
+- **FR-014**: Al enviarse un formulario válido, el sistema MUST enviar exactamente un correo al owner con: plan, periodicidad, precio mostrado, correo del visitante, WhatsApp (si lo dejó), fecha y hora, idioma y origen (parámetros de campaña y página de procedencia, si existen). El asunto MUST identificar plan y periodicidad (por ejemplo "Planes · Standard · Anual"). El sitio MUST NOT guardar estos datos.
 - **FR-015**: El sistema MUST contar cada clic en el botón de un plan (los 3), con el plan y la periodicidad visible, aunque el visitante no envíe el formulario. Clics y envíos MUST medirse por separado. El clic de Free MUST identificarse como activación, no como intención de pago. El conteo MUST NOT incluir datos personales.
 - **FR-016**: Tras un envío exitoso, el sitio MUST mostrar una confirmación honesta ("Te contactamos") que MUST NOT prometer cobro automático, activación inmediata ni precio garantizado.
-- **FR-017**: Junto al formulario MUST indicarse para qué se usa el correo (que StoreFlow lo contacte sobre ese plan) y enlazar la política de privacidad. La política de privacidad MUST actualizarse para declarar este dato, que llega por correo al owner, su uso, cómo pedir que se borre, y la medición de clics sin datos personales.
+- **FR-017**: Junto al formulario MUST indicarse para qué se usan el correo y el WhatsApp (que StoreFlow lo contacte sobre ese plan) y enlazar la política de privacidad. La política de privacidad MUST actualizarse para declarar estos datos, que llegan por correo al owner, su uso, cómo pedir que se borre, y la medición de clics sin datos personales.
 - **FR-019**: El owner MUST poder ver, para un período, los clics contados por plan, periodicidad y tipo (intención de pago o activación).
 
 **Navegación, idioma y acceso**
@@ -205,7 +214,7 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 ### Key Entities
 
 - **Plan**: identificador (free / standard / premium), nombre, frase de posicionamiento, precio mensual (CLP, sin IVA), límite de bodegas, lista de lo incluido (cada ítem con marca "Próximamente" si corresponde), texto del botón, marca de recomendado. El precio anual se deriva (10 × mensual).
-- **Intención de plan** (correo al owner, no se guarda en el sitio): plan, periodicidad, precio mostrado, correo del visitante, fecha y hora, idioma, origen (opcional).
+- **Intención de plan** (correo al owner, no se guarda en el sitio): plan, periodicidad, precio mostrado, correo del visitante, WhatsApp (opcional), fecha y hora, idioma, origen (opcional).
 - **Clic de plan** (conteo): plan, periodicidad visible, tipo (intención de pago o activación), idioma. Sin datos personales.
 
 ## Success Criteria *(mandatory)*
@@ -216,9 +225,10 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 - **SC-002**: Una verificación automática del contenido falla si hay un número de planes distinto de 3, si el orden no es Free → Standard → Premium o si a algún plan le falta nombre, precio, frase, límite, lista de lo incluido o botón.
 - **SC-003**: Al tocar el botón de cada uno de los 3 planes, se cuenta un clic con el identificador correcto de ese plan (3 de 3 verificados); el de Free queda marcado como activación.
 - **SC-004**: Un envío con correo válido genera exactamente 1 correo al owner con plan, periodicidad, precio mostrado, correo del visitante, fecha y hora, y origen.
-- **SC-005**: Un envío con correo vacío o inválido es rechazado y genera 0 correos.
+- **SC-005**: Un envío con correo vacío o inválido, o con un WhatsApp escrito con formato inválido, es rechazado y genera 0 correos; un envío con WhatsApp vacío y correo válido genera 1.
 - **SC-006**: Con Anual seleccionado, el precio de cada plan pago es exactamente 10 × su precio mensual y lleva la etiqueta de ahorro (2 de 2 planes pagos verificados); Free sigue en $0.
 - **SC-007**: Usar cualquiera de los 3 botones genera 0 contactos con medios de pago y 0 solicitudes de datos de tarjeta.
+- **SC-007b**: La ventana del formulario se abre, se completa, se envía y se cierra usando solo el teclado, y el foco nunca queda detrás de ella mientras está abierta.
 - **SC-008**: Los textos de precio, límites y listas de lo incluido no tienen fallas de contraste AA, en tema claro y oscuro.
 - **SC-009**: Exactamente 1 plan está marcado como recomendado, y es Standard.
 - **SC-010**: El límite principal visible de los 3 planes está expresado en bodegas.
@@ -233,7 +243,8 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 ## Assumptions
 
 - **[pivote, confirmado]** Los botones de planes pagos son una prueba de disposición a pagar: capturan intención y **no cobran**. El cobro, la pasarela y la emisión de DTE quedan para otra feature.
-- Los precios son **referenciales, a validar**; viven en la fuente de contenido y se ajustan sin tocar estructura. Valores iniciales sugeridos (a confirmar por el owner): Free $0 · 1 bodega; Standard $9.990/mes + IVA · hasta 3 bodegas; Premium $19.990/mes + IVA · bodegas ilimitadas + varias empresas (Próximamente).
+- Los precios son **referenciales, a validar**; viven en la fuente de contenido y se ajustan sin tocar estructura. Montos iniciales sugeridos (a confirmar por el owner): Free $0; Standard $9.990/mes + IVA; Premium $19.990/mes + IVA. Lo incluido en cada plan está fijado en FR-002b.
+- La distribución de funciones de FR-002b es vitrina: la app no las restringe por plan (fuera de alcance).
 - Convención de impuesto: **"+ IVA"** (la PYME descuenta el IVA). Propuesta del owner; se adopta.
 - Regla anual: **10 × mensual ("2 meses gratis")**, con cifras redondas y verificable automáticamente.
 - El correo de intención llega a la misma casilla del owner que el formulario de Contacto.
@@ -259,6 +270,7 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 | FR | Cubierto por |
 |----|--------------|
 | FR-001, FR-002, FR-005 | SC-002 |
+| FR-002b | SC-002 (cada lista no vacía), revisión de contenido contra FR-002b |
 | FR-003 | SC-009 |
 | FR-004 | SC-010 |
 | FR-006, FR-018 | SC-014 |
@@ -266,7 +278,7 @@ con la marca "Próximamente", y que ningún otro plan la menciona.
 | FR-008 | SC-006 |
 | FR-009 | SC-012 |
 | FR-010 | SC-016, US-5 escenario 1 |
-| FR-011, FR-012 | SC-007, US-2 escenario 6 |
+| FR-011, FR-012 | SC-007, SC-007b, US-2 escenarios 2 y 6 |
 | FR-013 | SC-005 |
 | FR-014 | SC-004 |
 | FR-015 | SC-003 |
