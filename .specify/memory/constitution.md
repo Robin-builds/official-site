@@ -1,5 +1,25 @@
 <!--
 Sync Impact Report
+- Versión: 4.0.0 → 5.0.0 (MAJOR: se redefinen los Principios I, II y IV para la página "Planes",
+  spec 009-planes-pricing, sesión 2026-11-16)
+- Principios modificados:
+  - I. Veracidad del contenido: excepción para la página Planes, que puede mostrar montos
+    referenciales con el aviso "Precios referenciales, pueden cambiar"; las funciones que hoy no
+    existen en la app se muestran como "Próximamente". Fuera de Planes siguen prohibidos los montos.
+  - II. Una conversión principal por página: nueva excepción "Planes" (conversión principal = botón
+    del plan recomendado, que abre el formulario de intención). Se corrige el encabezado de
+    excepciones, que aún decía "contacto por WhatsApp" aunque Contacto ya envía por correo.
+  - IV. Simplicidad: segunda ruta de servidor permitida (formulario de intención de planes, envía
+    correo y no guarda datos); se aprueba una herramienta de medición liviana, sin datos personales,
+    solo para contar clics de los botones de planes.
+- Restricciones técnicas: la ruta de planes reutiliza RESEND_API_KEY y CONTACT_TO_EMAIL.
+- Secciones añadidas/eliminadas: ninguna
+- Plantillas: no requieren cambios (leen la constitución en tiempo de ejecución).
+- Impacto en specs existentes: 009-planes-pricing queda habilitada; 006-contacto sin cambios.
+  La FAQ "Precio" (src/content/preguntas.ts) puede seguir sin montos y enlazar a Planes.
+- TODOs: ninguno
+
+Sync Impact Report anterior
 - Versión: 3.1.0 → 4.0.0 (MAJOR: se redefine el Principio IV; el sitio deja de ser 100% estático
   para el formulario de Contacto, sesión 2026-11-15)
 - Principios modificados:
@@ -76,10 +96,15 @@ Sync Impact Report anterior
   referencia de funcionalidades. Una afirmación que no esté en la guía MUST verificarse contra la
   app publicada antes de publicarse. Si la guía y la app difieren, manda la app.
 - MUST NOT incluir métricas de tracción, testimonios, logos de clientes, sellos de prensa ni precios
-  que no sean reales y verificables.
+  que no sean reales y verificables, salvo la excepción de la página "Planes" descrita abajo.
+- Excepción "Planes": solo la página Planes puede mostrar montos referenciales de los planes. MUST
+  mostrar, cerca de los precios, el aviso "Precios referenciales, pueden cambiar", y MUST marcar como
+  "Próximamente" toda función de un plan que hoy no exista en la app publicada. MUST NOT decir ni
+  insinuar que hoy se puede pagar o contratar un plan pago. Ninguna otra página MUST mostrar montos.
 - La sección de testimonios MUST renderizarse solo si el array `testimonios` contiene datos reales.
 - Funcionalidades fuera de alcance (órdenes de compra, facturación/boletas/DTE/SII, iPhone, alertas
-  por WhatsApp, importación desde Excel, integraciones, precios con montos) MUST NOT mencionarse ni
+  por WhatsApp, importación desde Excel, integraciones, precios con montos fuera de la página
+  Planes) MUST NOT mencionarse ni
   insinuarse. Si una FAQ las toca, la respuesta MUST decir con honestidad que hoy no están disponibles.
 - MUST NOT afirmarse que la app muestra quién hizo cada movimiento mientras la app no lo muestre.
 - El panel web es de solo lectura: MUST NOT insinuarse que desde la web se registran movimientos,
@@ -93,11 +118,14 @@ Una afirmación falsa en el sitio invalida toda la estrategia de canal.
 
 ### II. Una conversión principal por página
 - Cada página MUST tener un solo objetivo primario: instalar la app desde Google Play ("Pruébala gratis").
-- Excepciones: estas páginas tienen como objetivo primario el contacto por WhatsApp:
-  - "Sé partner" (antes Contadores).
+- Excepciones: estas páginas tienen otro objetivo primario:
+  - "Sé partner" (antes Contadores): el contacto por WhatsApp.
   - "Contacto": su CTA principal es el envío del formulario, que manda los datos del visitante
     por correo a StoreFlow. El botón directo a WhatsApp y el código QR MUST ser visualmente
     subordinados a ese envío.
+  - "Planes": su CTA principal es el botón del plan recomendado (Standard), que abre el formulario
+    de intención. Los botones de los otros planes (incluido "Empezar gratis", que va a Google Play)
+    MUST ser visualmente subordinados a ese botón.
 - Las CTA secundarias (por ejemplo "Ver cómo funciona", "Ver la guía") MUST ser visualmente
   subordinadas a la principal de esa página.
 - Los enlaces del menú de navegación y del pie no cuentan como CTA y MUST NOT competir visualmente
@@ -127,18 +155,26 @@ implicar tocar JSX, y repartir el contenido por página evita un archivo inmanej
 ### IV. Simplicidad
 - El sitio MUST ser estático: sin backend, sin Supabase, sin cuentas, sin CMS, sin buscador con
   servidor y sin formularios que envíen datos.
-- Única excepción: la ruta `/api/contact` recibe el formulario de Contacto y lo envía por correo
-  al owner con Resend. MUST validar en el servidor y MUST NOT guardar, registrar ni medir los datos
-  (fuera del correo mismo). Cualquier otra ruta de servidor requiere una nueva enmienda.
+- Excepciones (solo estas dos rutas de servidor):
+  - `/api/contact` recibe el formulario de Contacto y lo envía por correo al owner con Resend.
+  - La ruta del formulario de intención de la página Planes recibe plan, periodicidad, precio
+    mostrado, correo, idioma y origen, y los envía por correo al owner con Resend.
+  - Ambas MUST validar en el servidor y MUST NOT guardar, registrar ni medir los datos (fuera del
+    correo mismo). Cualquier otra ruta de servidor requiere una nueva enmienda.
+- Medición: se permite una sola herramienta de medición liviana, sin cookies de seguimiento ni datos
+  personales, y solo para contar los clics en los botones de la página Planes (plan, periodicidad,
+  tipo e idioma). MUST NOT usarse para medir otras páginas o acciones sin una nueva enmienda.
 - MUST NOT agregarse dependencias (UI kits, librerías de animación, iconos, analytics, MDX) sin
-  aprobación explícita del owner, justificada en una línea.
+  aprobación explícita del owner, justificada en una línea. La herramienta de medición de Planes
+  queda aprobada por esta constitución; cuál se usa se decide y justifica en el plan de la spec 009.
 - Componentes base (Button, Section, Container) solo se crean si se reutilizan en 2+ lugares.
 - MUST NOT crearse abstracciones, parámetros ni capas que ningún requisito pida.
 - Una página sin contenido real MUST NOT publicarse ni aparecer en la navegación.
 
 **Justificación:** es el sitio de un producto en etapa temprana; la complejidad no se paga sola.
-El formulario de Contacto es la excepción porque el owner prefiere recibir esos datos por correo:
-una sola ruta, sin base de datos, que solo reenvía el mensaje.
+Contacto y Planes son las excepciones porque el owner prefiere recibir esos datos por correo:
+rutas sin base de datos que solo reenvían el mensaje. La medición de clics de Planes existe porque
+es la señal de disposición a pagar que se quiere validar antes de construir el cobro.
 
 ### V. Mobile-first y accesible
 - Cada página MUST partir de 360px y escalar a 768px y 1440px, sin scroll horizontal en ninguno.
@@ -184,8 +220,8 @@ que nombra distinto lo que ve en pantalla lo confunde.
   landing. Repo propio: GitHub `Robin-builds/official-site` (remoto `origin`); proyecto Vercel
   `storeflow-official-site`. Independiente también del dashboard `stockflow-web`; no comparten código ni dependencias.
 - Server Components por defecto; cada página se genera de forma estática.
-- `/api/contact` lee `RESEND_API_KEY` y `CONTACT_TO_EMAIL` de las variables de entorno de Vercel;
-  MUST NOT escribirse en el código ni en el repositorio.
+- `/api/contact` y la ruta de intención de Planes leen `RESEND_API_KEY` y `CONTACT_TO_EMAIL` de las
+  variables de entorno de Vercel; MUST NOT escribirse en el código ni en el repositorio.
 - Antes de usar una API de Next.js o Tailwind, su firma y sintaxis MUST verificarse contra la versión
   instalada (Context7 o docs oficiales). MUST NOT asumirse Tailwind v3 vs v4.
 - Metadata obligatoria por página e idioma: title, description, Open Graph propios, `lang`
@@ -222,4 +258,4 @@ que nombra distinto lo que ve en pantalla lo confunde.
   - MINOR: se agrega un principio o sección, o se amplía materialmente una regla.
   - PATCH: aclaraciones de redacción sin cambio de significado.
 
-**Version**: 4.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-15
+**Version**: 5.0.0 | **Ratified**: 2026-11-07 | **Last Amended**: 2026-11-16
