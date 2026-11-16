@@ -16,7 +16,7 @@ export function Shortcuts({ shortcuts, locale }: { shortcuts: InicioContent["sho
     <Section titleId="accesos-title" title={shortcuts.title} tone="surface">
       <ul className="grid gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
         {items.map((item) => (
-          <li key={item.key} className="card-hover rounded-card border border-line bg-surface-2">
+          <li key={item.key} className="card-hover rounded-card border border-card-line bg-surface-2">
             <Link href={pageHref(item.key, locale)} className="flex h-full items-start justify-between gap-4 rounded-card p-4 [-webkit-tap-highlight-color:transparent] sm:p-5">
               <span>
                 <span className="block text-lg font-semibold text-fg">{item.title}</span>

@@ -29,7 +29,7 @@ export function ContactAlternatives({
       {/* QR solo desde 768 px: en el celular se escanearía con el mismo celular (aclaración 2026-11-15) */}
       <div className="mt-8 hidden flex-col items-start gap-3 md:flex">
         {/* Fondo siempre blanco (token qr-bg) con margen silencioso: las cámaras no leen QR invertidos */}
-        <div className="rounded-card border border-line bg-qr-bg p-3">
+        <div className="rounded-card border border-card-line bg-qr-bg p-3">
           {/* SVG: next/image lo sirve sin optimizar de forma automática */}
           <Image src={content.qr.src} alt={content.qr.alt} width={200} height={200} />
         </div>
