@@ -73,7 +73,7 @@ misma ventana (FR-016).
 
 | Propiedad | Valores |
 |---|---|
-| nombre del evento | `plan-cta` |
+| nombre del evento | `plan-cta` (enviado con `umami.track`) |
 | `plan` | `free`, `standard`, `premium` |
 | `period` | `monthly`, `annual` (la visible al tocar) |
 | `kind` | `intent` (pagos) o `activation` (Free) (FR-015) |

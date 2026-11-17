@@ -33,7 +33,7 @@ npm run dev                                      # http://localhost:3000/planes
 | 11 | `curl -X POST localhost:3000/api/plan-intent -H "Content-Type: application/json" -d '{"plan":"free","period":"monthly","email":"a@b.cl"}'` | 400 con error de plan, 0 correos | contrato |
 | 12 | Igual que 11 con `"plan":"standard","email":"malo"` y luego con `"website":"x"` y datos válidos | 400 con error de correo y 0 correos; luego 200 y 0 correos | SC-005, contrato |
 | 13 | DevTools → Red, tocar los 3 botones y enviar un formulario | Solo peticiones a `/api/plan-intent` y al script/eventos de Umami; ninguna a medios de pago | SC-007 |
-| 14 | Con Umami configurado: tocar Free, Standard (Mensual) y Premium (Anual) | En Umami aparecen 3 eventos `plan-cta` con `plan`/`period`/`kind` correctos (Free = `activation`) | SC-003, SC-015 |
+| 14 | Con Umami configurado (o en consola `window.umami = { track: (...a) => console.log(a) }`): tocar Free, Standard (Mensual) y Premium (Anual) | En Umami aparecen 3 eventos `plan-cta` con `plan`/`period`/`kind` correctos (Free = `activation`) | SC-003, SC-015 |
 | 15 | Desactivar JavaScript y recargar | Precios mensuales visibles; botones pagos son enlaces a WhatsApp con "Hola, quiero el plan Standard (mensual)"; Free va a Google Play | Caso borde sin JS |
 | 16 | Lighthouse móvil en `/planes`, tema claro y oscuro; contraste con DevTools | Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95; sin fallas de contraste en precios y listas | SC-008, SC-017 |
 | 17 | Revisar `/preguntas-frecuentes` → Precio | Ya no dice que hoy hay planes pagados; enlaza a Planes | research R11 |

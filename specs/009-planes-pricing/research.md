@@ -5,18 +5,16 @@ Decisiones técnicas que resuelven las incógnitas del plan. Formato: decisión,
 ## R1. Herramienta para contar clics
 
 - **Decisión**: **Umami Cloud** (plan gratuito), cargado con `next/script` **solo en la página
-  Planes**, con seguimiento automático de páginas desactivado (`data-auto-track="false"`). Los
-  clics se cuentan con atributos `data-umami-event` en los botones de los planes; no hay código
-  propio de medición.
+  Planes**, con todo el seguimiento automático desactivado (`data-auto-track="false"`). Cada clic
+  en los botones de los planes se envía con `umami.track("plan-cta", {...})`.
 - **Por qué**:
   - No usa cookies ni guarda IP ni datos personales, así que no requiere aviso de cookies
     (constitución 5.0.0, Principio IV: "sin cookies de seguimiento ni datos personales").
   - Script de ~2 KB, sin paquete npm: no entra a `package.json`.
-  - Los atributos `data-umami-event-*` llevan plan, periodicidad, tipo e idioma; el panel de Umami
-    desglosa los eventos por esas propiedades (SC-015).
-  - Con `data-auto-track="false"` no mide páginas; solo los clics de Planes. Next carga el script
-    una sola vez; si el visitante sigue navegando, no se registra nada más porque ningún otro
-    elemento tiene `data-umami-event`.
+  - El evento lleva plan, periodicidad, tipo e idioma; el panel de Umami desglosa los eventos por
+    esas propiedades (SC-015).
+  - Con `data-auto-track="false"` no mide páginas ni nada automático; solo los clics que el código
+    de Planes envía. Si el visitante sigue navegando, no se registra nada más.
   - El plan gratuito alcanza de sobra para el volumen de una prueba de precios (límite mensual de
     eventos a confirmar al crear la cuenta).
 - **Alternativas**:
@@ -28,8 +26,9 @@ Decisiones técnicas que resuelven las incógnitas del plan. Formato: decisión,
 - **Configuración**: `NEXT_PUBLIC_UMAMI_WEBSITE_ID` (variable de Vercel; no es secreta). La URL
   del script vive en `URLS.umamiScript` (Principio II). Si la variable falta, no se carga el script:
   la página y el formulario funcionan igual, solo no se cuentan clics.
-- **Pendiente para la implementación**: verificar los atributos de Umami contra su documentación
-  vigente (Context7) antes de usarlos, como exige la constitución.
+- **Verificado en la implementación (T023, Context7)**: según la documentación de Umami,
+  `data-auto-track="false"` desactiva también el seguimiento de los atributos `data-umami-event`.
+  El diseño inicial (atributos) no habría contado nada; se cambió a `umami.track()` explícito.
 
 ## R2. Envío de la intención
 
