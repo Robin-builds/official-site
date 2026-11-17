@@ -39,6 +39,9 @@ export const URLS = {
   chileapps: "https://chileapps.cl",
   // Inicio de sesión de la versión web (panel web) para usuarios existentes
   webAppLogin: "https://stockflow-web-eight.vercel.app/login",
+  // Script de medición de clics, solo en Planes: sin cookies ni datos personales
+  // (constitución 5.0.0, Principio IV; spec 009 research R1)
+  umamiScript: "https://cloud.umami.is/script.js",
 } as const;
 
 /** Qué enlace de WhatsApp usa cada idioma. */
@@ -126,6 +129,28 @@ export const pages: Page[] = [
         title: "For your business",
         description:
           "How StoreFlow helps convenience stores, hardware stores, distributors and warehouses know what stock they have and where.",
+      },
+    },
+  },
+  {
+    // Planes (spec 009): entre "Para tu negocio" y "Preguntas frecuentes" (research R10)
+    key: "plans",
+    inNav: true,
+    published: true,
+    locales: {
+      es: {
+        href: "/planes",
+        navLabel: "Planes",
+        title: "Planes y precios",
+        description:
+          "Free, Standard y Premium: qué incluye cada plan de StoreFlow y sus precios referenciales. Empieza gratis, para siempre.",
+      },
+      en: {
+        href: "/en/plans",
+        navLabel: "Plans",
+        title: "Plans and pricing",
+        description:
+          "Free, Standard and Premium: what each StoreFlow plan includes and its reference prices. Start free, forever.",
       },
     },
   },

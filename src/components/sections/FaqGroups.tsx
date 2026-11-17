@@ -3,7 +3,7 @@ import type { PreguntasContent } from "@/content/preguntas";
 import { ui } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { Container } from "@/components/ui/Container";
-import { guideHref, readyGuide } from "@/lib/i18n";
+import { getPage, guideHref, isPublished, pageHref, readyGuide } from "@/lib/i18n";
 
 /**
  * FAQ agrupada por tema (FR-011). Acordeón con <details>/<summary> nativos (spec 004): se abre
@@ -22,6 +22,8 @@ export function FaqGroups({ content, locale }: { content: PreguntasContent; loca
             <div className="mt-6 divide-y divide-line rounded-card border border-card-line bg-surface-2 px-5 sm:px-8">
               {group.items.map((item) => {
                 const guide = readyGuide(item.guide);
+                // Enlace a otra página, solo si está publicada en este idioma
+                const page = item.page && isPublished(item.page, locale) ? item.page : null;
                 return (
                   <details key={item.question} className="group">
                     {/* list-none + marcador webkit oculto: se reemplaza por el ícono +/- propio */}
@@ -45,6 +47,14 @@ export function FaqGroups({ content, locale }: { content: PreguntasContent; loca
                           className="mt-3 inline-flex min-h-11 items-center rounded-sm font-semibold text-link underline underline-offset-4 hover:no-underline"
                         >
                           {t.seeGuide}: {guide.locales[locale].title}
+                        </Link>
+                      )}
+                      {page && (
+                        <Link
+                          href={pageHref(page, locale)}
+                          className="mt-3 inline-flex min-h-11 items-center rounded-sm font-semibold text-link underline underline-offset-4 hover:no-underline"
+                        >
+                          {getPage(page).locales[locale].title}
                         </Link>
                       )}
                     </div>

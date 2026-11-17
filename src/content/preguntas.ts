@@ -4,7 +4,8 @@
  * Todas las preguntas de la landing, agrupadas por tema, más la del idioma de la app
  * (research R19), que existe en ambos idiomas para que el inglés no afirme más que el español.
  * - "Varias bodegas y usuarios" reescrita con los roles de la guía, sin "quién lo hizo" (R8).
- * - Precio: gratis para empezar + planes pagados, sin montos ni nombres de planes.
+ * - Precio: gratis para siempre; los planes pagados vienen pronto y sus precios referenciales
+ *   están en Planes (spec 009 R11: no insinuar que hoy se pueden contratar).
  * - Lo que la app no hace (iPhone, boletas/facturas) se responde con honestidad (Principio I).
  */
 import { ui } from "./site";
@@ -44,7 +45,9 @@ const es = {
       items: [
         {
           question: "¿Cuánto cuesta?",
-          answer: "Puedes empezar gratis. También hay planes pagados para negocios con más necesidades.",
+          answer:
+            "Puedes empezar gratis, para siempre. Los planes pagados vienen pronto: mira sus precios referenciales en Planes.",
+          page: "plans",
         },
       ],
     },
@@ -124,7 +127,9 @@ export const preguntas: Localized<PreguntasContent> = {
         items: [
           {
             question: "How much does it cost?",
-            answer: "You can start for free. There are also paid plans for businesses with more needs.",
+            answer:
+              "You can start for free, forever. Paid plans are coming soon: see their reference prices on Plans.",
+            page: "plans",
           },
         ],
       },
