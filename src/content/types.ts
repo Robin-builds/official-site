@@ -68,7 +68,8 @@ export type PageKey =
   | "help"
   | "download"
   | "privacy"
-  | "contact";
+  | "contact"
+  | "plans";
 
 export type PageInfo = {
   href: `/${string}`; // dirección completa en su idioma ("/en/features")
@@ -111,7 +112,8 @@ export type Business = {
   problems: string[];
   solutions: string[];
 };
-export type FaqItem = Faq & { guide?: GuideKey };
+// `page`: enlace a otra página del sitio bajo la respuesta (spec 009: "Precio" → Planes)
+export type FaqItem = Faq & { guide?: GuideKey; page?: PageKey };
 export type FaqGroup = { id: string; title: string; items: FaqItem[] };
 
 /* ---------- Guías ---------- */

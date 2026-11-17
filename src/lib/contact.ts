@@ -25,6 +25,9 @@ const PHONE_CHARS = /^[0-9+\-(). ]+$/;
 // Correo: forma mínima "algo@algo.algo"; la validación estricta no aporta y rechaza correos válidos
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** Forma mínima de correo. Exportada para que el formulario de Planes use la misma regla (spec 009 R8). */
+export const isEmail = (raw: string) => EMAIL.test(raw.trim());
+
 /** Error de un solo campo (o undefined si está bien). Sirve para revalidar al escribir. */
 export function validateField(field: ContactField, raw: string): ContactError | undefined {
   const value = raw.trim();
@@ -40,7 +43,7 @@ export function validateField(field: ContactField, raw: string): ContactError | 
       return PHONE_CHARS.test(value) && digits >= 8 && digits <= 15 ? undefined : "phone";
     }
     case "email":
-      return !value || EMAIL.test(value) ? undefined : "email";
+      return !value || isEmail(value) ? undefined : "email";
     case "message":
       return undefined; // sin regla: el largo lo limita maxLength
   }
