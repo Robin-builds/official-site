@@ -36,3 +36,23 @@ Con `npm run start` (o la preview de Vercel de la rama), en tema claro y en tema
 
 Lighthouse móvil en `/` y `/planes`: Performance ≥ 90, Accessibility ≥ 95 y SEO ≥ 95. Esta spec
 no debería bajarlos: quita nodos y no agrega recursos en tiempo de ejecución.
+
+## Resultados
+
+**2026-11-17, rama `010-refinamiento-conversion`**
+
+- **Automático**: `npm run lint` sin problemas; `npm run build` sin errores; `npm run test:e2e`
+  **97/97 en verde** (SC-001 a SC-011 en todas sus combinaciones, más "Trazabilidad FR → SC").
+- **Línea base** (tests contra el código previo, antes de implementar): fallaban SC-001, SC-002,
+  SC-005 (claro), SC-006 (claro, 1440), SC-010 y SC-011 (1440). SC-003, SC-004, SC-007, SC-008
+  y SC-009 ya pasaban y quedan como guardas de regresión. SC-008 no detecta la franja bajo el
+  cierre (mide entre contenidos, no hasta el pie); esa franja se redujo igual (FR-012, R7).
+- **SC-006**: axe excluye el logotipo del encabezado. El "FLOW" naranja sobre el canvas claro da
+  2.29:1 (ya pasaba antes de esta spec), pero WCAG 1.4.3 exime a los logotipos y SC-006 mide los
+  CTA, Ingresar y los enlaces de sección.
+- **Capturas revisadas** (1440×900, 1024×768 y 360×800, en claro): encabezado en una línea con
+  3 enlaces; hero alineado arriba y sin leyenda bajo el teléfono; a 360px caben el ícono, el CTA y
+  el menú; el foco con Tab sobre el botón del cierre se ve claro sobre la tinta.
+- **Lighthouse (§3)**: PENDIENTE. Lighthouse no está instalado y `npx lighthouse` requiere la
+  confirmación del owner.
+- **Revisión manual M1 a M5 (§2)**: PENDIENTE con el owner.
