@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * Menú desplegable bajo 1024 px (research R3): un <details> nativo, que abre y cierra con
+ * Menú desplegable bajo 1024 px (corte `lg` de Tailwind, spec 010 research R2): un <details> nativo, que abre y cierra con
  * toque, Enter o Espacio aunque no haya JavaScript. Este componente solo agrega:
  * - cerrar con Escape, devolviendo el foco al botón;
  * - cerrar al cambiar de página (el layout persiste entre navegaciones de <Link>);

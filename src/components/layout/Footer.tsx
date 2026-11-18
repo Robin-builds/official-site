@@ -40,7 +40,8 @@ export function Footer({ locale }: { locale: Locale }) {
         <div>
           <Logo size="footer" />
           <p className="mt-3 max-w-xs text-sm text-muted-2">{t.footer.tagline}</p>
-          {/* Selector de tema también aquí: acceso directo sin abrir el menú en celular */}
+          {/* Único lugar del selector de tema: salió del encabezado para no competir con la CTA
+              (spec 010 FR-003). La preferencia sigue guardada en localStorage. */}
           <div className="mt-6 flex items-center gap-3 text-sm text-muted-2">
             <span aria-hidden="true">{t.footer.themeLabel}</span>
             <ThemeToggle label={t.a11y.themeToggle} />
