@@ -53,6 +53,10 @@ no debería bajarlos: quita nodos y no agrega recursos en tiempo de ejecución.
 - **Capturas revisadas** (1440×900, 1024×768 y 360×800, en claro): encabezado en una línea con
   3 enlaces; hero alineado arriba y sin leyenda bajo el teléfono; a 360px caben el ícono, el CTA y
   el menú; el foco con Tab sobre el botón del cierre se ve claro sobre la tinta.
-- **Lighthouse (§3)**: PENDIENTE. Lighthouse no está instalado y `npx lighthouse` requiere la
-  confirmación del owner.
+- **Lighthouse (§3)**, móvil, local (`next start`, Chromium headless), con OK del owner:
+  - `/`: Performance 99 · Accessibility 100 · Best Practices 100 · SEO 100.
+  - `/planes`: Accessibility 98 · Best Practices 100 · SEO 100. Performance varía entre corridas
+    (72, 81, 92) solo por el Total Blocking Time (2110, 830 y 360 ms); LCP 0,8 s y CLS 0 estables.
+    Es ruido de CPU local: esta spec no agrega JS a Planes. Queda por confirmar Performance ≥ 90
+    en la preview de Vercel.
 - **Revisión manual M1 a M5 (§2)**: PENDIENTE con el owner.
