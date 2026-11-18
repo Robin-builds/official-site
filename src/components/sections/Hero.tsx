@@ -7,7 +7,8 @@ import { PhoneMockup } from "./PhoneMockup";
 
 /**
  * Hero: el beneficio debe entenderse en 3 segundos. En 360px el H1, la bajada y el
- * CTA principal caben sin scroll (SC-001 de la spec 001).
+ * CTA principal caben sin scroll (SC-001 de la spec 001); a 390×844 y 1440×900 también
+ * (spec 010 FR-010, SC-007), con el hueco bajo el encabezado ≤ --spacing-section (SC-011).
  * Fondo: gradiente de la app (bg-top → bg-mid → bg-bottom) con brillo cian tras el teléfono.
  */
 export function Hero({ hero, locale, note }: { hero: InicioContent["hero"]; locale: Locale; note?: string }) {
@@ -19,7 +20,10 @@ export function Hero({ hero, locale, note }: { hero: InicioContent["hero"]; loca
       aria-labelledby="hero-title"
       className="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--bg-top),var(--bg-mid)_60%,var(--bg-bottom))]"
     >
-      <Container className="grid items-center gap-14 pt-10 pb-14 sm:pt-16 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:pt-16 lg:pb-24">
+      {/* Texto alineado arriba en escritorio: con items-center, el teléfono (más alto) lo empujaba
+          hacia abajo y dejaba un hueco bajo el encabezado (spec 010 FR-010, research R6). El
+          padding superior queda bajo --spacing-section (SC-011). */}
+      <Container className="grid items-center gap-14 pt-8 pb-14 sm:pt-12 sm:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-10 lg:pt-12 lg:pb-24">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-sm font-medium text-fg-2">
             <span aria-hidden="true" className="size-1.5 rounded-full bg-ok" />
@@ -71,7 +75,8 @@ export function Hero({ hero, locale, note }: { hero: InicioContent["hero"]; loca
           {note && <p className="mt-4 max-w-xl text-sm text-fg-3">{note}</p>}
         </div>
 
-        <div className="relative">
+        {/* lg:mt-4 equilibra el borde superior del teléfono con el de la etiqueta del texto */}
+        <div className="relative lg:mt-4">
           {/* Brillo cian sutil detrás del teléfono (color de marca, decorativo) */}
           <div
             aria-hidden="true"

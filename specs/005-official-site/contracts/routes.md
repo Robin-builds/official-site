@@ -38,6 +38,8 @@ Slugs de guías por idioma:
 
 ## Encabezado (todas las páginas)
 
+> Reemplazado por specs/010-refinamiento-conversion/contracts/header-footer.md (3 enlaces, corte 1024px).
+
 - ≥ 1024 px: marca · enlaces de páginas · Ingresar/Log in (secundario) · ES/EN · tema · CTA principal.
 - < 1024 px: marca · CTA principal · botón de menú (`<details>`). El panel abierto muestra
   páginas, CTA destacada, Ingresar secundario, selector ES/EN y selector de tema.

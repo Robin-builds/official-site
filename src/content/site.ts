@@ -156,7 +156,8 @@ export const pages: Page[] = [
   },
   {
     key: "faq",
-    inNav: true,
+    // Ya no en el encabezado: solo en el pie (spec 010 FR-001/FR-002)
+    inNav: false,
     published: true,
     locales: {
       es: {
@@ -177,7 +178,8 @@ export const pages: Page[] = [
   },
   {
     key: "help",
-    inNav: true,
+    // Ya no en el encabezado: solo en el pie (spec 010 FR-001/FR-002)
+    inNav: false,
     // Ayuda existe solo si hay al menos una guía lista (FR-014)
     published: readyGuides().length > 0,
     locales: {
@@ -197,8 +199,8 @@ export const pages: Page[] = [
   },
   {
     key: "contact",
-    // Al final del menú, enlace normal (aclaración 2026-11-15, Principio II)
-    inNav: true,
+    // Ya no en el encabezado: solo en el pie (spec 010 FR-001/FR-002)
+    inNav: false,
     published: true,
     locales: {
       es: {

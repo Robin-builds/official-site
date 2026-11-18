@@ -168,6 +168,36 @@
 }
 
 /*
+ * ---------- Primario de la página (spec 010 FR-008, research R4) ----------
+ * Una propiedad personalizada se resuelve en el elemento donde se declara: aquí <html>, con el
+ * --primary del tema de la PÁGINA (claro u oscuro, con o sin JS). Los descendientes heredan el
+ * color ya resuelto, no la referencia; por eso dentro del bloque de cierre (data-theme="dark")
+ * --page-primary sigue siendo el teal en tema claro.
+ * Tiene que ser una regla aparte: dentro de `:root, [data-theme="dark"]` también se aplicaría al
+ * bloque de cierre y capturaría el cian del tema oscuro.
+ */
+:root {
+  --page-primary: var(--primary);
+  --page-primary-hover: var(--primary-hover);
+  --page-on-primary: var(--on-primary);
+}
+
+/*
+ * Devuelve el primario de la página a un botón que vive dentro de un bloque con otro tema
+ * (el CTA del cierre, FinalCta). Así todos los "Pruébala gratis" comparten color por tema.
+ */
+.page-primary {
+  --primary: var(--page-primary);
+  --primary-hover: var(--page-primary-hover);
+  --on-primary: var(--page-on-primary);
+}
+/* El contorno de foco teal sobre la tinta da ~2.5:1, bajo los 3:1 de un indicador de foco:
+   aquí se usa el texto claro del bloque (> 15:1). */
+.page-primary :focus-visible {
+  outline-color: var(--text-1);
+}
+
+/*
  * "inline": la utilidad referencia la variable en el punto de uso, así un bloque con
  * data-theme distinto (CTA final) resuelve sus propios valores.
  */
@@ -323,17 +353,6 @@
 /* Antes del `load` las pantallas 2..N no existen para el navegador: no compiten con el LCP */
 [data-carousel]:not([data-armed]) [data-slide]:not([data-slide="0"]) {
   display: none;
-}
-
-/* Entrada suave de la leyenda al cambiar de pantalla */
-.carousel-caption-in {
-  animation: carousel-caption-in 400ms ease-out;
-}
-@keyframes carousel-caption-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
 }
 
 /*

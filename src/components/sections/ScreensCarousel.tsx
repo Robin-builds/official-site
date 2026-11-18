@@ -117,14 +117,10 @@ export function ScreensCarousel({
     >
       {children}
 
-      {/* Leyenda fuera de la pantalla; altura fija de 2 líneas para no mover el layout */}
-      <p className="mt-4 flex h-14 items-start justify-center text-center text-base leading-7 font-semibold text-fg">
-        <span key={index} className="carousel-caption-in">
-          <span className="text-primary">{index + 1}.</span> {captions[index]}
-        </span>
-      </p>
-
-      <div className="mt-1 flex items-center justify-center gap-1">
+      {/* Sin leyenda visible bajo el teléfono (spec 010 FR-011): el "2. Crea tus bodegas" se leía
+          como un paso suelto. La descripción de cada captura sigue para lectores de pantalla en
+          las etiquetas de los puntos y en el anuncio aria-live de abajo. */}
+      <div className="mt-4 flex items-center justify-center gap-1">
         {/* Pausa primero en el orden de foco (APG). Con movimiento reducido no hay nada que pausar. */}
         <button
           type="button"
